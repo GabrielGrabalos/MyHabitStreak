@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:my_habit_streak/widgets/streak_day.dart';
 
-import '../colors.dart';
+import '../utils/colors.dart';
 
 class StreakWeek extends StatelessWidget {
   final List<String> labels;

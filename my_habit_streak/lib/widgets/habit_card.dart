@@ -2,16 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:my_habit_streak/widgets/streak_week.dart';
 
-import '../colors.dart';
+import '../utils/colors.dart';
+import '../utils/habit_theme.dart';
 
 class HabitCard extends StatelessWidget {
   final bool isTodayDone;
   final List<bool> weekHistory;
+  final Color color;
+  final HabitTheme theme;
+  final int streak;
 
   const HabitCard({
     super.key,
     this.isTodayDone = false,
-    this.weekHistory = const [true, false, true, false, false, false, false],
+    this.weekHistory = const [true, false, true, true, false, false, false],
+    this.color = blueTheme,
+    this.theme = HabitTheme.bee,
+    this.streak = -1,
   });
 
   @override
@@ -28,7 +35,7 @@ class HabitCard extends StatelessWidget {
               // 50% of the width
               // 50% of the width
               decoration: BoxDecoration(
-                color: Color(0xFF00BBF9),
+                color: color,
                 borderRadius: BorderRadius.all(Radius.circular(20)),
                 border: Border.all(
                   color: Color(0xFFFFFFFF),
@@ -53,7 +60,9 @@ class HabitCard extends StatelessWidget {
                               Theme.of(context).textTheme.titleMedium!.copyWith(
                                     fontSize: 26,
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.white,
+                                    color: color != yellowTheme
+                                        ? Colors.white
+                                        : darkBackground,
                                   ),
                         ),
                         SizedBox(height: 10),
@@ -67,16 +76,20 @@ class HabitCard extends StatelessWidget {
                     children: [
                       Expanded(
                         child: SvgPicture.asset(
-                          'assets/bee${!isTodayDone ? '_gray' : ''}.svg',
+                          'assets/${theme == HabitTheme.bee ? 'bee' : 'flower'}${!isTodayDone ? '_gray' : ''}.svg',
                         ),
                       ),
                       SizedBox(height: 5),
                       Text(
-                        '45',
+                        streak.toString(),
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                               fontSize: 28,
                               fontWeight: FontWeight.bold,
-                              color: isTodayDone ? doneColor : Colors.white,
+                              color: isTodayDone
+                                  ? doneColor
+                                  : color != yellowTheme
+                                      ? Colors.white
+                                      : darkBackground,
                             ),
                       ),
                     ],
