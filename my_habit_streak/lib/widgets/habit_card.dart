@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:my_habit_streak/widgets/streak_week.dart';
@@ -19,18 +18,18 @@ class HabitCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final width = constraints.maxWidth - 20; // padding of 10 on each side
+        final width = constraints.maxWidth - 10; // padding of 5 on each side
         return Stack(
           children: [
             Container(
               padding: EdgeInsets.all(15),
               width: width,
-              height: width * (width > 280 ? 0.5 : 0.6),
+              height: width * (width > 280 ? 0.4 : 0.5),
               // 50% of the width
               // 50% of the width
               decoration: BoxDecoration(
                 color: Color(0xFF00BBF9),
-                borderRadius: BorderRadius.all(Radius.circular(28)),
+                borderRadius: BorderRadius.all(Radius.circular(20)),
                 border: Border.all(
                   color: Color(0xFFFFFFFF),
                   width: 2,
@@ -68,7 +67,7 @@ class HabitCard extends StatelessWidget {
                     children: [
                       Expanded(
                         child: SvgPicture.asset(
-                          'assets/bee${isTodayDone ? '_gray.png' : '.svg'}',
+                          'assets/bee${!isTodayDone ? '_gray' : ''}.svg',
                         ),
                       ),
                       SizedBox(height: 5),
@@ -89,11 +88,7 @@ class HabitCard extends StatelessWidget {
               Positioned(
                 top: 10,
                 right: 10,
-                child: Icon(
-                  CupertinoIcons.exclamationmark_circle_fill,
-                  color: Color(0xFFE5383B),
-                  size: 25,
-                ),
+                child: SvgPicture.asset('assets/warning.svg'),
               ),
           ],
         );
