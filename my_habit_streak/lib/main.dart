@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_habit_streak/screens/visualize_habit.dart';
 import 'package:my_habit_streak/theme.dart';
 import 'package:my_habit_streak/widgets/habit_card.dart';
 import 'package:my_habit_streak/widgets/streak_week.dart';
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: textTheme,
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const VisualizeHabit(),
     );
   }
 }

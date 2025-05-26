@@ -6,6 +6,7 @@ import '../utils/colors.dart';
 import '../utils/habit_theme.dart';
 
 class HabitCard extends StatelessWidget {
+  final String habitName;
   final bool isTodayDone;
   final List<bool> weekHistory;
   final Color color;
@@ -14,6 +15,7 @@ class HabitCard extends StatelessWidget {
 
   const HabitCard({
     super.key,
+    this.habitName = 'Habit Name',
     this.isTodayDone = false,
     this.weekHistory = const [true, false, true, true, false, false, false],
     this.color = blueTheme,
@@ -55,7 +57,7 @@ class HabitCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Habit Name',
+                          habitName,
                           style:
                               Theme.of(context).textTheme.titleMedium!.copyWith(
                                     fontSize: 26,
