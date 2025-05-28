@@ -45,7 +45,8 @@ class Habit {
     DateTime current = DateTime.now();
     int streak = 0;
 
-    while (streak < 1000) { // Prevent infinite loops
+    while (streak < 1000) {
+      // Prevent infinite loops
       final dateStr = formatDate(current);
       final status = streakHistory[dateStr];
 
@@ -58,6 +59,19 @@ class Habit {
     }
 
     return streak;
+  }
+
+  // Get current week status (Sunday to Saturday)
+  List<bool> getCurrentWeekStatus() {
+    final today = DateTime.now();
+    // Find the most recent Sunday
+    final sunday = today.subtract(Duration(days: today.weekday));
+
+    return List.generate(7, (index) {
+      final day = sunday.add(Duration(days: index));
+      final dateKey = formatDate(day);
+      return streakHistory[dateKey] ?? false;
+    });
   }
 
   // Convert to JSON
