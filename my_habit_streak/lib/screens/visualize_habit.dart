@@ -49,10 +49,7 @@ class VisualizeHabit extends StatelessWidget {
                           fontSize: 84,
                           fontWeight: FontWeight.bold,
                           color: habit.isTodayDone
-                              ? doneColor
-                              : habit.color != yellowTheme
-                                  ? Colors.white
-                                  : darkBackground,
+                              ? doneColor : Colors.white,
                         ),
                   ),
                 ],
@@ -61,8 +58,13 @@ class VisualizeHabit extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 15.0),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: habit.color,
-                    borderRadius: BorderRadius.circular(25)
+                      color: habit.color,
+                      borderRadius: BorderRadius.circular(25),
+                      // Bottom border with lower luminosity to simulate 3D effect
+                      border: Border(bottom: BorderSide(
+                        color: lowerLuminosity(habit.color, 0.7),
+                        width: 5.0,
+                      ))
                   ),
                   padding: const EdgeInsets.all(15.0),
                   child: StreakWeek(
@@ -70,10 +72,35 @@ class VisualizeHabit extends StatelessWidget {
                   ),
                 ),
               ),
+              SizedBox(height: 20),
+              Center(
+                child: Text('Description',
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                      fontWeight: FontWeight.bold,
+                    )),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Text(
+                  habit.description,
+                  style: Theme.of(context).textTheme.bodyLarge,
+                  textAlign: TextAlign.center,
+                ),
+              ),
             ],
           ),
         ),
       ]),
+    );
+  }
+
+  lowerLuminosity(Color color,double diminushingFactor) {
+    // Function to lower the luminosity of a color
+    return Color.fromRGBO(
+      (color.red * diminushingFactor).round(),
+      (color.green * diminushingFactor).round(),
+      (color.blue * diminushingFactor).round(),
+      1,
     );
   }
 }

@@ -17,7 +17,9 @@ class Habit {
   // Default constructor with optional parameters:
   Habit({
     this.title = 'New Habit',
-    this.description = 'Description of the habit',
+    this.description = 'This is a default habit description for demonstration '
+        'purposes. If you see this, it means '
+        'the habit has not been customized yet.',
     this.theme = HabitTheme.bee,
     this.color = blueTheme,
     Map<String, bool>? streakHistory,

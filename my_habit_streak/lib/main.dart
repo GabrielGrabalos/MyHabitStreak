@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: textTheme,
+      theme: textThemeWithWhite,
       home: VisualizeHabit(habit: Habit()),
     );
   }
