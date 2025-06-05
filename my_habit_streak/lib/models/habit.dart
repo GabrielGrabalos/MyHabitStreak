@@ -1,7 +1,6 @@
-import 'dart:ui';
-
+import 'dart:ui'; // For Color
 import 'package:my_habit_streak/utils/colors.dart';
-import 'package:my_habit_streak/utils/habit_theme.dart';
+import 'package:my_habit_streak/utils/habit_theme.dart'; // Assuming this defines your HabitTheme enum
 
 class Habit {
   final String title;
@@ -16,17 +15,17 @@ class Habit {
 
   // Default constructor with optional parameters:
   Habit({
-    this.title = 'New Habit',
-    this.description = 'This is a default habit description for demonstration '
-        'purposes. If you see this, it means '
-        'the habit has not been customized yet.',
-    this.theme = HabitTheme.flower,
+    this.title = '',
+    this.description = '',
+    this.theme = HabitTheme.bee,
     this.color = blueTheme,
     Map<String, bool>? streakHistory,
   }) : streakHistory = streakHistory ?? {};
 
   // Helper function to format DateTime as YYYY-MM-DD
   String formatDate(DateTime date) {
+    // Ensure consistent format, including padding for month/day if needed
+    // For ISO8601String, it's already YYYY-MM-DD for the date part
     return date.toIso8601String().split('T')[0];
   }
 
@@ -34,6 +33,9 @@ class Habit {
   bool get isTodayDone {
     if (_isTodayDone != null) return _isTodayDone!;
 
+    // Using DateTime.now() without considering timezone or local date issues
+    // could lead to inconsistencies around midnight or across timezones.
+    // For a local app, it's often fine, but be aware.
     final today = DateTime.now();
     final todayKey = formatDate(today);
     _isTodayDone = streakHistory[todayKey] ?? false;
@@ -55,8 +57,13 @@ class Habit {
     DateTime current = DateTime.now();
     int streak = 0;
 
+    // Loop through past days to calculate streak
+    // Streak counts consecutive 'true' days going backwards from today.
+    // If today is done, it counts. If yesterday was done and today not, streak is 0.
+    // If today is not done, but yesterday was, it depends on whether the check is
+    // for a "current active streak" or "longest streak". This logic is for active streak.
+    // Adjust max loop count (1000) based on expected max streak.
     while (streak < 1000) {
-      // Prevent infinite loops
       final dateStr = formatDate(current);
       final status = streakHistory[dateStr];
 
@@ -64,18 +71,25 @@ class Habit {
         streak++;
         current = current.subtract(const Duration(days: 1));
       } else {
+        // If the current day is not true, break the streak.
+        // Special case: if today is not true, but the previous day was,
+        // and you want to count a streak that ended *yesterday*,
+        // you'd need more complex logic. This current logic means
+        // if today is not done, the streak is broken at today.
         break;
       }
     }
-
-    return streak;
+    _streak = streak; // Cache the calculated streak
+    return _streak!;
   }
 
   // Get current week status (Sunday to Saturday)
   List<bool> getCurrentWeekStatus() {
     final today = DateTime.now();
-    // Find the most recent Sunday
-    final sunday = today.subtract(Duration(days: today.weekday));
+    // Calculate the most recent Sunday (weekday returns 1 for Monday, 7 for Sunday)
+    // Duration(days: today.weekday % 7) gives days since Sunday if Sunday=0.
+    // So if today is Monday (1), subtract 1. If Sunday (7), subtract 0.
+    final sunday = today.subtract(Duration(days: today.weekday % 7));
 
     return List.generate(7, (index) {
       final day = sunday.add(Duration(days: index));
@@ -89,26 +103,40 @@ class Habit {
     return {
       'title': title,
       'description': description,
-      'theme': theme,
-      'color': color,
+      // Convert HabitTheme enum to its string name (e.g., 'bee', 'flower')
+      'theme': theme.toString().split('.').last,
+      // Convert Color object to its integer value (ARGB format)
+      'color': color.value,
+      // streakHistory is already Map<String, bool>, which is directly JSON-serializable
       'streakHistory': streakHistory,
     };
   }
 
   // Create from JSON
   factory Habit.fromJson(Map<String, dynamic> json) {
+    // Helper to parse HabitTheme from string
+    HabitTheme parseHabitTheme(String themeString) {
+      return HabitTheme.values.firstWhere(
+        (e) => e.toString().split('.').last == themeString,
+        orElse: () => HabitTheme.bee, // Provide a default if string not found
+      );
+    }
+
     return Habit(
       title: json['title'] as String,
       description: json['description'] as String,
-      theme: json['theme'] as HabitTheme,
-      color: json['color'] as Color,
+      // Convert string back to HabitTheme enum
+      theme: parseHabitTheme(json['theme'] as String),
+      // Convert integer value back to Color object
+      color: Color(json['color'] as int),
+      // Map JSON dynamic map back to Map<String, bool>
       streakHistory: (json['streakHistory'] as Map<String, dynamic>).map(
         (key, value) => MapEntry(key, value as bool),
       ),
     );
   }
 
-  // Helper: Update properties
+  // Helper: Update properties (remains the same)
   Habit copyWith({
     String? title,
     String? description,
