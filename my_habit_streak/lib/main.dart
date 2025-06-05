@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:my_habit_streak/dtos/habit.dart';
+import 'package:my_habit_streak/screens/create_edit_habit.dart';
 import 'package:my_habit_streak/screens/visualize_habit.dart';
 import 'package:my_habit_streak/theme.dart';
 import 'package:my_habit_streak/widgets/habit_card.dart';
-import 'package:my_habit_streak/widgets/streak_week.dart';
+
+import 'models/habit.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,6 +20,16 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: textThemeWithWhite,
       home: VisualizeHabit(habit: Habit()),
+      routes: {
+        VisualizeHabit.routeName: (context) {
+          final habit = ModalRoute.of(context)?.settings.arguments as Habit;
+          return VisualizeHabit(habit: habit);
+        },
+        CreateEditHabit.routeName: (context) {
+          final habit = ModalRoute.of(context)?.settings.arguments as Habit;
+          return CreateEditHabit(habit: habit);
+        },
+      },
     );
   }
 }

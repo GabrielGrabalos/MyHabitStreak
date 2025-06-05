@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:my_habit_streak/widgets/streak_week.dart';
 
-import '../dtos/habit.dart'; // Import your HabitDTO
+import '../models/habit.dart';
 import '../utils/colors.dart';
 import '../utils/habit_theme.dart';
 

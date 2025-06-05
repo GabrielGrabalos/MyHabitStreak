@@ -10,7 +10,7 @@ class StreakWeek extends StatelessWidget {
 
   const StreakWeek({
     super.key,
-    this.labels = const ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+    this.labels = const ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
     this.isDone = const [true, false, true, false, true, false, true],
     this.spacing = 6.0,
   });

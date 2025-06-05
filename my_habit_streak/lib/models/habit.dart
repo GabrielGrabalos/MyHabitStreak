@@ -20,7 +20,7 @@ class Habit {
     this.description = 'This is a default habit description for demonstration '
         'purposes. If you see this, it means '
         'the habit has not been customized yet.',
-    this.theme = HabitTheme.bee,
+    this.theme = HabitTheme.flower,
     this.color = blueTheme,
     Map<String, bool>? streakHistory,
   }) : streakHistory = streakHistory ?? {};
@@ -38,6 +38,14 @@ class Habit {
     final todayKey = formatDate(today);
     _isTodayDone = streakHistory[todayKey] ?? false;
     return _isTodayDone!;
+  }
+
+  set isTodayDone(bool value) {
+    final today = DateTime.now();
+    final todayKey = formatDate(today);
+    streakHistory[todayKey] = value;
+    _isTodayDone = value;
+    _streak = null; // Reset cached streak when updating today's status
   }
 
   // Calculate current streak length
