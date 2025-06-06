@@ -23,18 +23,38 @@ class CreateEditHabit extends StatefulWidget {
 
 class _CreateEditHabitState extends State<CreateEditHabit> {
   // Create mutable state variables
-  late Habit _editableHabit;
-  late TextEditingController _titleController;
-  late TextEditingController _descriptionController;
+  late Habit _editableHabit = Habit(); // Mutable habit state
+  late TextEditingController _titleController = TextEditingController();
+  late TextEditingController _descriptionController = TextEditingController();
+
+  // Method to initialize the habit, can be called after the widget is built
+  void _initializeHabit() {
+    // This method can be used to perform any additional initialization if needed
+    // For example, you could set default values or perform checks
+    setState(() {
+      // Any state updates can be done here
+      // Get the habit from Navigator arguments or use a default new habit
+      // This is where you get the habit from arguments
+      final Habit? habitFromArgs =
+          ModalRoute.of(context)?.settings.arguments as Habit?;
+
+      // Initialize _editableHabit: use the one from arguments, or a new empty Habit if null
+      _editableHabit = habitFromArgs ?? Habit();
+
+      _titleController = TextEditingController(text: _editableHabit.title);
+      _descriptionController =
+          TextEditingController(text: _editableHabit.description);
+    });
+  }
 
   @override
   void initState() {
     super.initState();
-    // Initialize with a copy of the original habit
-    _editableHabit = widget.habit;
-    _titleController = TextEditingController(text: _editableHabit.title);
-    _descriptionController =
-        TextEditingController(text: _editableHabit.description);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      // This ensures that the widget is fully built before we access the context
+      _initializeHabit();
+    });
   }
 
   @override
@@ -128,7 +148,8 @@ class _CreateEditHabitState extends State<CreateEditHabit> {
                       minLines: 3,
                       // Set maxLines to null to allow the field to grow indefinitely
                       maxLines: null,
-                      keyboardType: TextInputType.multiline, // Enable multiline input
+                      keyboardType: TextInputType.multiline,
+                      // Enable multiline input
                       cursorColor: _editableHabit.color,
                       decoration: InputDecoration(
                         labelText: 'Description',
@@ -151,8 +172,8 @@ class _CreateEditHabitState extends State<CreateEditHabit> {
                     ),
                   ),
                   Button(
-                    padding:
-                    const EdgeInsets.symmetric(vertical: 16, horizontal: 16.0),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 16, horizontal: 16.0),
                     label: 'Save Habit',
                     onPressed: () {
                       // Update the habit with the new values
@@ -165,7 +186,8 @@ class _CreateEditHabitState extends State<CreateEditHabit> {
                       Navigator.pop(context, _editableHabit);
 
                       // Save the habit using the storage service
-                      CreateEditHabit.habitStorageService.saveOrUpdateHabit(_editableHabit);
+                      CreateEditHabit.habitStorageService
+                          .saveOrUpdateHabit(_editableHabit);
                     },
                     color: _editableHabit.color,
                   ),
