@@ -26,14 +26,10 @@ class HabitList extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
         ),
-        SizedBox(
-          height: 100, // Adjust height as needed
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: habits.length,
-            itemBuilder: (context, index) {
-              return HabitCard(habit: habits[index]);
-            },
+        ...habits.map(
+          (habit) => Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 8.0),
+            child: HabitCard(habit: habit),
           ),
         ),
       ],

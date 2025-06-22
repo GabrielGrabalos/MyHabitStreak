@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:my_habit_streak/screens/visualize_habit.dart';
 import 'package:my_habit_streak/widgets/streak_week.dart';
 
 import '../models/habit.dart';
@@ -14,105 +17,108 @@ class HabitCard extends StatelessWidget {
     required this.habit,
   });
 
-  // Helper to get the first day of the week (Monday)
-  DateTime _findFirstDayOfWeek(DateTime date) {
-    return date.subtract(Duration(days: date.weekday - 1));
-  }
-
-  // Generate current week dates (Monday to Sunday)
-  List<DateTime> _getCurrentWeek() {
-    final today = DateTime.now();
-    final firstDay = _findFirstDayOfWeek(today);
-    return List.generate(7, (index) => firstDay.add(Duration(days: index)));
-  }
-
   @override
   Widget build(BuildContext context) {
-    // Generate week history (Monday to Sunday)
-    final weekHistory = _getCurrentWeek().map((date) {
-      return habit.streakHistory[habit.formatDate(date)] ?? false;
-    }).toList();
 
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final width = constraints.maxWidth - 10;
-        return Stack(
-          children: [
-            Container(
-              padding: EdgeInsets.all(15),
+    return Card( // Using Card for a subtle elevation and the InkWell effect
+      margin: const EdgeInsets.all(0.0),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+        side: const BorderSide(
+          color: Color(0xFFFFFFFF),
+          width: 2,
+        ),
+      ),
+      elevation: 0,
+      color: habit.color,
+      child: InkWell(
+        onTap: () {
+          Navigator.pushNamed(
+            context,
+            VisualizeHabit.routeName,
+            arguments: habit,
+          );
+        },
+        borderRadius: BorderRadius.circular(20), // Match the Container's border radius
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final width = constraints.maxWidth - 20; // width is now the full width of the Card's child
+            final padding = min(15.0, width * 0.05); // 5% padding
+            final internalWidth = width - (padding * 2);
+            return Container(
+              padding: EdgeInsets.all(padding),
               width: width,
-              height: width * (width > 280 ? 0.4 : 0.5),
-              decoration: BoxDecoration(
-                color: habit.color,
-                borderRadius: BorderRadius.all(Radius.circular(20)),
-                border: Border.all(
-                  color: Color(0xFFFFFFFF),
-                  width: 2,
-                ),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              height: max(width / 2.5, 100),
+              child: Stack(
                 children: [
-                  Container(
-                    constraints: BoxConstraints(
-                      maxWidth: width * (width > 280 ? 0.65 : 0.5),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          habit.title,
-                          style:
-                              Theme.of(context).textTheme.titleMedium!.copyWith(
-                                    fontSize: 26,
-                                    fontWeight: FontWeight.bold,
-                                    color: habit.color != yellowTheme
-                                        ? Colors.white
-                                        : darkBackground,
-                                  ),
-                        ),
-                        SizedBox(height: 10),
-                        StreakWeek(
-                          isDone: weekHistory,
-                        ),
-                      ],
-                    ),
-                  ),
-                  Column(
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Expanded(
-                        child: SvgPicture.asset(
-                          'assets/${habit.theme == HabitTheme.bee ? 'bee' : 'flower'}${!habit.isTodayDone ? '_gray' : ''}.svg',
+                      SizedBox(
+                        width: internalWidth * 0.65,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              habit.title,
+                              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                                fontSize: 26,
+                                fontWeight: FontWeight.bold,
+                                color: habit.color != yellowTheme
+                                    ? Colors.white
+                                    : darkBackground,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            StreakWeek(
+                              isDone: habit.getCurrentWeekStatus(),
+                            ),
+                          ],
                         ),
                       ),
-                      SizedBox(height: 5),
-                      Text(
-                        habit.streak.toString(),
-                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: SvgPicture.asset(
+                              'assets/${habit.theme == HabitTheme.bee
+                                  ? 'bee'
+                                  : 'flower'}'
+                                  '${!habit.isTodayDone ? '_gray' : ''}.svg',
+                              width: internalWidth * 0.3,
+                            ),
+                          ),
+                          Text(
+                            habit.streak.toString(),
+                            style:
+                            Theme.of(context).textTheme.bodyMedium!.copyWith(
                               fontSize: 28,
                               fontWeight: FontWeight.bold,
                               color: habit.isTodayDone
                                   ? doneColor
                                   : habit.color != yellowTheme
-                                      ? Colors.white
-                                      : darkBackground,
+                                  ? Colors.white
+                                  : darkBackground,
                             ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
+                  if (!habit.isTodayDone)
+                    Positioned(
+                      top: 0, // Adjust position as needed, based on padding
+                      right: 0, // Adjust position as needed, based on padding
+                      child: SvgPicture.asset('assets/warning.svg'),
+                    ),
                 ],
               ),
-            ),
-            if (!habit.isTodayDone)
-              Positioned(
-                top: 10,
-                right: 10,
-                child: SvgPicture.asset('assets/warning.svg'),
-              ),
-          ],
-        );
-      },
+            );
+          },
+        ),
+      ),
     );
   }
 }

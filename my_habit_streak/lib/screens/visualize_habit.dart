@@ -4,6 +4,7 @@ import 'package:my_habit_streak/screens/create_edit_habit.dart';
 import 'package:my_habit_streak/utils/habit_storage_service.dart';
 import 'package:my_habit_streak/widgets/app_scaffold.dart';
 import 'package:my_habit_streak/widgets/button.dart';
+import 'package:my_habit_streak/widgets/dialog_popup.dart';
 import 'package:my_habit_streak/widgets/header.dart';
 import 'package:my_habit_streak/widgets/streak_week.dart';
 
@@ -116,27 +117,51 @@ class _VisualizeHabitState extends State<VisualizeHabit> {
                       color: _currentHabit.color,
                       label:
                           'Mark as ${_currentHabit.isTodayDone ? 'not done' : 'done'}',
-                      onPressed: () {
+                      onPressed: () async {
+                        final confirmChange = await showDialog<bool>(
+                          context: context,
+                          builder: (context) {
+                            return DialogPopup(
+                              title: _currentHabit.isTodayDone
+                                  ? 'Mark as not done?'
+                                  : 'Mark as done?',
+                              message:
+                                  'Are you sure you want to mark this habit as'
+                                  ' ${_currentHabit.isTodayDone ? 'not done' : 'done'}?'
+                                  '\nRemember, we\'re here to help. Don\'t lie to yourself!',
+                              theme: _currentHabit.theme,
+                              color: _currentHabit.color,
+                            );
+                          },
+                        );
+
+                        if (!confirmChange!) return;
+
                         setState(() {
                           _currentHabit.isTodayDone =
                               !_currentHabit.isTodayDone;
-                          // TODO: Also save this change to your persistent storage
-                          // e.g., HabitStorageService().updateHabit(_currentHabit);
+                          HabitStorageService().saveOrUpdateHabit(
+                              _currentHabit.title, _currentHabit);
                         });
                       },
                     ),
                   ),
                   const SizedBox(height: 20),
                   Center(
-                    child: Text('Description',
-                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                              fontWeight: FontWeight.bold,
-                            )),
+                    child: Text(
+                      'Description',
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 32,
+                          ),
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(15.0),
                     child: Text(
-                      _currentHabit.description,
+                      _currentHabit.description != ''
+                          ? _currentHabit.description
+                          : 'No description provided.',
                       style: Theme.of(context).textTheme.bodyLarge,
                       textAlign: TextAlign.center,
                     ),

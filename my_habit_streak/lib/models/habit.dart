@@ -54,7 +54,7 @@ class Habit {
   int get streak {
     if (_streak != null) return _streak!;
 
-    DateTime current = DateTime.now();
+    DateTime current = DateTime.now().subtract(Duration(days: isTodayDone ? 0 : 1));
     int streak = 0;
 
     // Loop through past days to calculate streak
@@ -110,6 +110,24 @@ class Habit {
       // streakHistory is already Map<String, bool>, which is directly JSON-serializable
       'streakHistory': streakHistory,
     };
+  }
+
+  bool isHabitValid() {
+    // Check if title is not empty and description is not empty
+    return title.isNotEmpty && description.isNotEmpty;
+  }
+
+  @override
+  operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other.runtimeType != runtimeType) return false;
+
+    final Habit otherHabit = other as Habit;
+    return title == otherHabit.title &&
+        description == otherHabit.description &&
+        theme == otherHabit.theme &&
+        color == otherHabit.color &&
+        streakHistory.toString() == otherHabit.streakHistory.toString();
   }
 
   // Create from JSON

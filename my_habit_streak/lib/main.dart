@@ -3,9 +3,10 @@ import 'package:my_habit_streak/screens/create_edit_habit.dart';
 import 'package:my_habit_streak/screens/home_screen.dart';
 import 'package:my_habit_streak/screens/visualize_habit.dart';
 import 'package:my_habit_streak/theme.dart';
-import 'package:my_habit_streak/widgets/habit_card.dart';
 
 import 'models/habit.dart';
+
+final RouteObserver<ModalRoute> routeObserver = RouteObserver<ModalRoute>();
 
 void main() {
   runApp(const MyApp());
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: textThemeWithWhite,
+      navigatorObservers: [routeObserver],
       initialRoute: HomeScreen.routeName,
       routes: {
         HomeScreen.routeName: (context) => const HomeScreen(),
@@ -28,7 +30,7 @@ class MyApp extends StatelessWidget {
           return VisualizeHabit(habit: habit);
         },
         CreateEditHabit.routeName: (context) {
-          final habit = ModalRoute.of(context)?.settings.arguments as Habit;
+          final habit = ModalRoute.of(context)?.settings.arguments as Habit? ?? Habit();
           return CreateEditHabit(habit: habit);
         },
       },

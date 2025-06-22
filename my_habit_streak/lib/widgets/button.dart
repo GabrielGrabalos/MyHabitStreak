@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vibration/vibration.dart';
 
 // The Button widget is now a StatefulWidget to manage its animated state.
 class Button extends StatefulWidget {
@@ -26,12 +27,16 @@ class _ButtonState extends State<Button> {
   double _verticalOffset = 0.0;
 
   // Handles the button being touched down (press starts).
-  void _handleTapDown(TapDownDetails details) {
+  void _handleTapDown(TapDownDetails details) async {
     setState(() {
       _bottomBorderWidth =
           3.0; // Bottom border width becomes 3.0 (normal width).
-      _verticalOffset = 7.0; // Button moves down by 8.0 units.
+      _verticalOffset = 7.0; // Button moves down by 7.0 units.
     });
+
+    if (await Vibration.hasAmplitudeControl()) {
+      Vibration.vibrate(amplitude: 255, duration: 5);
+    }
   }
 
   // Handles the button being touched up (press ends).
@@ -80,8 +85,10 @@ class _ButtonState extends State<Button> {
                 left: BorderSide(color: widget.color, width: 3),
                 right: BorderSide(color: widget.color, width: 3),
                 // The bottom border width is controlled by the state variable.
-                bottom:
-                    BorderSide(color: widget.color, width: _bottomBorderWidth),
+                bottom: BorderSide(
+                  color: widget.color,
+                  width: _bottomBorderWidth,
+                ),
               ),
             ),
             child: TextButton(

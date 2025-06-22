@@ -4,6 +4,7 @@ import 'package:my_habit_streak/utils/habit_storage_service.dart';
 import 'package:my_habit_streak/widgets/app_scaffold.dart';
 import 'package:my_habit_streak/widgets/button.dart';
 import 'package:my_habit_streak/widgets/color_selector.dart';
+import 'package:my_habit_streak/widgets/dialog_popup.dart';
 import 'package:my_habit_streak/widgets/header.dart';
 import 'package:my_habit_streak/widgets/theme_selector.dart';
 
@@ -24,26 +25,31 @@ class CreateEditHabit extends StatefulWidget {
 class _CreateEditHabitState extends State<CreateEditHabit> {
   // Create mutable state variables
   late Habit _editableHabit = Habit(); // Mutable habit state
-  late TextEditingController _titleController = TextEditingController();
-  late TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
+  String originalTitle = '';
+  bool isCreatingNewHabit = true;
 
-  // Method to initialize the habit, can be called after the widget is built
   void _initializeHabit() {
-    // This method can be used to perform any additional initialization if needed
-    // For example, you could set default values or perform checks
     setState(() {
-      // Any state updates can be done here
       // Get the habit from Navigator arguments or use a default new habit
-      // This is where you get the habit from arguments
-      final Habit? habitFromArgs =
-          ModalRoute.of(context)?.settings.arguments as Habit?;
+      final Object? habitFromArgs = ModalRoute.of(context)?.settings.arguments;
 
-      // Initialize _editableHabit: use the one from arguments, or a new empty Habit if null
-      _editableHabit = habitFromArgs ?? Habit();
+      if (habitFromArgs is Habit) {
+        // If the argument is a Habit, use it
+        _editableHabit = habitFromArgs;
+      } else {
+        // Otherwise, create a new Habit
+        _editableHabit = Habit();
+      }
 
-      _titleController = TextEditingController(text: _editableHabit.title);
-      _descriptionController =
-          TextEditingController(text: _editableHabit.description);
+      isCreatingNewHabit = habitFromArgs == null;
+
+      originalTitle = _editableHabit.title;
+
+      _titleController.text = _editableHabit.title;
+      _descriptionController.text =
+          _editableHabit.description ?? ''; // Initialize description controller
     });
   }
 
@@ -175,22 +181,54 @@ class _CreateEditHabitState extends State<CreateEditHabit> {
                     padding: const EdgeInsets.symmetric(
                         vertical: 16, horizontal: 16.0),
                     label: 'Save Habit',
-                    onPressed: () {
+                    onPressed: () async {
                       // Update the habit with the new values
                       _editableHabit = _editableHabit.copyWith(
                         title: _titleController.text,
                         description: _descriptionController.text,
                       );
 
-                      // Navigate back or perform save action
-                      Navigator.pop(context, _editableHabit);
-
                       // Save the habit using the storage service
                       CreateEditHabit.habitStorageService
-                          .saveOrUpdateHabit(_editableHabit);
+                          .saveOrUpdateHabit(originalTitle, _editableHabit);
+
+                      // Navigate back or perform save action
+                      Navigator.pop(context, _editableHabit);
                     },
                     color: _editableHabit.color,
                   ),
+                  if (!isCreatingNewHabit)
+                    Button(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 0.0, horizontal: 16.0),
+                      label: 'Delete Habit',
+                      onPressed: () async {
+                        final bool confirmDelete = await showDialog(
+                          context: context,
+                          builder: (context) {
+                            return DialogPopup(
+                              title: 'Delete Habit?',
+                              message:
+                                  'Are you sure you want to delete this habit? '
+                                  'This action cannot be undone.',
+                              isWarning: true,
+                              theme: _editableHabit.theme,
+                              color: _editableHabit.color,
+                            );
+                          },
+                        );
+                        if (!confirmDelete) return;
+
+                        // Delete the habit using the storage service
+                        CreateEditHabit.habitStorageService
+                            .deleteHabit(_editableHabit.title);
+
+                        // Navigate back after deletion
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+                      },
+                      color: Colors.red,
+                    ),
                 ],
               ),
             ),

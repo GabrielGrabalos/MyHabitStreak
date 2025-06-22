@@ -48,14 +48,14 @@ class HabitStorageService {
   // --- New/Updated: Save or Update a single Habit ---
   // This is the "save habit function" you asked for.
   // It handles both adding a new habit and updating an existing one.
-  Future<void> saveOrUpdateHabit(Habit habitToSave) async {
+  Future<void> saveOrUpdateHabit(String originalTitle, Habit habitToSave) async {
     List<Habit> currentHabits = await getHabits();
 
     // Find the index of the habit if it already exists (e.g., by title)
     // IMPORTANT: For robust updates, consider adding a unique ID to your Habit model.
     // For now, we'll use title as a simple identifier.
     int existingIndex =
-        currentHabits.indexWhere((h) => h.title == habitToSave.title);
+        currentHabits.indexWhere((h) => h.title == originalTitle);
 
     if (existingIndex != -1) {
       // Habit exists, update it in the list
