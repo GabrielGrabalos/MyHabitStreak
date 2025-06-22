@@ -1,16 +1,19 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class StreakCircle extends StatelessWidget {
   final bool isDone;
   final double size;
   final Color color;
+  final double opacity;
 
   const StreakCircle({
     super.key,
     this.isDone = false,
     this.size = 50,
     this.color = const Color(0xFF4CAF50),
+    this.opacity = 1.0,
   });
 
   @override
@@ -21,7 +24,7 @@ class StreakCircle extends StatelessWidget {
       height: size,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: color,
+        color: color.withOpacity(opacity),
       ),
       child: FittedBox(
         fit: BoxFit.scaleDown,

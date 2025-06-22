@@ -9,12 +9,14 @@ class StreakWeek extends StatelessWidget {
   final List<bool> isOtherMonth;
   final double spacing;
   final bool dynamicLabelColor;
+  final List<int> days;
 
   const StreakWeek({
     super.key,
     this.labels = const ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
     this.isDone = const [true, false, true, false, true, false, true],
     this.isOtherMonth = const [false, false, false, false, false, false, false],
+    this.days = const [0, 0, 0, 0, 0, 0, 0],
     this.spacing = 6.0,
     this.dynamicLabelColor = true,
   });
@@ -38,11 +40,11 @@ class StreakWeek extends StatelessWidget {
               label: labels[index],
               isDone: isDone[index],
               isOtherMonth: isOtherMonth[index],
-              color: dynamicLabelColor
-                  ? isDone[index]
-                      ? doneColor
-                      : notDoneColor
+              labelColor: dynamicLabelColor
+                  ? (isDone[index] ? doneColor : notDoneColor)
                   : doneColor,
+              color: isDone[index] ? doneColor : notDoneColor,
+              day: days[index],
             );
           }),
         );

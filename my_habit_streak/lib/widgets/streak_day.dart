@@ -7,6 +7,7 @@ class StreakDay extends StatelessWidget {
   final bool isDone;
   final bool isOtherMonth;
   final double size;
+  final Color labelColor;
   final Color color;
   final int day;
 
@@ -16,6 +17,7 @@ class StreakDay extends StatelessWidget {
     this.isDone = false,
     this.isOtherMonth = false,
     this.size = 50,
+    this.labelColor = const Color(0xFF4CAF50),
     this.color = const Color(0xFF4CAF50),
     this.day = 0,
   });
@@ -30,7 +32,7 @@ class StreakDay extends StatelessWidget {
             style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   fontSize: size * 0.4,
                   fontWeight: FontWeight.bold,
-                  color: color,
+                  color: labelColor,
                 ),
           ),
           SizedBox(height: size * 0.1),
@@ -41,7 +43,8 @@ class StreakDay extends StatelessWidget {
             StreakCircle(
               isDone: isDone,
               size: size,
-              color: !isOtherMonth ? color : color.withOpacity(0.5),
+              color: color,
+              opacity: !isOtherMonth ? color.a : color.a * 0.3,
             ),
             if (day > 0)
               Positioned(
@@ -50,7 +53,7 @@ class StreakDay extends StatelessWidget {
                 child: Container(
                   padding: EdgeInsets.all(size * 0.1),
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.8),
+                    color: Colors.white,
                     shape: BoxShape.circle,
                   ),
                   child: Text(

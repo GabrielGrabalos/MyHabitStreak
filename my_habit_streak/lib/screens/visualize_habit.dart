@@ -51,19 +51,14 @@ class _VisualizeHabitState extends State<VisualizeHabit> {
               final updatedHabit = await Navigator.pushNamed(
                 context,
                 CreateEditHabit.routeName,
-                arguments: _currentHabit, // Pass the current state of the habit
-              ) as Habit?; // Cast the result to Habit? (nullable)
+                arguments: _currentHabit,
+              ) as Habit?;
 
               // Check if a habit was returned and if it's different
               if (updatedHabit != null && updatedHabit != _currentHabit) {
                 setState(() {
-                  _currentHabit = updatedHabit; // Update the state
+                  _currentHabit = updatedHabit;
                 });
-                // TODO: You'll also need to save this updatedHabit to your persistent storage here.
-                // For example:
-                // await HabitStorageService().saveHabits(listOfAllHabits); // You'll need access to the list of habits
-                // Or if you have a method to update a single habit in your service:
-                // await HabitStorageService().updateHabit(updatedHabit);
               }
             },
           ),
@@ -128,8 +123,7 @@ class _VisualizeHabitState extends State<VisualizeHabit> {
                                   : 'Mark as done?',
                               message:
                                   'Are you sure you want to mark this habit as'
-                                  ' ${_currentHabit.isTodayDone ? 'not done' : 'done'}?'
-                                  '\nRemember, we\'re here to help. Don\'t lie to yourself!',
+                                  ' ${_currentHabit.isTodayDone ? 'not done?' : 'done?\nRemember, we\'re here to help. Don\'t lie to yourself!'}',
                               theme: _currentHabit.theme,
                               color: _currentHabit.color,
                             );
@@ -176,7 +170,9 @@ class _VisualizeHabitState extends State<VisualizeHabit> {
                         ),
                   ),
                   const SizedBox(height: 10),
-                  StreakCalendar(color: _currentHabit.color),
+                  StreakCalendar(
+                    habit: _currentHabit,
+                  ),
                 ],
               ),
             ),

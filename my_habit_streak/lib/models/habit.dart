@@ -22,10 +22,10 @@ class Habit {
     Map<String, bool>? streakHistory,
   }) : streakHistory = streakHistory ?? {};
 
-  // Helper function to format DateTime as YYYY-MM-DD
+  // Helper function to format DateTime asYYYY-MM-DD
   String formatDate(DateTime date) {
     // Ensure consistent format, including padding for month/day if needed
-    // For ISO8601String, it's already YYYY-MM-DD for the date part
+    // For ISO8601String, it's alreadyYYYY-MM-DD for the date part
     return date.toIso8601String().split('T')[0];
   }
 
@@ -54,7 +54,8 @@ class Habit {
   int get streak {
     if (_streak != null) return _streak!;
 
-    DateTime current = DateTime.now().subtract(Duration(days: isTodayDone ? 0 : 1));
+    DateTime current =
+        DateTime.now().subtract(Duration(days: isTodayDone ? 0 : 1));
     int streak = 0;
 
     // Loop through past days to calculate streak
@@ -94,6 +95,27 @@ class Habit {
     return List.generate(7, (index) {
       final day = sunday.add(Duration(days: index));
       final dateKey = formatDate(day);
+      return streakHistory[dateKey] ?? false;
+    });
+  }
+
+  // Get week history for a specific week starting with the given Sunday
+  List<bool> getWeekHistory(int year, int month, int day) {
+    final dayOnWeek = DateTime(year, month, day);
+
+    final sunday = dayOnWeek.subtract(Duration(days: dayOnWeek.weekday % 7));
+
+    // Ensure the provided date is a Sunday
+    // Dart's weekday is 1 for Monday, ..., 7 for Sunday.
+    // So, Sunday's weekday % 7 will be 0.
+    if (sunday.weekday % 7 != 0) {
+      throw ArgumentError(
+          'The provided date (year, month, day) must be a Sunday.');
+    }
+
+    return List.generate(7, (index) {
+      final currentDay = sunday.add(Duration(days: index));
+      final dateKey = formatDate(currentDay);
       return streakHistory[dateKey] ?? false;
     });
   }
