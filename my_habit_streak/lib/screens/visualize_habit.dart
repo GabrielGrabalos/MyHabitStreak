@@ -6,6 +6,7 @@ import 'package:my_habit_streak/widgets/app_scaffold.dart';
 import 'package:my_habit_streak/widgets/button.dart';
 import 'package:my_habit_streak/widgets/dialog_popup.dart';
 import 'package:my_habit_streak/widgets/header.dart';
+import 'package:my_habit_streak/widgets/streak_calendar.dart';
 import 'package:my_habit_streak/widgets/streak_week.dart';
 
 import '../models/habit.dart';
@@ -166,6 +167,16 @@ class _VisualizeHabitState extends State<VisualizeHabit> {
                       textAlign: TextAlign.center,
                     ),
                   ),
+                  const SizedBox(height: 20),
+                  Text(
+                    'Your streak history',
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 32,
+                        ),
+                  ),
+                  const SizedBox(height: 10),
+                  StreakCalendar(color: _currentHabit.color),
                 ],
               ),
             ),

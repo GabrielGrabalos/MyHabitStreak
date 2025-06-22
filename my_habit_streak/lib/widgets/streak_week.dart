@@ -6,13 +6,17 @@ import '../utils/colors.dart';
 class StreakWeek extends StatelessWidget {
   final List<String> labels;
   final List<bool> isDone;
+  final List<bool> isOtherMonth;
   final double spacing;
+  final bool dynamicLabelColor;
 
   const StreakWeek({
     super.key,
     this.labels = const ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
     this.isDone = const [true, false, true, false, true, false, true],
+    this.isOtherMonth = const [false, false, false, false, false, false, false],
     this.spacing = 6.0,
+    this.dynamicLabelColor = true,
   });
 
   @override
@@ -27,15 +31,20 @@ class StreakWeek extends StatelessWidget {
         final daySize = (availableWidth / 7).clamp(0.0, maxHeight);
 
         return Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: List.generate(7, (index) {
-              return StreakDay(
-                size: daySize,
-                label: labels[index],
-                isDone: isDone[index],
-                color: isDone[index] ? doneColor : notDoneColor,
-              );
-            }),
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: List.generate(7, (index) {
+            return StreakDay(
+              size: daySize,
+              label: labels[index],
+              isDone: isDone[index],
+              isOtherMonth: isOtherMonth[index],
+              color: dynamicLabelColor
+                  ? isDone[index]
+                      ? doneColor
+                      : notDoneColor
+                  : doneColor,
+            );
+          }),
         );
       },
     );
