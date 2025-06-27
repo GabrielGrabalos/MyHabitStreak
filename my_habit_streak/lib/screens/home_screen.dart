@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart'; // Using Material Design widgets
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:my_habit_streak/models/habit.dart';
 import 'package:my_habit_streak/utils/habit_storage_service.dart';
 import 'package:my_habit_streak/widgets/app_scaffold.dart';
@@ -127,7 +128,38 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
                               ),
                             if (_doneTodayHabits.isEmpty &&
                                 _notDoneTodayHabits.isEmpty)
-                              const Center(child: Text('No habits found')),
+                              Align(
+                                alignment: Alignment.topRight,
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                    top: 15,
+                                    right: 35,
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      SvgPicture.asset(
+                                        'assets/bee_button_indicator.svg',
+                                        width: constraints.maxWidth * 0.8,
+                                      ),
+                                      const SizedBox(height: 10),
+                                      Transform.rotate(
+                                        angle: -0.25,
+                                        child: Text(
+                                          'Start by creating\na new habit!',
+                                          textAlign: TextAlign.center,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium!
+                                              .copyWith(
+                                                fontSize: 18,
+                                                color: Colors.white,
+                                              ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
                           ],
                         ),
                       ),

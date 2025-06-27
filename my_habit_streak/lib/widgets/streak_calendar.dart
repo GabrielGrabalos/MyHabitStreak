@@ -89,7 +89,8 @@ class _StreakCalendarState extends State<StreakCalendar> {
         if (dayCounter > daysInMonth) {
           isOtherMonth[i] = true; // Mark remaining days as other month
         }
-        days[i] = dayCounter <= daysInMonth ? dayCounter : dayCounter - daysInMonth;
+        days[i] =
+            dayCounter <= daysInMonth ? dayCounter : 0;
         dayCounter++;
       }
 
@@ -134,15 +135,21 @@ class _StreakCalendarState extends State<StreakCalendar> {
                   updateMonth(-1);
                 },
               ),
-              Text(
-                '${months[currentDate.month - 1]} ${currentDate.year}',
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: widget.habit.color != yellowTheme
-                          ? Colors.white
-                          : darkBackground,
-                    ),
+              Expanded(
+                child: Center(
+                  child: Text(
+                    '${months[currentDate.month - 1]} ${currentDate.year}',
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: widget.habit.color != yellowTheme
+                              ? Colors.white
+                              : darkBackground,
+                        ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
               ),
               IconButton(
                 icon: Icon(Icons.arrow_forward,

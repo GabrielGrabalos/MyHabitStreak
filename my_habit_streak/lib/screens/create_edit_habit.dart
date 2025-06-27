@@ -7,6 +7,7 @@ import 'package:my_habit_streak/widgets/color_selector.dart';
 import 'package:my_habit_streak/widgets/dialog_popup.dart';
 import 'package:my_habit_streak/widgets/header.dart';
 import 'package:my_habit_streak/widgets/theme_selector.dart';
+import 'package:vibration/vibration.dart';
 
 import '../models/habit.dart';
 
@@ -138,6 +139,8 @@ class _CreateEditHabitState extends State<CreateEditHabit> {
                         // Focus on next field when editing is complete
                         FocusScope.of(context).nextFocus();
                       },
+                      textCapitalization: TextCapitalization.words,
+                      autocorrect: true,
                     ),
                   ),
                   Padding(
@@ -175,6 +178,8 @@ class _CreateEditHabitState extends State<CreateEditHabit> {
                           ),
                         ),
                       ),
+                      textCapitalization: TextCapitalization.sentences,
+                      autocorrect: true,
                     ),
                   ),
                   Button(
@@ -183,10 +188,38 @@ class _CreateEditHabitState extends State<CreateEditHabit> {
                     label: 'Save Habit',
                     onPressed: () async {
                       // Update the habit with the new values
-                      _editableHabit = _editableHabit.copyWith(
-                        title: _titleController.text,
-                        description: _descriptionController.text,
-                      );
+                      setState(() {
+                        _editableHabit = _editableHabit.copyWith(
+                          title: _titleController.text,
+                          description: _descriptionController.text,
+                        );
+                      });
+
+                      if (!_editableHabit.isHabitValid()) {
+                        // Vibrate  quickly twice to indicate an error
+                        if (await Vibration.hasVibrator()) {
+                          Vibration.vibrate(duration: 50, amplitude: 128);
+                          await Future.delayed(
+                              const Duration(milliseconds: 10));
+                          Vibration.vibrate(duration: 30, amplitude: 128);
+                        }
+
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return DialogPopup(
+                              title: 'Invalid Habit',
+                              message:
+                                  'Please ensure the habit title is not empty and is unique.',
+                              theme: _editableHabit.theme,
+                              color: _editableHabit.color,
+                              hasCancelButton: false,
+                            );
+                          },
+                        );
+
+                        return;
+                      }
 
                       // Save the habit using the storage service
                       CreateEditHabit.habitStorageService

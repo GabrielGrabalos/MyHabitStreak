@@ -13,6 +13,7 @@ class DialogPopup extends StatelessWidget {
   final bool isWarning;
   final HabitTheme theme;
   final Color color;
+  final bool hasCancelButton;
 
   const DialogPopup({
     super.key,
@@ -21,6 +22,7 @@ class DialogPopup extends StatelessWidget {
     this.isWarning = false,
     this.theme = HabitTheme.bee,
     this.color = blueTheme,
+    this.hasCancelButton = true,
   });
 
   @override
@@ -55,14 +57,14 @@ class DialogPopup extends StatelessWidget {
                           ),
                       textAlign: TextAlign.center,
                     ),
-                    const SizedBox(height: 25),
+                    const SizedBox(height: 20),
                     SvgPicture.asset(
                       !isWarning
                           ? 'assets/happy_emote.svg'
                           : 'assets/warning_${theme.name}_emote.svg',
-                      height: 140,
+                      height: 150,
                     ),
-                    const SizedBox(height: 25),
+                    const SizedBox(height: 20),
                     Text(
                       message,
                       style: Theme.of(context).textTheme.bodyLarge!.copyWith(
@@ -71,15 +73,18 @@ class DialogPopup extends StatelessWidget {
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 25),
-                    Button(
-                      label: 'Cancel',
-                      onPressed: () {
-                        Navigator.of(context)
-                            .pop(false); // Close the dialog and return false
-                      },
-                      color: Colors.grey.shade300,
-                    ),
-                    const SizedBox(height: 10),
+                    // Cancel button if hasCancelButton is true
+                    if (hasCancelButton) ...[
+                      Button(
+                        label: 'Cancel',
+                        onPressed: () {
+                          Navigator.of(context)
+                              .pop(false); // Close the dialog and return false
+                        },
+                        color: Colors.grey.shade300,
+                      ),
+                      const SizedBox(height: 10),
+                    ],
                     Button(
                       label: 'Confirm',
                       onPressed: () {

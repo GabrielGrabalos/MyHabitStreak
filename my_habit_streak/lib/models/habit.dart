@@ -136,7 +136,7 @@ class Habit {
 
   bool isHabitValid() {
     // Check if title is not empty and description is not empty
-    return title.isNotEmpty && description.isNotEmpty;
+    return title.isNotEmpty;
   }
 
   @override
