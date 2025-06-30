@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:my_habit_streak/utils/colors.dart';
 import 'package:my_habit_streak/widgets/streak_week.dart';
 
@@ -110,6 +111,8 @@ class _StreakCalendarState extends State<StreakCalendar> {
 
   @override
   Widget build(BuildContext context) {
+    final locale = Localizations.localeOf(context);
+    final monthYear = DateFormat.yMMMM(locale.toString()).format(currentDate);
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 20.0),
       padding: const EdgeInsets.all(16.0),
@@ -138,7 +141,7 @@ class _StreakCalendarState extends State<StreakCalendar> {
               Expanded(
                 child: Center(
                   child: Text(
-                    '${months[currentDate.month - 1]} ${currentDate.year}',
+                    monthYear,
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,

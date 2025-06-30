@@ -8,6 +8,7 @@ import 'package:my_habit_streak/widgets/dialog_popup.dart';
 import 'package:my_habit_streak/widgets/header.dart';
 import 'package:my_habit_streak/widgets/streak_calendar.dart';
 import 'package:my_habit_streak/widgets/streak_week.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../models/habit.dart';
 import '../utils/colors.dart';
@@ -70,7 +71,7 @@ class _VisualizeHabitState extends State<VisualizeHabit> {
                     children: [
                       SizedBox(height: 30),
                       SvgPicture.asset(
-                        'assets/${_currentHabit.theme == HabitTheme.bee ? 'bee' : 'flower'}'
+                        'assets/${_currentHabit.theme.name}'
                         '${!_currentHabit.isTodayDone ? '_gray' : ''}.svg',
                         width: 150,
                         fit: BoxFit.contain,
@@ -111,19 +112,24 @@ class _VisualizeHabitState extends State<VisualizeHabit> {
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
                     child: Button(
                       color: _currentHabit.color,
-                      label:
-                          'Mark as ${_currentHabit.isTodayDone ? 'not done' : 'done'}',
+                      label: _currentHabit.isTodayDone
+                          ? AppLocalizations.of(context)!.markNotDone
+                          : AppLocalizations.of(context)!.markDone,
                       onPressed: () async {
                         final confirmChange = await showDialog<bool>(
                           context: context,
                           builder: (context) {
                             return DialogPopup(
                               title: _currentHabit.isTodayDone
-                                  ? 'Mark as not done?'
-                                  : 'Mark as done?',
-                              message:
-                                  'Are you sure you want to mark this habit as'
-                                  ' ${_currentHabit.isTodayDone ? 'not done?' : 'done?\nRemember, we\'re here to help. Don\'t lie to yourself!'}',
+                                  ? AppLocalizations.of(context)!
+                                      .markNotDoneConfirmation
+                                  : AppLocalizations.of(context)!
+                                      .markDoneConfirmation,
+                              message: _currentHabit.isTodayDone
+                                  ? AppLocalizations.of(context)!
+                                      .markNotDoneMessage
+                                  : AppLocalizations.of(context)!
+                                      .markDoneMessage,
                               theme: _currentHabit.theme,
                               color: _currentHabit.color,
                             );
@@ -144,7 +150,7 @@ class _VisualizeHabitState extends State<VisualizeHabit> {
                   const SizedBox(height: 20),
                   Center(
                     child: Text(
-                      'Description',
+                      AppLocalizations.of(context)!.description,
                       style: Theme.of(context).textTheme.titleLarge!.copyWith(
                             fontWeight: FontWeight.bold,
                             fontSize: 32,
@@ -156,14 +162,15 @@ class _VisualizeHabitState extends State<VisualizeHabit> {
                     child: Text(
                       _currentHabit.description != ''
                           ? _currentHabit.description
-                          : 'No description provided.',
+                          : AppLocalizations.of(context)!.noDescription,
                       style: Theme.of(context).textTheme.bodyLarge,
                       textAlign: TextAlign.center,
                     ),
                   ),
                   const SizedBox(height: 20),
                   Text(
-                    'Your streak history',
+                    AppLocalizations.of(context)!.streakHistory,
+                    textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(
                           fontWeight: FontWeight.bold,
                           fontSize: 32,

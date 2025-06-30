@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_habit_streak/utils/colors.dart';
 import 'package:vibration/vibration.dart';
 
 // The Button widget is now a StatefulWidget to manage its animated state.
@@ -12,7 +13,7 @@ class Button extends StatefulWidget {
       {super.key,
       required this.label,
       required this.onPressed,
-      required this.color,
+      this.color = blueTheme,
       this.padding});
 
   @override
@@ -103,6 +104,7 @@ class _ButtonState extends State<Button> {
               ),
               child: Text(
                 widget.label,
+                textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                       fontSize: 20,
                       color: Colors.white,

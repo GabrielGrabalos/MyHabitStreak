@@ -1,0 +1,134 @@
+{
+  "@@locale": "en",
+  "@@last_modified": "2023-10-15T12:00:00Z",
+
+  "language": "English",
+    "@language": {
+        "description": "Language name for English"
+    },
+
+  "appTitle": "My Habit Streak",
+  "@appTitle": {
+    "description": "Application title shown in app bar"
+  },
+
+  "createHabit": "Create Habit",
+  "@createHabit": {
+    "description": "Title for habit creation screen"
+  },
+
+  "editHabit": "Edit Habit",
+  "@editHabit": {
+    "description": "Title for habit editing screen"
+  },
+
+  "habitTitle": "Habit Title",
+  "@habitTitle": {
+    "description": "Label for habit title input field"
+  },
+
+  "description": "Description",
+  "@description": {
+    "description": "Label for description input field"
+  },
+
+  "noDescription": "No description provided.",
+  "@noDescription": {
+    "description": "Placeholder text when no habit description exists"
+  },
+
+  "saveHabit": "Save Habit",
+  "@saveHabit": {
+    "description": "Button text to save a habit"
+  },
+
+  "deleteHabit": "Delete Habit",
+  "@deleteHabit": {
+    "description": "Button text to delete a habit"
+  },
+
+  "markDone": "Mark as done",
+  "@markDone": {
+    "description": "Button to mark habit as completed"
+  },
+
+  "markNotDone": "Mark as not done",
+  "@markNotDone": {
+    "description": "Button to mark habit as not completed"
+  },
+
+  "streakHistory": "Your streak history",
+  "@streakHistory": {
+    "description": "Title for calendar view showing habit history"
+  },
+
+  "invalidHabit": "Invalid Habit",
+  "@invalidHabit": {
+    "description": "Title for invalid habit error dialog"
+  },
+
+  "invalidHabitMessage": "Please ensure the habit title is not empty and is unique.",
+  "@invalidHabitMessage": {
+    "description": "Error message for invalid habit input"
+  },
+
+  "deleteConfirmationTitle": "Delete Habit?",
+  "@deleteConfirmationTitle": {
+    "description": "Title for habit deletion confirmation dialog"
+  },
+
+  "deleteConfirmationMessage": "Are you sure you want to delete this habit? This action cannot be undone.",
+  "@deleteConfirmationMessage": {
+    "description": "Message in habit deletion confirmation dialog"
+  },
+
+  "markDoneConfirmation": "Mark as done?",
+  "@markDoneConfirmation": {
+    "description": "Title for mark-as-done confirmation dialog"
+  },
+
+  "markNotDoneConfirmation": "Mark as not done?",
+  "@markNotDoneConfirmation": {
+    "description": "Title for mark-as-not-done confirmation dialog"
+  },
+
+  "markDoneMessage": "Are you sure you want to mark this habit as done?\nRemember, we're here to help. Don't lie to yourself!",
+  "@markDoneMessage": {
+    "description": "Message in mark-as-done confirmation dialog"
+  },
+
+  "markNotDoneMessage": "Are you sure you want to mark this habit as not done?",
+  "@markNotDoneMessage": {
+    "description": "Message in mark-as-not-done confirmation dialog"
+  },
+
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Button to cancel an action"
+  },
+
+  "confirm": "Confirm",
+  "@confirm": {
+    "description": "Button to confirm an action"
+  },
+
+  "myHabits": "My Habits",
+  "@myHabits": {
+    "description": "Title for main screen showing habit list"
+  },
+
+  "notDoneToday": "Not Done Today",
+  "@notDoneToday": {
+    "description": "Section header for uncompleted habits"
+  },
+
+  "doneToday": "Done Today",
+  "@doneToday": {
+    "description": "Section header for completed habits"
+  },
+
+  "startCreating": "Start by creating\na new habit!",
+  "@startCreating": {
+    "description": "Prompt shown when no habits exist"
+  }
+}

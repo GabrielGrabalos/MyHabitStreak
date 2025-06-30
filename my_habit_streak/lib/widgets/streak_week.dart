@@ -1,10 +1,10 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart'; // Add this import
+import 'package:my_habit_streak/utils/colors.dart';
 import 'package:my_habit_streak/widgets/streak_day.dart';
 
-import '../utils/colors.dart';
-
 class StreakWeek extends StatelessWidget {
-  final List<String> labels;
+  final List<String>? labels;
   final List<bool> isDone;
   final List<bool> isOtherMonth;
   final double spacing;
@@ -13,7 +13,7 @@ class StreakWeek extends StatelessWidget {
 
   const StreakWeek({
     super.key,
-    this.labels = const ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+    this.labels,
     this.isDone = const [true, false, true, false, true, false, true],
     this.isOtherMonth = const [false, false, false, false, false, false, false],
     this.days = const [0, 0, 0, 0, 0, 0, 0],
@@ -23,6 +23,9 @@ class StreakWeek extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Get localized weekday names
+    final weekdayNames = _getLocalizedWeekdayNames(context);
+
     return LayoutBuilder(
       builder: (context, constraints) {
         final maxWidth = constraints.maxWidth;
@@ -37,7 +40,7 @@ class StreakWeek extends StatelessWidget {
           children: List.generate(7, (index) {
             return StreakDay(
               size: daySize,
-              label: labels[index],
+              label: labels?[index] ?? weekdayNames[index],
               isDone: isDone[index],
               isOtherMonth: isOtherMonth[index],
               labelColor: dynamicLabelColor
@@ -50,5 +53,18 @@ class StreakWeek extends StatelessWidget {
         );
       },
     );
+  }
+
+  List<String> _getLocalizedWeekdayNames(BuildContext context) {
+    // Create a date for Sunday (2023-10-01 was a Sunday)
+    final sunday = DateTime(2023, 10, 1);
+
+    // Get the current locale from the context
+    final locale = Localizations.localeOf(context);
+
+    return List.generate(7, (index) {
+      final day = sunday.add(Duration(days: index));
+      return DateFormat.E(locale.toString()).format(day); // 'E' gives short weekday name
+    });
   }
 }

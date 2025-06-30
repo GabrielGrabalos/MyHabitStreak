@@ -10,5 +10,13 @@ const Color yellowTheme = Color(0xFFFEE54C);
 const Color pinkTheme = Color(0xFFF15BB5);
 const Color purpleTheme = Color(0xFF9B5DE5);
 
+const cardColors = [
+  blueTheme,
+  greenTheme,
+  yellowTheme,
+  pinkTheme,
+  purpleTheme,
+];
+
 // Background colors:
 const Color darkBackground = Color(0xFF14213D);

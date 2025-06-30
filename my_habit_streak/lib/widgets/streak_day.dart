@@ -51,7 +51,10 @@ class StreakDay extends StatelessWidget {
                 bottom: -size * 0.1,
                 right: -size * 0.1,
                 child: Container(
-                  padding: EdgeInsets.all(size * 0.1),
+                  padding: EdgeInsets.all(size * 0.05),
+                  alignment: Alignment.center,
+                  width: size * 0.5,
+                  height: size * 0.5,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     shape: BoxShape.circle,

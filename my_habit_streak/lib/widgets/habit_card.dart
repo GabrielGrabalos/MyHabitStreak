@@ -7,7 +7,6 @@ import 'package:my_habit_streak/widgets/streak_week.dart';
 
 import '../models/habit.dart';
 import '../utils/colors.dart';
-import '../utils/habit_theme.dart';
 
 class HabitCard extends StatelessWidget {
   final Habit habit;
@@ -83,9 +82,7 @@ class HabitCard extends StatelessWidget {
                         children: [
                           Expanded(
                             child: SvgPicture.asset(
-                              'assets/${habit.theme == HabitTheme.bee
-                                  ? 'bee'
-                                  : 'flower'}'
+                              'assets/${habit.theme.name}'
                                   '${!habit.isTodayDone ? '_gray' : ''}.svg',
                               width: internalWidth * 0.3,
                             ),

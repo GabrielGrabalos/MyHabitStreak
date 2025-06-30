@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:my_habit_streak/utils/colors.dart';
 import 'package:my_habit_streak/utils/habit_theme.dart';
 import 'package:my_habit_streak/widgets/button.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DialogPopup extends StatelessWidget {
   final String title;
@@ -76,7 +77,7 @@ class DialogPopup extends StatelessWidget {
                     // Cancel button if hasCancelButton is true
                     if (hasCancelButton) ...[
                       Button(
-                        label: 'Cancel',
+                        label: AppLocalizations.of(context)!.cancel,
                         onPressed: () {
                           Navigator.of(context)
                               .pop(false); // Close the dialog and return false
@@ -86,7 +87,7 @@ class DialogPopup extends StatelessWidget {
                       const SizedBox(height: 10),
                     ],
                     Button(
-                      label: 'Confirm',
+                      label: AppLocalizations.of(context)!.confirm,
                       onPressed: () {
                         Navigator.of(context)
                             .pop(true); // Close the dialog and return true

@@ -8,6 +8,7 @@ import 'package:my_habit_streak/widgets/dialog_popup.dart';
 import 'package:my_habit_streak/widgets/header.dart';
 import 'package:my_habit_streak/widgets/theme_selector.dart';
 import 'package:vibration/vibration.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../models/habit.dart';
 
@@ -78,7 +79,7 @@ class _CreateEditHabitState extends State<CreateEditHabit> {
       body: Column(
         children: [
           Header(
-            title: 'Create Habit',
+            title: AppLocalizations.of(context)!.createHabit,
             icon: CupertinoIcons.xmark,
             onActionPressed: () => Navigator.pop(context),
           ),
@@ -118,7 +119,7 @@ class _CreateEditHabitState extends State<CreateEditHabit> {
                       },
                       cursorColor: _editableHabit.color,
                       decoration: InputDecoration(
-                        labelText: 'Habit Title',
+                        labelText: AppLocalizations.of(context)!.habitTitle,
                         labelStyle: const TextStyle(color: Colors.white),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(18.0),
@@ -161,7 +162,7 @@ class _CreateEditHabitState extends State<CreateEditHabit> {
                       // Enable multiline input
                       cursorColor: _editableHabit.color,
                       decoration: InputDecoration(
-                        labelText: 'Description',
+                        labelText: AppLocalizations.of(context)!.description,
                         labelStyle: const TextStyle(color: Colors.white),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(18.0),
@@ -185,7 +186,7 @@ class _CreateEditHabitState extends State<CreateEditHabit> {
                   Button(
                     padding: const EdgeInsets.symmetric(
                         vertical: 16, horizontal: 16.0),
-                    label: 'Save Habit',
+                    label: AppLocalizations.of(context)!.saveHabit,
                     onPressed: () async {
                       // Update the habit with the new values
                       setState(() {
@@ -208,9 +209,9 @@ class _CreateEditHabitState extends State<CreateEditHabit> {
                           context: context,
                           builder: (context) {
                             return DialogPopup(
-                              title: 'Invalid Habit',
-                              message:
-                                  'Please ensure the habit title is not empty and is unique.',
+                              title: AppLocalizations.of(context)!.invalidHabit,
+                              message: AppLocalizations.of(context)!
+                                  .invalidHabitMessage,
                               theme: _editableHabit.theme,
                               color: _editableHabit.color,
                               hasCancelButton: false,
@@ -234,16 +235,16 @@ class _CreateEditHabitState extends State<CreateEditHabit> {
                     Button(
                       padding: const EdgeInsets.symmetric(
                           vertical: 0.0, horizontal: 16.0),
-                      label: 'Delete Habit',
+                      label: AppLocalizations.of(context)!.deleteHabit,
                       onPressed: () async {
                         final bool confirmDelete = await showDialog(
                           context: context,
                           builder: (context) {
                             return DialogPopup(
-                              title: 'Delete Habit?',
-                              message:
-                                  'Are you sure you want to delete this habit? '
-                                  'This action cannot be undone.',
+                              title: AppLocalizations.of(context)!
+                                  .deleteConfirmationTitle,
+                              message: AppLocalizations.of(context)!
+                                  .deleteConfirmationMessage,
                               isWarning: true,
                               theme: _editableHabit.theme,
                               color: _editableHabit.color,

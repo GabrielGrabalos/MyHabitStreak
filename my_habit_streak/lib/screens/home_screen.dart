@@ -3,8 +3,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:my_habit_streak/models/habit.dart';
 import 'package:my_habit_streak/utils/habit_storage_service.dart';
 import 'package:my_habit_streak/widgets/app_scaffold.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:my_habit_streak/widgets/playful_button.dart';
 
 import '../main.dart';
+import '../utils/colors.dart';
+import '../widgets/button.dart';
 import '../widgets/habit_list.dart';
 import '../widgets/header.dart';
 import 'create_edit_habit.dart'; // Your storage service
@@ -87,87 +91,118 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      body: LayoutBuilder(builder: (context, constraints) {
-        return SizedBox(
-          width: constraints.maxWidth,
-          child: Column(
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return Stack(
             children: [
-              Header(
-                title: 'My Habits',
-                icon: Icons.add,
-                onActionPressed: () async {
-                  // Navigate to the Create/Edit Habit screen
-                  final Habit? newHabit = await Navigator.pushNamed(
-                    context,
-                    CreateEditHabit.routeName,
-                  ) as Habit?;
+              SizedBox(
+                width: constraints.maxWidth,
+                child: Column(
+                  children: [
+                    Header(
+                      title: AppLocalizations.of(context)!.myHabits,
+                      icon: Icons.add,
+                      onActionPressed: () async {
+                        // Navigate to the Create/Edit Habit screen
+                        final Habit? newHabit = await Navigator.pushNamed(
+                          context,
+                          CreateEditHabit.routeName,
+                        ) as Habit?;
 
-                  // If a new habit was created, reload the habits
-                  if (newHabit != null) {
-                    await _loadAndSeparateHabits();
-                  }
-                },
-              ),
-              Expanded(
-                child: _isLoading
-                    ? const Center(child: CircularProgressIndicator())
-                    : SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            if (_notDoneTodayHabits.isNotEmpty) ...[
-                              HabitList(
-                                title: 'Not Done Today',
-                                habits: _notDoneTodayHabits,
-                              ),
-                              const SizedBox(height: 20),
-                            ],
-                            if (_doneTodayHabits.isNotEmpty)
-                              HabitList(
-                                title: 'Done Today',
-                                habits: _doneTodayHabits,
-                              ),
-                            if (_doneTodayHabits.isEmpty &&
-                                _notDoneTodayHabits.isEmpty)
-                              Align(
-                                alignment: Alignment.topRight,
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                    top: 15,
-                                    right: 35,
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      SvgPicture.asset(
-                                        'assets/bee_button_indicator.svg',
-                                        width: constraints.maxWidth * 0.8,
-                                      ),
-                                      const SizedBox(height: 10),
-                                      Transform.rotate(
-                                        angle: -0.25,
-                                        child: Text(
-                                          'Start by creating\na new habit!',
-                                          textAlign: TextAlign.center,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyMedium!
-                                              .copyWith(
-                                                fontSize: 18,
-                                                color: Colors.white,
+                        // If a new habit was created, reload the habits
+                        if (newHabit != null) {
+                          await _loadAndSeparateHabits();
+                        }
+                      },
+                    ),
+                    Expanded(
+                      child: _isLoading
+                          ? const Center(child: CircularProgressIndicator())
+                          : SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  if (_notDoneTodayHabits.isNotEmpty) ...[
+                                    HabitList(
+                                      title: AppLocalizations.of(context)!
+                                          .notDoneToday,
+                                      habits: _notDoneTodayHabits,
+                                    ),
+                                    const SizedBox(height: 20),
+                                  ],
+                                  if (_doneTodayHabits.isNotEmpty)
+                                    HabitList(
+                                      title: AppLocalizations.of(context)!
+                                          .doneToday,
+                                      habits: _doneTodayHabits,
+                                    ),
+                                  if (_doneTodayHabits.isEmpty &&
+                                      _notDoneTodayHabits.isEmpty)
+                                    Align(
+                                      alignment: Alignment.topRight,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(
+                                          top: 15,
+                                          right: 35,
+                                        ),
+                                        child: Column(
+                                          children: [
+                                            SvgPicture.asset(
+                                              'assets/bee_button_indicator.svg',
+                                              width: constraints.maxWidth * 0.8,
+                                            ),
+                                            const SizedBox(height: 10),
+                                            Transform.rotate(
+                                              angle: -0.25,
+                                              child: Text(
+                                                AppLocalizations.of(context)!
+                                                    .startCreating,
+                                                textAlign: TextAlign.center,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyMedium!
+                                                    .copyWith(
+                                                      fontSize: 18,
+                                                      color: Colors.white,
+                                                    ),
                                               ),
+                                            ),
+                                          ],
                                         ),
                                       ),
-                                    ],
-                                  ),
-                                ),
+                                    ),
+                                ],
                               ),
-                          ],
-                        ),
-                      ),
+                            ),
+                    ),
+                  ],
+                ),
+              ),
+              Align(
+                alignment: Alignment.bottomLeft,
+                child: PlayfulMenu(
+                  alignment: Alignment.topCenter,
+                  colors: cardColors,
+                  buttons: [
+                    ButtonData(
+                        text: AppLocalizations.of(context)!.language,
+                        icon: Icons.language,
+                        onTap: () {
+                          print("AAAAA");
+                        }),
+                    ButtonData(
+                      text: AppLocalizations.of(context)!.myHabits,
+                      icon: Icons.settings,
+                      onTap: () {
+                        print("Settings tapped");
+                      },
+                    ),
+                  ],
+                ),
               ),
             ],
-          ),
-        );
-      }),
+          );
+        },
+      ),
     );
   }
 }
