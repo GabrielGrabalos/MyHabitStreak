@@ -20,7 +20,7 @@ class ButtonData {
 class FloatingActionButtonMenu extends StatefulWidget {
   final List<ButtonData> buttons;
   final List<Color> colors;
-  final Color mainButtonColor = Colors.purple;
+  final Color mainButtonColor;
   final int seed;
   final double buttonSpacing;
 
@@ -30,6 +30,7 @@ class FloatingActionButtonMenu extends StatefulWidget {
     required this.colors,
     this.seed = 14,
     this.buttonSpacing = 70.0,
+    this.mainButtonColor = Colors.purple,
   });
 
   @override

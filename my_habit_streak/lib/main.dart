@@ -1,3 +1,4 @@
+import 'dart:ui'; // Add this import for PlatformDispatcher
 import 'package:flutter/material.dart';
 import 'package:my_habit_streak/l10n/l10n.dart';
 import 'package:my_habit_streak/screens/create_edit_habit.dart';
@@ -12,6 +13,7 @@ import 'models/habit.dart';
 final RouteObserver<ModalRoute> routeObserver = RouteObserver<ModalRoute>();
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -26,14 +28,51 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Locale _locale = const Locale('en', ''); // Default locale
+  Locale? _locale;
 
   void setLocale(Locale value) {
     setState(() {
       _locale = value;
     });
   }
-  // This widget is the root of your application.
+
+  @override
+  void initState() {
+    super.initState();
+    _resolveSystemLocale();
+  }
+
+  void _resolveSystemLocale() {
+    // Get system locales from PlatformDispatcher
+    final systemLocales = PlatformDispatcher.instance.locales;
+
+    // Find best matching supported locale
+    final resolvedLocale = _findBestLocaleMatch(systemLocales);
+    setState(() {
+      _locale = resolvedLocale;
+    });
+  }
+
+  Locale _findBestLocaleMatch(List<Locale> systemLocales) {
+    // Try to find exact match (language + country)
+    for (final locale in systemLocales) {
+      if (L10n.all.contains(locale)) {
+        return locale;
+      }
+    }
+
+    // Try language-only match
+    for (final locale in systemLocales) {
+      final languageOnly = Locale(locale.languageCode);
+      if (L10n.all.contains(languageOnly)) {
+        return languageOnly;
+      }
+    }
+
+    // Fallback to English
+    return const Locale('en');
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

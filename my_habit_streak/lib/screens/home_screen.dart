@@ -186,6 +186,7 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
                   child: FloatingActionButtonMenu(
                     seed: 12,
                     colors: cardColors,
+                    mainButtonColor: pinkTheme,
                     buttons: [
                       ButtonData(
                           text: AppLocalizations.of(context)!.idiom,
