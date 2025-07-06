@@ -3,6 +3,8 @@
   "@@last_modified": "2023-10-15T12:00:00Z",
 
   "language": "Español",
+  "idiom": "Idioma",
+  "privacyPolicy": "Política de Privacidad",
   "appTitle": "Mi Racha de Hábitos",
   "createHabit": "Crear Hábito",
   "editHabit": "Editar Hábito",

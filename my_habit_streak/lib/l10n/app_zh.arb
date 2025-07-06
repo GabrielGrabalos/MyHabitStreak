@@ -3,6 +3,8 @@
   "@@last_modified": "2023-10-15T12:00:00Z",
 
   "language": "中文",
+  "idiom": "语言",
+  "privacyPolicy": "隐私政策",
   "appTitle": "我的习惯打卡",
   "createHabit": "创建习惯",
   "editHabit": "编辑习惯",

@@ -4,11 +4,13 @@ import 'package:my_habit_streak/models/habit.dart';
 import 'package:my_habit_streak/utils/habit_storage_service.dart';
 import 'package:my_habit_streak/widgets/app_scaffold.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:my_habit_streak/widgets/playful_button.dart';
+import 'package:my_habit_streak/widgets/language_selection.dart';
+import 'package:my_habit_streak/widgets/floating_action_button_menu.dart';
 
 import '../main.dart';
 import '../utils/colors.dart';
 import '../widgets/button.dart';
+import '../widgets/dialog_popup.dart';
 import '../widgets/habit_list.dart';
 import '../widgets/header.dart';
 import 'create_edit_habit.dart'; // Your storage service
@@ -179,24 +181,28 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
               ),
               Align(
                 alignment: Alignment.bottomLeft,
-                child: PlayfulMenu(
-                  alignment: Alignment.topCenter,
-                  colors: cardColors,
-                  buttons: [
-                    ButtonData(
-                        text: AppLocalizations.of(context)!.language,
-                        icon: Icons.language,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: FloatingActionButtonMenu(
+                    seed: 12,
+                    colors: cardColors,
+                    buttons: [
+                      ButtonData(
+                          text: AppLocalizations.of(context)!.idiom,
+                          icon: Icons.language,
+                          onTap: () {
+                            showDialog(context: context, builder: (context) {
+                              return LanguageSelection();
+                            });
+                          }),
+                      ButtonData(
+                        text: AppLocalizations.of(context)!.privacyPolicy,
+                        icon: Icons.privacy_tip,
                         onTap: () {
-                          print("AAAAA");
-                        }),
-                    ButtonData(
-                      text: AppLocalizations.of(context)!.myHabits,
-                      icon: Icons.settings,
-                      onTap: () {
-                        print("Settings tapped");
-                      },
-                    ),
-                  ],
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],

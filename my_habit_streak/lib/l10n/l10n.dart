@@ -1,5 +1,9 @@
 import 'dart:ui';
 
+import 'package:flutter/cupertino.dart';
+
+import '../main.dart';
+
 class L10n {
   static final all = const [
     Locale('en', ''), // English
@@ -11,4 +15,8 @@ class L10n {
     Locale('ja', ''), // Japanese
     Locale('ru', ''), // Russian
   ];
+
+  static void load(BuildContext context, Locale locale) {
+    MyApp.of(context).setLocale(locale);
+  }
 }

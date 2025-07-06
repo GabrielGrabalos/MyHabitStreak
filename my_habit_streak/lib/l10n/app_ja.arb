@@ -3,6 +3,8 @@
   "@@last_modified": "2023-10-15T12:00:00Z",
 
   "language": "日本語",
+  "idiom": "言語",
+  "privacyPolicy": "プライバシーポリシー",
   "appTitle": "マイ習慣ストリーク",
   "createHabit": "習慣を作成",
   "editHabit": "習慣を編集",

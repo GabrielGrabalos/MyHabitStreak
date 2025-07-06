@@ -7,6 +7,15 @@
         "description": "Language name for English"
     },
 
+  "idiom": "Language",
+    "@idiom": {
+        "description": "Label for language selection"
+    },
+  "privacyPolicy": "Privacy Policy",
+    "@privacyPolicy": {
+        "description": "Link text for privacy policy"
+    },
+
   "appTitle": "My Habit Streak",
   "@appTitle": {
     "description": "Application title shown in app bar"

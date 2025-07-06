@@ -11,15 +11,28 @@ import 'models/habit.dart';
 
 final RouteObserver<ModalRoute> routeObserver = RouteObserver<ModalRoute>();
 
-
-
 void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+
+  static _MyAppState of(BuildContext context) =>
+      context.findAncestorStateOfType<_MyAppState>()!;
+}
+
+class _MyAppState extends State<MyApp> {
+  Locale _locale = const Locale('en', ''); // Default locale
+
+  void setLocale(Locale value) {
+    setState(() {
+      _locale = value;
+    });
+  }
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -28,6 +41,7 @@ class MyApp extends StatelessWidget {
       theme: textThemeWithWhite,
       navigatorObservers: [routeObserver],
       supportedLocales: L10n.all,
+      locale: _locale,
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
@@ -42,7 +56,8 @@ class MyApp extends StatelessWidget {
           return VisualizeHabit(habit: habit);
         },
         CreateEditHabit.routeName: (context) {
-          final habit = ModalRoute.of(context)?.settings.arguments as Habit? ?? Habit();
+          final habit =
+              ModalRoute.of(context)?.settings.arguments as Habit? ?? Habit();
           return CreateEditHabit(habit: habit);
         },
       },

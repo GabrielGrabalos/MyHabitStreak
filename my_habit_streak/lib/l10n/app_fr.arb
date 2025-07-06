@@ -3,6 +3,8 @@
   "@@last_modified": "2023-10-15T12:00:00Z",
 
   "language": "Français",
+  "idiom": "Langue",
+  "privacyPolicy": "Politique de Confidentialité",
   "appTitle": "Ma Série d'Habitudes",
   "createHabit": "Créer une Habitude",
   "editHabit": "Modifier l'Habitude",

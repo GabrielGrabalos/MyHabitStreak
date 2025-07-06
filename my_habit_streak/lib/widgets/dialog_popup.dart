@@ -15,15 +15,17 @@ class DialogPopup extends StatelessWidget {
   final HabitTheme theme;
   final Color color;
   final bool hasCancelButton;
+  final Widget? child;
 
   const DialogPopup({
     super.key,
-    required this.title,
-    required this.message,
+    this.title = '',
+    this.message = '',
     this.isWarning = false,
     this.theme = HabitTheme.bee,
     this.color = blueTheme,
     this.hasCancelButton = true,
+    this.child,
   });
 
   @override
@@ -46,56 +48,61 @@ class DialogPopup extends StatelessWidget {
                 ),
               ),
               child: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      title,
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 24,
-                            color: isWarning ? Colors.red : Colors.white,
+                child: child ??
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          title,
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleLarge
+                              ?.copyWith(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 24,
+                                color: isWarning ? Colors.red : Colors.white,
+                              ),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 20),
+                        SvgPicture.asset(
+                          !isWarning
+                              ? 'assets/happy_emote.svg'
+                              : 'assets/warning_${theme.name}_emote.svg',
+                          height: 150,
+                        ),
+                        const SizedBox(height: 20),
+                        Text(
+                          message,
+                          style:
+                              Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                    fontSize: 18,
+                                  ),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 25),
+                        // Cancel button if hasCancelButton is true
+                        if (hasCancelButton) ...[
+                          Button(
+                            label: AppLocalizations.of(context)!.cancel,
+                            onPressed: () {
+                              Navigator.of(context).pop(
+                                  false); // Close the dialog and return false
+                            },
+                            color: Colors.grey.shade300,
                           ),
-                      textAlign: TextAlign.center,
+                          const SizedBox(height: 10),
+                        ],
+                        Button(
+                          label: AppLocalizations.of(context)!.confirm,
+                          onPressed: () {
+                            Navigator.of(context)
+                                .pop(true); // Close the dialog and return true
+                          },
+                          color: isWarning ? Colors.red : color,
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: 20),
-                    SvgPicture.asset(
-                      !isWarning
-                          ? 'assets/happy_emote.svg'
-                          : 'assets/warning_${theme.name}_emote.svg',
-                      height: 150,
-                    ),
-                    const SizedBox(height: 20),
-                    Text(
-                      message,
-                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                            fontSize: 18,
-                          ),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 25),
-                    // Cancel button if hasCancelButton is true
-                    if (hasCancelButton) ...[
-                      Button(
-                        label: AppLocalizations.of(context)!.cancel,
-                        onPressed: () {
-                          Navigator.of(context)
-                              .pop(false); // Close the dialog and return false
-                        },
-                        color: Colors.grey.shade300,
-                      ),
-                      const SizedBox(height: 10),
-                    ],
-                    Button(
-                      label: AppLocalizations.of(context)!.confirm,
-                      onPressed: () {
-                        Navigator.of(context)
-                            .pop(true); // Close the dialog and return true
-                      },
-                      color: isWarning ? Colors.red : color,
-                    ),
-                  ],
-                ),
               ),
             ),
             // X mark button to close the dialog
