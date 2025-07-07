@@ -1,4 +1,5 @@
 enum HabitTheme{
   bee,
-  flower
+  flower,
+  ladybug
 }

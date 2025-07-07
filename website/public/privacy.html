@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - My Habit Streak</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* Include all the relevant CSS from your index.html here, especially for the privacy-policy section, body, and general typography. */
+        :root {
+            /* App Color Palette */
+            --done-color: #FCA311;
+            --not-done-color: #1D1D1D3D;
+            --dark-bg: #14213D;
+            --blue-theme: #00BBF9;
+            --green-theme: #00E5C6;
+            --yellow-theme: #FEE54C;
+            --pink-theme: #F15BB5;
+            --purple-theme: #9B5DE5;
+            --white: #FFFFFF;
+            --light-gray: #F5F5F5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--dark-bg) 0%, #1d2c4d 100%);
+            color: var(--white);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header Styles */
+        header {
+            background: rgba(20, 33, 61, 0.8);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--white);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--done-color);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 5px 0;
+        }
+
+        .nav-links a:hover {
+            color: var(--done-color);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: var(--done-color);
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--white);
+        }
+
+        /* Privacy Policy Page */
+        .privacy-policy {
+            padding: 70px 20px 100px;
+            /* Added horizontal padding for small screens */
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .privacy-policy h1 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            color: var(--white);
+        }
+
+        .privacy-policy h2 {
+            font-size: 1.8rem;
+            margin: 40px 0 20px;
+            color: var(--done-color);
+        }
+
+        .privacy-policy p {
+            margin-bottom: 20px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .privacy-policy ul {
+            margin-left: 30px;
+            margin-bottom: 30px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .privacy-policy li {
+            margin-bottom: 10px;
+        }
+
+        .back-to-home {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 30px;
+            color: var(--done-color);
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .back-to-home:hover {
+            color: var(--white);
+            transform: translateX(-5px);
+        }
+
+        @media (max-width: 992px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero-content p {
+                margin: 0 auto 30px;
+            }
+
+            .character-container {
+                margin-top: 40px;
+            }
+
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: var(--dark-bg);
+                padding: 20px;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero-content h1 {
+                font-size: 2.8rem;
+            }
+
+            .section-title h2 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .privacy-policy h1 {
+                font-size: 2rem;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .privacy-policy h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="/" class="logo">
+                    <svg width="40" height="40" viewBox="0 0 90 77" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M24.2084 19.7122C21.5841 15.8831 22.5608 10.6515 26.39 8.02719C30.2191 5.40288 35.4507 6.37959 38.075 10.2087L46.153 21.9954L32.2864 31.4988L24.2084 19.7122Z"
+                            fill="#E5E5E5" />
+                        <rect x="84.0762" y="49.5079" width="2.94187" height="9.24587" rx="1.47093"
+                            transform="rotate(97.6297 84.0762 49.5079)" fill="black" />
+                        <rect x="15.3875" y="17.8336" width="67.663" height="50.0118" rx="25.0059"
+                            transform="rotate(7.62968 15.3875 17.8336)" fill="#FCA311" />
+                        <rect x="9.97229" y="17.1082" width="64.3008" height="50.0118" rx="24.3755"
+                            transform="rotate(7.62968 9.97229 17.1082)" fill="black" />
+                        <rect x="6.63989" y="16.6619" width="50.0118" height="50.0118" rx="25.0059"
+                            transform="rotate(7.62968 6.63989 16.6619)" fill="#FCA311" />
+                        <rect x="25.8193" y="34.9198" width="4.62294" height="9.24587" rx="2.31147"
+                            transform="rotate(7.62968 25.8193 34.9198)" fill="black" />
+                        <rect x="9.57397" y="32.7437" width="4.62294" height="9.24587" rx="2.31147"
+                            transform="rotate(7.62968 9.57397 32.7437)" fill="black" />
+                        <path
+                            d="M22.0904 46.9289C22.5505 46.9906 22.8796 47.4164 22.7507 47.8623C22.6225 48.3062 22.4402 48.7337 22.2072 49.1352C21.8332 49.7796 21.3359 50.344 20.7438 50.7962C20.1517 51.2484 19.4763 51.5796 18.7562 51.7708C18.0361 51.962 17.2853 52.0095 16.5469 51.9106C15.8084 51.8117 15.0966 51.5683 14.4522 51.1943C13.8078 50.8203 13.2434 50.323 12.7912 49.7309C12.3389 49.1388 12.0078 48.4634 11.8166 47.7433C11.6974 47.2947 11.6341 46.8342 11.6272 46.3723C11.6202 45.9081 12.0498 45.5839 12.5099 45.6456L17.3001 46.2872L22.0904 46.9289Z"
+                            fill="black" />
+                        <path
+                            d="M56.8815 12.9209C60.3565 10.0209 65.5244 10.4872 68.4243 13.9622C71.3243 17.4373 70.858 22.6052 67.383 25.5051L56.5734 34.5257L46.0719 21.9414L56.8815 12.9209Z"
+                            fill="#E5E5E5" />
+                    </svg>
+                    <span>My Habit Streak</span>
+                </a>
+                <div class="nav-links" id="navLinks">
+                    <a href="/#home">Home</a>
+                    <a href="/#features">Features</a>
+                    <a href="/#download">Download</a>
+                    <a href="/privacy-policy">Privacy Policy</a>
+                </div>
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="privacy-policy">
+        <a href="/" class="back-to-home">
+            <i class="fas fa-arrow-left"></i> Back to Home
+        </a>
+        <h1>Privacy Policy</h1>
+        <p>Your privacy is important to us. This Privacy Policy explains how My Habit Streak collects, uses, and
+            protects your information.</p>
+
+        <h2>Information We Collect</h2>
+        <p>My Habit Streak is designed with your privacy in mind. We do not collect any personal data, usage statistics,
+            or any other information from our users. All your habit data is stored locally on your device.</p>
+
+        <h2>How We Use Your Information</h2>
+        <p>Since we do not collect any information, we do not use your information in any way.</p>
+
+        <h2>Data Security</h2>
+        <p>Your habit data is stored securely on your device. We do not transmit it to any external servers. This means
+            your data is always under your control.</p>
+
+        <h2>Changes to This Privacy Policy</h2>
+        <p>We may update our Privacy Policy from time to time. We will notify you of any changes by updating the "Last
+            updated" date on this page. You are advised to review this Privacy Policy periodically for any changes.</p>
+
+        <h2>Contact Us</h2>
+        <p>If you have any questions about this Privacy Policy, please contact us at:</p>
+        <ul>
+            <li>Email: support@myhabitstreak.com</li>
+        </ul>
+        <p>Last updated: July 5, 2025</p>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const navLinks = document.getElementById('navLinks');
+
+            if (mobileMenuBtn && navLinks) {
+                mobileMenuBtn.addEventListener('click', function () {
+                    navLinks.classList.toggle('active');
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

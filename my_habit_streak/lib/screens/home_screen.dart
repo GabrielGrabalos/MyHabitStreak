@@ -6,6 +6,7 @@ import 'package:my_habit_streak/widgets/app_scaffold.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:my_habit_streak/widgets/language_selection.dart';
 import 'package:my_habit_streak/widgets/floating_action_button_menu.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../main.dart';
 import '../utils/colors.dart';
@@ -199,7 +200,15 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
                       ButtonData(
                         text: AppLocalizations.of(context)!.privacyPolicy,
                         icon: Icons.privacy_tip,
-                        onTap: () {
+                        onTap: () async {
+                          final url = Uri.parse(
+                            'https://my-habit-streak.web.app/privacy-policy',
+                          );
+                          // Attempt to launch the URL in an in-app web view:
+                          // redirect to privacy policy URL:
+                          if (!await launchUrl(url, mode: LaunchMode.inAppBrowserView)) {
+                            throw Exception('Could not launch $url');
+                          }
                         },
                       ),
                     ],

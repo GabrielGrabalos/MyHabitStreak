@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://my-habit-streak.web.app/sitemap.xml
