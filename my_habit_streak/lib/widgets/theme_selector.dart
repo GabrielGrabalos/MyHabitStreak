@@ -26,39 +26,41 @@ class ThemeSelector extends StatelessWidget {
           fit: BoxFit.contain,
         ),
         SizedBox(height: 20),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: HabitTheme.values.map((theme) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: GestureDetector(
-                onTap: () {
-                  // Call the onChanged callback when a theme is selected
-                  onChanged(theme);
-                },
-                child: Container(
-                  width: 70,
-                  height: 70,
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: selectedTheme == theme
-                          ? color
-                          : Colors.transparent,
-                      width: 3,
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: HabitTheme.values.map((theme) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: GestureDetector(
+                  onTap: () {
+                    // Call the onChanged callback when a theme is selected
+                    onChanged(theme);
+                  },
+                  child: Container(
+                    width: 70,
+                    height: 70,
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color:
+                            selectedTheme == theme ? color : Colors.transparent,
+                        width: 3,
+                      ),
+                      borderRadius: BorderRadius.circular(100),
                     ),
-                    borderRadius: BorderRadius.circular(100),
-                  ),
-                  child: SvgPicture.asset(
-                    'assets/${theme.name}.svg',
-                    height: 50,
-                    fit: BoxFit.contain,
+                    child: SvgPicture.asset(
+                      'assets/${theme.name}.svg',
+                      height: 50,
+                      fit: BoxFit.contain,
+                    ),
                   ),
                 ),
-              ),
-            );
-          }).toList(),
-        )
+              );
+            }).toList(),
+          ),
+        ),
       ],
     );
   }

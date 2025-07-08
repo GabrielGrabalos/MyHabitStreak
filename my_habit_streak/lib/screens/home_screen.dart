@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart'; // Using Material Design widgets
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:my_habit_streak/models/habit.dart';
+import 'package:my_habit_streak/utils/general_storage_service.dart';
 import 'package:my_habit_streak/utils/habit_storage_service.dart';
 import 'package:my_habit_streak/widgets/app_scaffold.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:my_habit_streak/widgets/language_selection.dart';
 import 'package:my_habit_streak/widgets/floating_action_button_menu.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../main.dart';
+import '../notifications/ask_for_notification_popup.dart';
 import '../utils/colors.dart';
-import '../widgets/button.dart';
-import '../widgets/dialog_popup.dart';
 import '../widgets/habit_list.dart';
 import '../widgets/header.dart';
 import 'create_edit_habit.dart'; // Your storage service
@@ -36,6 +37,7 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
   void initState() {
     super.initState();
     _loadAndSeparateHabits(); // Load and separate habits when the screen initializes
+    _dealWithNotificationPermission(); // Check notification permission
   }
 
   // Subscribe to route observer
@@ -58,6 +60,34 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _loadAndSeparateHabits(); // Reload habits when returning to this screen
     });
+  }
+
+  void _dealWithNotificationPermission() async {
+    // Check if notification permission is granted
+    final status = await Permission.notification.status;
+
+    if (status.isGranted) return; // Already granted
+
+    final notShowPopup = await GeneralStorageService().getData(
+          'not_show_notification_popup',
+        ) as bool? ??
+        false;
+
+    if (notShowPopup) return; // User opted out of the popup
+
+    if (!mounted) return; // Ensure the widget is still mounted
+
+    // Show the notification permission dialog
+    final shouldRequestNotification = await showDialog(
+        context: context,
+        builder: (context) {
+          return AskForNotificationPopup(
+              isPermanentlyDenied: status.isPermanentlyDenied);
+        });
+
+    if (shouldRequestNotification == true) {
+      await Permission.notification.request();
+    }
   }
 
   // Method to load all habits and separate them
@@ -193,9 +223,11 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
                           text: AppLocalizations.of(context)!.idiom,
                           icon: Icons.language,
                           onTap: () {
-                            showDialog(context: context, builder: (context) {
-                              return LanguageSelection();
-                            });
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return LanguageSelection();
+                                });
                           }),
                       ButtonData(
                         text: AppLocalizations.of(context)!.privacyPolicy,
@@ -206,7 +238,8 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
                           );
                           // Attempt to launch the URL in an in-app web view:
                           // redirect to privacy policy URL:
-                          if (!await launchUrl(url, mode: LaunchMode.inAppBrowserView)) {
+                          if (!await launchUrl(url,
+                              mode: LaunchMode.inAppBrowserView)) {
                             throw Exception('Could not launch $url');
                           }
                         },

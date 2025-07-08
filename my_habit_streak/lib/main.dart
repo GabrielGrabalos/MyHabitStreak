@@ -7,14 +7,27 @@ import 'package:my_habit_streak/screens/visualize_habit.dart';
 import 'package:my_habit_streak/theme.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
+import 'package:my_habit_streak/utils/habit_storage_service.dart';
 import 'models/habit.dart';
+import 'notifications/notification_service.dart';
 
 final RouteObserver<ModalRoute> routeObserver = RouteObserver<ModalRoute>();
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const MyApp());
+
+  // Initialize notification service
+  final notificationService = NotificationService();
+  await notificationService.initialize();
+
+  // Initialize your habit storage
+  final habitStorage = HabitStorageService();
+
+  // Schedule notifications
+  await notificationService.scheduleDailyNotifications(habitStorage);
+  await notificationService.scheduleTestNotification();
+
+  runApp(MyApp());
 }
 
 class MyApp extends StatefulWidget {
