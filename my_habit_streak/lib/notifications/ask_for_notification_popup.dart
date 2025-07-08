@@ -4,6 +4,7 @@ import 'package:my_habit_streak/utils/general_storage_service.dart';
 import 'package:my_habit_streak/widgets/button.dart';
 import 'package:my_habit_streak/widgets/dialog_popup.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AskForNotificationPopup extends StatelessWidget {
   final bool isPermanentlyDenied;
@@ -15,19 +16,18 @@ class AskForNotificationPopup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return !isPermanentlyDenied
-        ? const DialogPopup(
-            title: "Notifications",
-            message:
-                "Allow us to send you some notifications to help you never forget "
-                "about your new habits! We promise not to abuse it!",
+        ? DialogPopup(
+            title: l10n.notificationsTitle,
+            message: l10n.notificationsMessage,
           )
         : DialogPopup(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  "Notifications",
+                  l10n.notificationsTitle,
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
                         color: Colors.white,
                       ),
@@ -37,7 +37,7 @@ class AskForNotificationPopup extends StatelessWidget {
                     height: 100, fit: BoxFit.contain),
                 const SizedBox(height: 20),
                 Text(
-                  "Are you sure you want to permanently deny notifications?",
+                  l10n.permanentlyDeniedMessage,
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                         color: Colors.white,
@@ -46,7 +46,7 @@ class AskForNotificationPopup extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 Button(
-                  label: "Open Settings",
+                  label: l10n.openSettings,
                   padding: const EdgeInsets.symmetric(
                     horizontal: 20,
                     vertical: 10,
@@ -57,7 +57,7 @@ class AskForNotificationPopup extends StatelessWidget {
                   },
                 ),
                 Button(
-                    label: "Don't ask again",
+                    label: l10n.dontAskAgain,
                     padding: const EdgeInsets.symmetric(
                       horizontal: 20,
                       vertical: 10,

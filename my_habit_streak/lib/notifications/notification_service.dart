@@ -3,8 +3,10 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:flutter_timezone/flutter_timezone.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../models/habit.dart';
+import '../utils/general_storage_service.dart';
 import '../utils/habit_storage_service.dart';
 
 class NotificationService {
@@ -52,14 +54,12 @@ class NotificationService {
   }
 
   Future<void> scheduleTestNotification() async {
-    final scheduledTime =
-        tz.TZDateTime.now(tz.local).add(const Duration(minutes: 1));
-
-    await flutterLocalNotificationsPlugin.zonedSchedule(
+    final locale = await GeneralStorageService().getData('language') ?? 'en';
+    final l10n = await AppLocalizations.delegate.load(Locale(locale));
+    await flutterLocalNotificationsPlugin.show(
       999, // Unique ID for test notification
-      'Test Notification',
-      'This is a test notification scheduled to appear 1 minute after setup',
-      scheduledTime,
+      l10n.testNotificationTitle,
+      l10n.testNotificationBody,
       NotificationDetails(
         android: AndroidNotificationDetails(
           'test_channel_id',
@@ -69,17 +69,23 @@ class NotificationService {
           priority: Priority.high,
           color: Colors.blue,
           enableVibration: true,
-          largeIcon: const DrawableResourceAndroidBitmap('ic_stat_bee'),
-          styleInformation: BigTextStyleInformation(
-              'This test notification confirms your notification system is working correctly'),
+          largeIcon: const DrawableResourceAndroidBitmap('bee_sad'),
+          styleInformation: BigTextStyleInformation(l10n.testNotificationBody),
         ),
       ),
-      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
     );
+  }
+
+  // Add to NotificationService class
+  Future<String> _getCurrentLocale() async {
+    return await GeneralStorageService().getData('language') ?? 'en';
   }
 
   Future<void> scheduleDailyNotifications(
       HabitStorageService habitStorage) async {
+    final locale = await _getCurrentLocale();
+    final l10n = await AppLocalizations.delegate.load(Locale(locale));
+
     // Cancel any existing notifications
     await flutterLocalNotificationsPlugin.cancelAll();
 
@@ -92,8 +98,9 @@ class NotificationService {
       hour: 8,
       minute: 0,
       habits: habits,
-      title: 'Good Morning!',
-      body: 'Time to check your habits for the day',
+      title: l10n.goodMorning,
+      body: l10n.morningHabitCheck,
+      l10n: l10n,
     );
 
     await _scheduleNotification(
@@ -101,8 +108,9 @@ class NotificationService {
       hour: 12,
       minute: 0,
       habits: habits,
-      title: 'Midday Check-in',
-      body: 'How are your habits progressing?',
+      title: l10n.middayCheckin,
+      body: l10n.middayProgress,
+      l10n: l10n,
     );
 
     await _scheduleNotification(
@@ -110,8 +118,9 @@ class NotificationService {
       hour: 17,
       minute: 0,
       habits: habits,
-      title: 'Evening Update',
-      body: 'Time to review your daily habits',
+      title: l10n.eveningUpdate,
+      body: l10n.eveningReview,
+      l10n: l10n,
     );
 
     await _scheduleNotification(
@@ -119,8 +128,9 @@ class NotificationService {
       hour: 21,
       minute: 0,
       habits: habits,
-      title: 'Nightly Reflection',
-      body: 'How did you do with your habits today?',
+      title: l10n.nightlyReflection,
+      body: l10n.dailyPerformance,
+      l10n: l10n,
     );
 
     await _scheduleNotification(
@@ -128,8 +138,9 @@ class NotificationService {
       hour: 23,
       minute: 0,
       habits: habits,
-      title: 'Final Reminder',
-      body: 'Last chance to complete your habits today',
+      title: l10n.finalReminder,
+      body: l10n.lastChance,
+      l10n: l10n,
     );
   }
 
@@ -140,6 +151,7 @@ class NotificationService {
     required List<Habit> habits,
     required String title,
     required String body,
+    required AppLocalizations l10n,
   }) async {
     // Customize the notification based on habits
     final completedHabits = habits.where((h) => h.isTodayDone).length;
@@ -151,9 +163,9 @@ class NotificationService {
     final detailedBody = '''
 $body
 
-Today's progress: $progress% complete
-${completedHabits} of ${totalHabits} habits done
-${_getMotivationalMessage(progress)}
+${l10n.progressComplete(progress)}
+${l10n.habitsDone(completedHabits, totalHabits)}
+${_getMotivationalMessage(progress, l10n)}
 ''';
 
     // Schedule the notification
@@ -171,7 +183,8 @@ ${_getMotivationalMessage(progress)}
           priority: Priority.high,
           color: Colors.blue,
           enableVibration: true,
-          largeIcon: const DrawableResourceAndroidBitmap('ic_stat_bee'),
+          largeIcon: DrawableResourceAndroidBitmap(
+              'bee${progress == 0 ? '_sad' : ''}'),
           styleInformation: BigTextStyleInformation(detailedBody),
         ),
         iOS: const DarwinNotificationDetails(
@@ -186,11 +199,11 @@ ${_getMotivationalMessage(progress)}
     );
   }
 
-  String _getMotivationalMessage(int progress) {
-    if (progress == 0) return "You've got this! Start with one small habit.";
-    if (progress < 50) return "Keep going! Every habit counts.";
-    if (progress < 100) return "Great progress! Finish strong!";
-    return "Amazing! You completed all your habits today!";
+  String _getMotivationalMessage(int progress, AppLocalizations l10n) {
+    if (progress == 0) return l10n.motivationStart;
+    if (progress < 50) return "${l10n.motivationKeepGoing}🔥";
+    if (progress < 100) return "${l10n.motivationGreatProgress}🚀";
+    return "${l10n.motivationAmazing}😁";
   }
 
   tz.TZDateTime _nextInstanceOfTime(int hour, int minute) {
@@ -206,7 +219,8 @@ ${_getMotivationalMessage(progress)}
 
     if (scheduledDate.isBefore(now)) {
       scheduledDate = scheduledDate.add(const Duration(days: 1));
-      print('Scheduled date was in the past, moving to next day: $scheduledDate');
+      print(
+          'Scheduled date was in the past, moving to next day: $scheduledDate');
     }
 
     return scheduledDate;

@@ -7,6 +7,7 @@ import 'package:my_habit_streak/screens/visualize_habit.dart';
 import 'package:my_habit_streak/theme.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:my_habit_streak/utils/general_storage_service.dart';
 import 'package:my_habit_streak/utils/habit_storage_service.dart';
 import 'models/habit.dart';
 import 'notifications/notification_service.dart';
@@ -25,7 +26,6 @@ void main() async {
 
   // Schedule notifications
   await notificationService.scheduleDailyNotifications(habitStorage);
-  await notificationService.scheduleTestNotification();
 
   runApp(MyApp());
 }
@@ -46,6 +46,7 @@ class _MyAppState extends State<MyApp> {
   void setLocale(Locale value) {
     setState(() {
       _locale = value;
+      GeneralStorageService().saveData('language', value.languageCode);
     });
   }
 
@@ -55,15 +56,23 @@ class _MyAppState extends State<MyApp> {
     _resolveSystemLocale();
   }
 
-  void _resolveSystemLocale() {
+  void _resolveSystemLocale() async {
+    final savedPreferences = await GeneralStorageService().getData('language')
+        as String?; // Comes as locale language code
+
+    print('Saved locale: $savedPreferences');
+
+    if (savedPreferences != null) {
+      // If a saved locale exists, use it
+      setLocale(Locale(savedPreferences));
+      return;
+    }
     // Get system locales from PlatformDispatcher
     final systemLocales = PlatformDispatcher.instance.locales;
 
     // Find best matching supported locale
     final resolvedLocale = _findBestLocaleMatch(systemLocales);
-    setState(() {
-      _locale = resolvedLocale;
-    });
+    setLocale(resolvedLocale);
   }
 
   Locale _findBestLocaleMatch(List<Locale> systemLocales) {
@@ -94,6 +103,7 @@ class _MyAppState extends State<MyApp> {
       navigatorObservers: [routeObserver],
       supportedLocales: L10n.all,
       locale: _locale,
+      debugShowCheckedModeBanner: false,
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,

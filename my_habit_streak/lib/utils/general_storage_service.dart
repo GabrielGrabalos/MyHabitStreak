@@ -5,6 +5,7 @@ class GeneralStorageService {
   static const String _generalKeyPrefix = 'general_';
 
   Future<void> saveData(String key, dynamic value) async {
+    print('saving data with key: $key, value: $value');
     final dataObject = {
       'value': value,
       'type': value.runtimeType.toString(),
@@ -18,6 +19,7 @@ class GeneralStorageService {
   Future<dynamic> getData(String key) async {
     // Read the stored string using the key
     final storedValue = await _storage.read(key: _generalKeyPrefix + key);
+    print('getting data with key: $key, value: $storedValue');
     if (storedValue == null) return null;
 
     try {
