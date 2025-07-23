@@ -42,6 +42,7 @@ class _FloatingActionButtonMenuState extends State<FloatingActionButtonMenu>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   bool _isOpen = false;
+  bool _isAnimating = false; // Track animation state
   late List<double> _tilts;
   late List<Color> _assignedColors;
   OverlayEntry? _overlayEntry;
@@ -72,18 +73,33 @@ class _FloatingActionButtonMenuState extends State<FloatingActionButtonMenu>
   }
 
   void _toggleMenu() {
+    // Prevent multiple animations
+    if (_isAnimating) return;
+
     setState(() => _isOpen = !_isOpen);
+    _isAnimating = true;
 
     if (_isOpen) {
       _showOverlay();
-      _controller.forward();
+      _controller.forward().then((_) {
+        if (mounted) {
+          setState(() => _isAnimating = false);
+        }
+      });
     } else {
-      _controller.reverse().then((_) => _removeOverlay());
+      _controller.reverse().then((_) {
+        _removeOverlay();
+        if (mounted) {
+          setState(() => _isAnimating = false);
+        }
+      });
     }
   }
 
   void _showOverlay() {
-    final renderBox = context.findRenderObject() as RenderBox;
+    final renderBox = context.findRenderObject() as RenderBox?;
+    if (renderBox == null) return;
+
     final position = renderBox.localToGlobal(Offset.zero);
     final size = renderBox.size;
 

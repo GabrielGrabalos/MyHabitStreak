@@ -8,11 +8,10 @@ import 'package:my_habit_streak/widgets/dialog_popup.dart';
 import 'package:my_habit_streak/widgets/header.dart';
 import 'package:my_habit_streak/widgets/streak_calendar.dart';
 import 'package:my_habit_streak/widgets/streak_week.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../l10n/app_localizations.dart';
 
 import '../models/habit.dart';
 import '../utils/colors.dart';
-import '../utils/habit_theme.dart';
 
 class VisualizeHabit extends StatefulWidget {
   static const String routeName = '/visualize-habit';

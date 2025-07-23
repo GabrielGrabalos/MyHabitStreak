@@ -4,7 +4,7 @@ import 'package:my_habit_streak/models/habit.dart';
 import 'package:my_habit_streak/utils/general_storage_service.dart';
 import 'package:my_habit_streak/utils/habit_storage_service.dart';
 import 'package:my_habit_streak/widgets/app_scaffold.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../l10n/app_localizations.dart';
 import 'package:my_habit_streak/widgets/language_selection.dart';
 import 'package:my_habit_streak/widgets/floating_action_button_menu.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -37,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
   void initState() {
     super.initState();
     _loadAndSeparateHabits(); // Load and separate habits when the screen initializes
-    _dealWithNotificationPermission(); // Check notification permission
+    //_dealWithNotificationPermission(); // Check notification permission
   }
 
   // Subscribe to route observer
@@ -144,7 +144,9 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
 
                         // If a new habit was created, reload the habits
                         if (newHabit != null) {
-                          await _loadAndSeparateHabits();
+                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                            _loadAndSeparateHabits();
+                          });
                         }
                       },
                     ),

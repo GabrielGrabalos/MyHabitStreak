@@ -4,7 +4,7 @@ import 'package:my_habit_streak/utils/general_storage_service.dart';
 import 'package:my_habit_streak/widgets/button.dart';
 import 'package:my_habit_streak/widgets/dialog_popup.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../l10n/app_localizations.dart';
 
 class AskForNotificationPopup extends StatelessWidget {
   final bool isPermanentlyDenied;

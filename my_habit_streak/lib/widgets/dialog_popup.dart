@@ -6,7 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:my_habit_streak/utils/colors.dart';
 import 'package:my_habit_streak/utils/habit_theme.dart';
 import 'package:my_habit_streak/widgets/button.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../l10n/app_localizations.dart';
 
 class DialogPopup extends StatelessWidget {
   final String title;
