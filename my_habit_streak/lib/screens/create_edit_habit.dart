@@ -31,6 +31,7 @@ class _CreateEditHabitState extends State<CreateEditHabit> {
   final TextEditingController _descriptionController = TextEditingController();
   String originalTitle = '';
   bool isCreatingNewHabit = true;
+  bool isLoading = false; // Loading state for delete button
 
   void _initializeHabit() {
     setState(() {
@@ -184,6 +185,7 @@ class _CreateEditHabitState extends State<CreateEditHabit> {
                     ),
                   ),
                   Button(
+                    isLoading: isLoading,
                     padding: const EdgeInsets.symmetric(
                         vertical: 16, horizontal: 16.0),
                     label: AppLocalizations.of(context)!.saveHabit,
@@ -194,6 +196,7 @@ class _CreateEditHabitState extends State<CreateEditHabit> {
                           title: _titleController.text,
                           description: _descriptionController.text,
                         );
+                        isLoading = true; // Set loading state to true
                       });
 
                       if (!_editableHabit.isHabitValid()) {
@@ -219,18 +222,28 @@ class _CreateEditHabitState extends State<CreateEditHabit> {
                           },
                         );
 
+                        setState(() {
+                          isLoading = false; // Reset loading state
+                        });
+
                         return;
                       }
 
                       // Save the habit using the storage service
-                      CreateEditHabit.habitStorageService
+                      await CreateEditHabit.habitStorageService
                           .saveOrUpdateHabit(originalTitle, _editableHabit);
+
+                      setState(() {
+                        isLoading = false; // Reset loading state
+                      });
 
                       // Navigate back or perform save action
                       Navigator.pop(context, _editableHabit);
                     },
                     color: _editableHabit.color,
                   ),
+
+                  // Delete button, only shown when editing an existing habit
                   if (!isCreatingNewHabit)
                     Button(
                       padding: const EdgeInsets.symmetric(
@@ -253,9 +266,17 @@ class _CreateEditHabitState extends State<CreateEditHabit> {
                         );
                         if (!confirmDelete) return;
 
+                        setState(() {
+                          isLoading = true; // Set loading state to true
+                        });
+
                         // Delete the habit using the storage service
-                        CreateEditHabit.habitStorageService
+                        await CreateEditHabit.habitStorageService
                             .deleteHabit(_editableHabit.title);
+
+                        setState(() {
+                          isLoading = false; // Reset loading state
+                        });
 
                         // Navigate back after deletion
                         Navigator.pop(context);

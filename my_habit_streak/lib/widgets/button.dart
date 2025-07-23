@@ -2,37 +2,48 @@ import 'package:flutter/material.dart';
 import 'package:my_habit_streak/utils/colors.dart';
 import 'package:vibration/vibration.dart';
 
-// The Button widget is now a StatefulWidget to manage its animated state.
 class Button extends StatefulWidget {
   final String label;
   final VoidCallback onPressed;
   final Color color;
   final EdgeInsetsGeometry? padding;
+  final bool isLoading; // New isLoading parameter
 
-  const Button(
-      {super.key,
-      required this.label,
-      required this.onPressed,
-      this.color = blueTheme,
-      this.padding});
+  const Button({
+    super.key,
+    required this.label,
+    required this.onPressed,
+    this.color = blueTheme,
+    this.padding,
+    this.isLoading = false, // Default to false
+  });
 
   @override
   State<Button> createState() => _ButtonState();
 }
 
 class _ButtonState extends State<Button> {
-  // State variable to control the width of the bottom border.
   double _bottomBorderWidth = 10.0;
-
-  // State variable to control the vertical offset (simulating movement).
   double _verticalOffset = 0.0;
 
-  // Handles the button being touched down (press starts).
+  @override
+  void didUpdateWidget(covariant Button oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // Reset pressed state when loading starts
+    if (widget.isLoading && !oldWidget.isLoading) {
+      setState(() {
+        _bottomBorderWidth = 10.0;
+        _verticalOffset = 0.0;
+      });
+    }
+  }
+
   void _handleTapDown(TapDownDetails details) async {
+    if (widget.isLoading) return; // Ignore when loading
+
     setState(() {
-      _bottomBorderWidth =
-          3.0; // Bottom border width becomes 3.0 (normal width).
-      _verticalOffset = 7.0; // Button moves down by 7.0 units.
+      _bottomBorderWidth = 3.0;
+      _verticalOffset = 7.0;
     });
 
     if (await Vibration.hasAmplitudeControl()) {
@@ -40,21 +51,22 @@ class _ButtonState extends State<Button> {
     }
   }
 
-  // Handles the button being touched up (press ends).
   void _handleTapUp(TapUpDetails details) {
+    if (widget.isLoading) return; // Ignore when loading
+
     setState(() {
-      _bottomBorderWidth = 10.0; // Revert to original bottom border width.
-      _verticalOffset = 0.0; // Revert to original vertical position.
+      _bottomBorderWidth = 10.0;
+      _verticalOffset = 0.0;
     });
-    // Call the original onPressed callback when the touch ends.
     widget.onPressed.call();
   }
 
-  // Handles when the touch is cancelled (e.g., finger slides off the button).
   void _handleTapCancel() {
+    if (widget.isLoading) return; // Ignore when loading
+
     setState(() {
-      _bottomBorderWidth = 10.0; // Revert to original bottom border width.
-      _verticalOffset = 0.0; // Revert to original vertical position.
+      _bottomBorderWidth = 10.0;
+      _verticalOffset = 0.0;
     });
   }
 
@@ -63,29 +75,22 @@ class _ButtonState extends State<Button> {
     return Padding(
       padding: widget.padding ?? const EdgeInsets.all(0.0),
       child: SizedBox(
-        width: double.infinity, // Makes button 100% width
+        width: double.infinity,
         child: GestureDetector(
-          // GestureDetector to detect touch down and up events.
-          onTapDown: _handleTapDown, // Call when touch starts.
-          onTapUp: _handleTapUp, // Call when touch ends.
-          onTapCancel: _handleTapCancel, // Call if touch is cancelled.
+          onTapDown: widget.isLoading ? null : _handleTapDown,
+          onTapUp: widget.isLoading ? null : _handleTapUp,
+          onTapCancel: widget.isLoading ? null : _handleTapCancel,
           child: AnimatedContainer(
-            // AnimatedContainer handles smooth transitions for its properties.
             duration: const Duration(milliseconds: 80),
-            // Duration of the animation.
             curve: Curves.easeOut,
-            // Animation curve for a smooth deceleration.
-            // Apply the vertical offset as a top margin, pushing the button down.
             margin: EdgeInsets.only(top: _verticalOffset),
             decoration: BoxDecoration(
-              color: Colors.transparent, // Background of the container.
+              color: Colors.transparent,
               borderRadius: BorderRadius.circular(25.0),
               border: Border(
-                // Define individual borders for the Container.
                 top: BorderSide(color: widget.color, width: 3),
                 left: BorderSide(color: widget.color, width: 3),
                 right: BorderSide(color: widget.color, width: 3),
-                // The bottom border width is controlled by the state variable.
                 bottom: BorderSide(
                   color: widget.color,
                   width: _bottomBorderWidth,
@@ -93,23 +98,28 @@ class _ButtonState extends State<Button> {
               ),
             ),
             child: TextButton(
-              // onPressed is set to null here because GestureDetector is handling the tap events
-              // and will call widget.onPressed manually.
-              onPressed: null,
+              onPressed: null, // Always null, handled by GestureDetector
               style: TextButton.styleFrom(
                 backgroundColor: Colors.transparent,
-                // Ensure TextButton itself has transparent background.
-                padding: const EdgeInsets.all(16), // Adjust padding as needed.
-                // The 'side' property is not used here as the border is handled by the parent Container.
+                padding: const EdgeInsets.all(16),
               ),
-              child: Text(
+              child: widget.isLoading
+                  ? SizedBox(
+                width: 24,
+                height: 24,
+                child: CircularProgressIndicator(
+                  strokeWidth: 3.0,
+                  valueColor: AlwaysStoppedAnimation<Color>(widget.color),
+                ),
+              )
+                  : Text(
                 widget.label,
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                      fontSize: 20,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  fontSize: 20,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ),
