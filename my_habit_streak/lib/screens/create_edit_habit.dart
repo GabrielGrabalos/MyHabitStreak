@@ -15,8 +15,6 @@ import '../models/habit.dart';
 class CreateEditHabit extends StatefulWidget {
   static const String routeName = '/create-edit-habit';
   final Habit habit;
-  static HabitStorageService habitStorageService =
-      HabitStorageService(); // Singleton instance for habit storage
 
   const CreateEditHabit({super.key, required this.habit});
 
@@ -230,8 +228,8 @@ class _CreateEditHabitState extends State<CreateEditHabit> {
                       }
 
                       // Save the habit using the storage service
-                      await CreateEditHabit.habitStorageService
-                          .saveOrUpdateHabit(originalTitle, _editableHabit);
+                      await HabitStorageService.saveOrUpdateHabit(
+                          originalTitle, _editableHabit);
 
                       setState(() {
                         isLoading = false; // Reset loading state
@@ -271,8 +269,8 @@ class _CreateEditHabitState extends State<CreateEditHabit> {
                         });
 
                         // Delete the habit using the storage service
-                        await CreateEditHabit.habitStorageService
-                            .deleteHabit(_editableHabit.title);
+                        await HabitStorageService.deleteHabit(
+                            _editableHabit.title);
 
                         setState(() {
                           isLoading = false; // Reset loading state

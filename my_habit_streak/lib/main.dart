@@ -33,7 +33,7 @@ class _MyAppState extends State<MyApp> {
   void setLocale(Locale value) {
     setState(() {
       _locale = value;
-      GeneralStorageService().saveData('language', value.languageCode);
+      GeneralStorageService.saveData('language', value.languageCode);
     });
   }
 
@@ -44,14 +44,14 @@ class _MyAppState extends State<MyApp> {
   }
 
   void _resolveSystemLocale() async {
-    final savedPreferences = await GeneralStorageService().getData('language')
+    final savedPreferences = await GeneralStorageService.getData('language')
         as String?; // Comes as locale language code
-
-    print('Saved locale: $savedPreferences');
 
     if (savedPreferences != null) {
       // If a saved locale exists, use it
-      setLocale(Locale(savedPreferences));
+      setState(() {
+        _locale = Locale(savedPreferences);
+      });
       return;
     }
     // Get system locales from PlatformDispatcher

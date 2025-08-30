@@ -33,7 +33,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get description => 'Beschreibung';
 
   @override
-  String get noDescription => 'Keine Beschreibung vorhanden.';
+  String get noDescription => 'Keine Beschreibung vorhanden。';
 
   @override
   String get saveHabit => 'Gewohnheit speichern';
@@ -54,13 +54,13 @@ class AppLocalizationsDe extends AppLocalizations {
   String get invalidHabit => 'Ungültige Gewohnheit';
 
   @override
-  String get invalidHabitMessage => 'Bitte stellen Sie sicher, dass der Gewohnheitstitel nicht leer und eindeutig ist.';
+  String get invalidHabitMessage => 'Bitte stellen Sie sicher, dass der Gewohnheitstitel nicht leer und eindeutig ist。';
 
   @override
   String get deleteConfirmationTitle => 'Gewohnheit löschen?';
 
   @override
-  String get deleteConfirmationMessage => 'Sind Sie sicher, dass Sie diese Gewohnheit löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.';
+  String get deleteConfirmationMessage => 'Sind Sie sicher, dass Sie diese Gewohnheit löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden。';
 
   @override
   String get markDoneConfirmation => 'Als erledigt markieren?';
@@ -69,7 +69,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get markNotDoneConfirmation => 'Als nicht erledigt markieren?';
 
   @override
-  String get markDoneMessage => 'Sind Sie sicher, dass Sie diese Gewohnheit als erledigt markieren möchten?\nDenken Sie daran, wir sind hier, um zu helfen. Lügen Sie sich nicht selbst an!';
+  String get markDoneMessage => 'Sind Sie sicher, dass Sie diese Gewohnheit als erledigt markieren möchten?\nDenken Sie daran, wir sind hier, um zu helfen. Seien Sie ehrlich zu sich selbst!';
 
   @override
   String get markNotDoneMessage => 'Sind Sie sicher, dass Sie diese Gewohnheit als nicht erledigt markieren möchten?';
@@ -93,64 +93,6 @@ class AppLocalizationsDe extends AppLocalizations {
   String get startCreating => 'Beginnen Sie mit dem Erstellen\neiner neuen Gewohnheit!';
 
   @override
-  String get testNotificationTitle => 'Testbenachrichtigung';
-
-  @override
-  String get testNotificationBody => 'Dies ist eine Testbenachrichtigung, die 1 Minute nach dem Setup erscheint';
-
-  @override
-  String get goodMorning => 'Guten Morgen!';
-
-  @override
-  String get middayCheckin => 'Mittags-Check-in';
-
-  @override
-  String get eveningUpdate => 'Abendupdate';
-
-  @override
-  String get nightlyReflection => 'Nächtliche Reflexion';
-
-  @override
-  String get finalReminder => 'Letzte Erinnerung';
-
-  @override
-  String get morningHabitCheck => 'Zeit, deine Gewohnheiten für den Tag zu überprüfen';
-
-  @override
-  String get middayProgress => 'Wie laufen deine Gewohnheiten?';
-
-  @override
-  String get eveningReview => 'Zeit, deine täglichen Gewohnheiten zu überprüfen';
-
-  @override
-  String get dailyPerformance => 'Wie bist du heute mit deinen Gewohnheiten zurechtgekommen?';
-
-  @override
-  String get lastChance => 'Letzte Chance, deine Gewohnheiten heute abzuschließen';
-
-  @override
-  String progressComplete(Object progress) {
-    return 'Heutiger Fortschritt: $progress% abgeschlossen';
-  }
-
-  @override
-  String habitsDone(Object completed, Object total) {
-    return '$completed von $total Gewohnheiten erledigt';
-  }
-
-  @override
-  String get motivationStart => 'Du schaffst das! Beginne mit einer kleinen Gewohnheit.';
-
-  @override
-  String get motivationKeepGoing => 'Weiter so! Jede Gewohnheit zählt.';
-
-  @override
-  String get motivationGreatProgress => 'Toller Fortschritt! Beende es stark!';
-
-  @override
-  String get motivationAmazing => 'Erstaunlich! Du hast heute alle deine Gewohnheiten erledigt!';
-
-  @override
   String get notificationsTitle => 'Benachrichtigungen';
 
   @override
@@ -164,4 +106,27 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get dontAskAgain => 'Nicht mehr fragen';
+
+  @override
+  String notificationTitle(Object count) {
+    return 'Sie haben $count Gewohnheiten zu erledigen';
+  }
+
+  @override
+  String singleHabitNotificationBody(Object habitName) {
+    return '\"$habitName\" wartet auf Sie!';
+  }
+
+  @override
+  String twoHabitNotificationBody(Object firstHabitName, Object secondHabitName) {
+    return '\"$firstHabitName\" und \"$secondHabitName\" warten auf Sie!';
+  }
+
+  @override
+  String multipleHabitNotificationBody(Object firstTwoNames, Object remainingCount) {
+    return '$firstTwoNames, und $remainingCount weitere warten auf Sie!';
+  }
+
+  @override
+  String get countDownNotificationTitle => 'Ihre Zeit läuft ab!';
 }

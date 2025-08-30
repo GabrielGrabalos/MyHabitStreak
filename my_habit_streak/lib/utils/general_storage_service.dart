@@ -1,11 +1,21 @@
+import 'dart:async';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class GeneralStorageService {
-  final FlutterSecureStorage _storage = FlutterSecureStorage();
+  static final FlutterSecureStorage _storage = FlutterSecureStorage();
   static const String _generalKeyPrefix = 'general_';
 
-  Future<void> saveData(String key, dynamic value) async {
-    print('saving data with key: $key, value: $value');
+  // 1. Create a StreamController
+  static final _storageStreamController = StreamController<Map<String, dynamic>>.broadcast();
+
+  // 2. Expose the stream for others to listen to
+  // .broadcast() allows multiple listeners.
+  static Stream<Map<String, dynamic>> get storageStream => _storageStreamController.stream;
+
+  static Future<void> saveData(String key, dynamic value) async {
+    debugPrint('saving data with key: $key, value: $value');
     final dataObject = {
       'value': value,
       'type': value.runtimeType.toString(),
@@ -14,12 +24,15 @@ class GeneralStorageService {
       key: _generalKeyPrefix + key,
       value: dataObject.toString(),
     );
+
+    // 3. Notify all listeners about the updated data
+    _storageStreamController.add({key: value});
   }
 
-  Future<dynamic> getData(String key) async {
+  static Future<dynamic> getData(String key) async {
     // Read the stored string using the key
     final storedValue = await _storage.read(key: _generalKeyPrefix + key);
-    print('getting data with key: $key, value: $storedValue');
+    debugPrint('getting data with key: $key, value: $storedValue');
     if (storedValue == null) return null;
 
     try {
@@ -48,7 +61,7 @@ class GeneralStorageService {
     }
   }
 
-  Map<String, String> _parseStoredValue(String storedValue) {
+  static Map<String, String> _parseStoredValue(String storedValue) {
     // Remove curly braces and split into key-value pairs
     final cleanString = storedValue.replaceAll(RegExp(r'[{}]'), '');
     final parts = cleanString.split(', ');
@@ -64,7 +77,10 @@ class GeneralStorageService {
     return result;
   }
 
-  Future<void> deleteData(String key) async {
+  static Future<void> deleteData(String key) async {
     await _storage.delete(key: _generalKeyPrefix + key);
+
+    // 3. Notify all listeners about the deletion
+    _storageStreamController.add({key: null});
   }
 }

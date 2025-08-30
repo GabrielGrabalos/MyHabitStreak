@@ -69,7 +69,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get markNotDoneConfirmation => '未完了としてマークしますか？';
 
   @override
-  String get markDoneMessage => 'この習慣を完了としてマークしますか？\nご注意ください、私たちはあなたを助けるためにここにいます。自分に嘘をつかないでください！';
+  String get markDoneMessage => 'この習慣を完了としてマークしますか？\n覚えておいてください、私たちはサポートします。自分に正直になりましょう！';
 
   @override
   String get markNotDoneMessage => 'この習慣を未完了としてマークしますか？';
@@ -93,64 +93,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get startCreating => '新しい習慣を\n作成しましょう！';
 
   @override
-  String get testNotificationTitle => 'テスト通知';
-
-  @override
-  String get testNotificationBody => 'これはセットアップ1分後に表示されるテスト通知です';
-
-  @override
-  String get goodMorning => 'おはようございます！';
-
-  @override
-  String get middayCheckin => '昼のチェックイン';
-
-  @override
-  String get eveningUpdate => '夕方の更新';
-
-  @override
-  String get nightlyReflection => '夜の振り返り';
-
-  @override
-  String get finalReminder => '最終リマインダー';
-
-  @override
-  String get morningHabitCheck => '今日の習慣を確認する時間です';
-
-  @override
-  String get middayProgress => '習慣の進捗はいかがですか？';
-
-  @override
-  String get eveningReview => '毎日の習慣を振り返る時間です';
-
-  @override
-  String get dailyPerformance => '今日の習慣はどうでしたか？';
-
-  @override
-  String get lastChance => '今日の習慣を完了する最後の機会です';
-
-  @override
-  String progressComplete(Object progress) {
-    return '今日の進捗: $progress% 完了';
-  }
-
-  @override
-  String habitsDone(Object completed, Object total) {
-    return '$completed/$total の習慣を完了';
-  }
-
-  @override
-  String get motivationStart => 'あなたならできます！小さな習慣から始めましょう。';
-
-  @override
-  String get motivationKeepGoing => '続けてください！すべての習慣が重要です。';
-
-  @override
-  String get motivationGreatProgress => '素晴らしい進捗です！最後まで頑張ってください！';
-
-  @override
-  String get motivationAmazing => 'すごい！今日はすべての習慣を完了しました！';
-
-  @override
   String get notificationsTitle => '通知';
 
   @override
@@ -164,4 +106,27 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get dontAskAgain => '再び確認しない';
+
+  @override
+  String notificationTitle(Object count) {
+    return '完了する習慣が$count個あります';
+  }
+
+  @override
+  String singleHabitNotificationBody(Object habitName) {
+    return '「$habitName」が完了待ちです！';
+  }
+
+  @override
+  String twoHabitNotificationBody(Object firstHabitName, Object secondHabitName) {
+    return '「$firstHabitName」と「$secondHabitName」が完了待ちです！';
+  }
+
+  @override
+  String multipleHabitNotificationBody(Object firstTwoNames, Object remainingCount) {
+    return '$firstTwoNames、あと$remainingCount個の習慣が完了待ちです！';
+  }
+
+  @override
+  String get countDownNotificationTitle => '時間がなくなりつつあります！';
 }

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart'; // Using Material Design widgets
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:my_habit_streak/models/habit.dart';
@@ -12,6 +14,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../main.dart';
 import '../notifications/ask_for_notification_popup.dart';
+import '../notifications/notification_service.dart';
 import '../utils/colors.dart';
 import '../widgets/habit_list.dart';
 import '../widgets/header.dart';
@@ -27,17 +30,36 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> with RouteAware {
-  final HabitStorageService _habitStorageService = HabitStorageService();
+  late StreamSubscription _habitsSubscription;
+
+  late StreamSubscription _storageSubscription;
 
   final List<Habit> _doneTodayHabits = [];
   final List<Habit> _notDoneTodayHabits = [];
   bool _isLoading = true; // State to manage loading indicator
 
+  final notificationService = NotificationService();
+
   @override
   void initState() {
     super.initState();
+    _habitsSubscription =
+        HabitStorageService.habitsStream.listen((updatedHabits) {
+      // Whenever habits are updated, reschedule notifications,
+      // so they are always in sync with the latest data.
+      notificationService.scheduleNotifications();
+      debugPrint(
+          'Habits stream updated: ${updatedHabits.length} items\n\n\n'); // Debugging output
+    });
+
+    _storageSubscription = GeneralStorageService.storageStream.listen((_) {
+      // Whenever general storage changes, reschedule notifications,
+      // in case notification preferences or language were changed.
+      notificationService.scheduleNotifications();
+      debugPrint('General storage updated\n\n\n'); // Debugging output
+    });
     _loadAndSeparateHabits(); // Load and separate habits when the screen initializes
-    //_dealWithNotificationPermission(); // Check notification permission
+    _dealWithNotificationPermission(); // Check notification permission
   }
 
   // Subscribe to route observer
@@ -45,12 +67,14 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
   void didChangeDependencies() {
     super.didChangeDependencies();
     routeObserver.subscribe(this, ModalRoute.of(context)!);
+    notificationService.setAppLocalizations(AppLocalizations.of(context)!);
   }
 
   // Unsubscribe to prevent memory leaks
   @override
   void dispose() {
     routeObserver.unsubscribe(this);
+    _habitsSubscription.cancel();
     super.dispose();
   }
 
@@ -68,14 +92,14 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
 
     if (status.isGranted) return; // Already granted
 
-    final notShowPopup = await GeneralStorageService().getData(
+    final notShowPopup = await GeneralStorageService.getData(
           'not_show_notification_popup',
         ) as bool? ??
         false;
 
-    if (notShowPopup) return; // User opted out of the popup
+    if (notShowPopup) return; // User opted out of the popup.
 
-    if (!mounted) return; // Ensure the widget is still mounted
+    if (!mounted) return; // Ensure the widget is still mounted.
 
     // Show the notification permission dialog
     final shouldRequestNotification = await showDialog(
@@ -87,6 +111,10 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
 
     if (shouldRequestNotification == true) {
       await Permission.notification.request();
+      // No need to verify if we were actually granted the permission,
+      // since it wouldn't change the behaviour of not having notifications
+      // and would waist resources for the checking.
+      await notificationService.scheduleNotifications();
     }
   }
 
@@ -97,7 +125,7 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
     });
 
     try {
-      final List<Habit> allHabits = await _habitStorageService.getHabits();
+      final List<Habit> allHabits = await HabitStorageService.getHabits();
 
       // Clear previous lists before repopulating
       _doneTodayHabits.clear();
@@ -112,7 +140,7 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
       }
     } catch (e) {
       // Handle any errors during habit loading
-      print('Error loading habits: $e');
+      debugPrint('Error loading habits: $e');
       // Potentially show an error message to the user
     } finally {
       setState(() {
@@ -156,14 +184,12 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
                           : SingleChildScrollView(
                               child: Column(
                                 children: [
-                                  if (_notDoneTodayHabits.isNotEmpty) ...[
+                                  if (_notDoneTodayHabits.isNotEmpty)
                                     HabitList(
                                       title: AppLocalizations.of(context)!
                                           .notDoneToday,
                                       habits: _notDoneTodayHabits,
                                     ),
-                                    const SizedBox(height: 20),
-                                  ],
                                   if (_doneTodayHabits.isNotEmpty)
                                     HabitList(
                                       title: AppLocalizations.of(context)!
@@ -246,6 +272,25 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
                           }
                         },
                       ),
+                      ButtonData(
+                        text: 'Show instant notification',
+                        icon: Icons.notifications,
+                        onTap: () {
+                          notificationService.showInstantNotification(
+                            id: 0,
+                            title: 'Notification test',
+                            body:
+                                'Instant notification body. Bla bla bla, borga na galorga',
+                          );
+                        },
+                      ),
+                      ButtonData(
+                        icon: Icons.notifications,
+                        text: 'Scheduled notification',
+                        onTap: () {
+                          notificationService.scheduleNotifications();
+                        },
+                      )
                     ],
                   ),
                 ),

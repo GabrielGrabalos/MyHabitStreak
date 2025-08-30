@@ -93,64 +93,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get startCreating => 'Start by creating\na new habit!';
 
   @override
-  String get testNotificationTitle => 'Test Notification';
-
-  @override
-  String get testNotificationBody => 'This is a test notification scheduled to appear 1 minute after setup';
-
-  @override
-  String get goodMorning => 'Good Morning!';
-
-  @override
-  String get middayCheckin => 'Midday Check-in';
-
-  @override
-  String get eveningUpdate => 'Evening Update';
-
-  @override
-  String get nightlyReflection => 'Nightly Reflection';
-
-  @override
-  String get finalReminder => 'Final Reminder';
-
-  @override
-  String get morningHabitCheck => 'Time to check your habits for the day';
-
-  @override
-  String get middayProgress => 'How are your habits progressing?';
-
-  @override
-  String get eveningReview => 'Time to review your daily habits';
-
-  @override
-  String get dailyPerformance => 'How did you do with your habits today?';
-
-  @override
-  String get lastChance => 'Last chance to complete your habits today';
-
-  @override
-  String progressComplete(Object progress) {
-    return 'Today\'s progress: $progress% complete';
-  }
-
-  @override
-  String habitsDone(Object completed, Object total) {
-    return '$completed of $total habits done';
-  }
-
-  @override
-  String get motivationStart => 'You\'ve got this! Start with one small habit.';
-
-  @override
-  String get motivationKeepGoing => 'Keep going! Every habit counts.';
-
-  @override
-  String get motivationGreatProgress => 'Great progress! Finish strong!';
-
-  @override
-  String get motivationAmazing => 'Amazing! You completed all your habits today!';
-
-  @override
   String get notificationsTitle => 'Notifications';
 
   @override
@@ -164,4 +106,27 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dontAskAgain => 'Don\'t ask again';
+
+  @override
+  String notificationTitle(Object count) {
+    return 'You have $count habits to complete';
+  }
+
+  @override
+  String singleHabitNotificationBody(Object habitName) {
+    return '\"$habitName\" is waiting for you!';
+  }
+
+  @override
+  String twoHabitNotificationBody(Object firstHabitName, Object secondHabitName) {
+    return '\"$firstHabitName\" and \"$secondHabitName\" are waiting for you!';
+  }
+
+  @override
+  String multipleHabitNotificationBody(Object firstTwoNames, Object remainingCount) {
+    return '$firstTwoNames, and $remainingCount more are waiting for you!';
+  }
+
+  @override
+  String get countDownNotificationTitle => 'Your time is running out!';
 }

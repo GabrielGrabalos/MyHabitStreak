@@ -113,78 +113,6 @@
   "@startCreating": {
     "description": "Prompt shown when no habits exist"
   },
-  "testNotificationTitle": "Test Notification",
-  "@testNotificationTitle": {
-    "description": "Title for test notification"
-  },
-  "testNotificationBody": "This is a test notification scheduled to appear 1 minute after setup",
-  "@testNotificationBody": {
-    "description": "Body text for test notification"
-  },
-  "goodMorning": "Good Morning!",
-  "@goodMorning": {
-    "description": "Greeting for morning notification"
-  },
-  "middayCheckin": "Midday Check-in",
-  "@middayCheckin": {
-    "description": "Title for midday check-in notification"
-  },
-  "eveningUpdate": "Evening Update",
-  "@eveningUpdate": {
-    "description": "Title for evening update notification"
-  },
-  "nightlyReflection": "Nightly Reflection",
-  "@nightlyReflection": {
-    "description": "Title for nightly reflection notification"
-  },
-  "finalReminder": "Final Reminder",
-  "@finalReminder": {
-    "description": "Title for final reminder notification"
-  },
-  "morningHabitCheck": "Time to check your habits for the day",
-  "@morningHabitCheck": {
-    "description": "Message for morning habit check notification"
-  },
-  "middayProgress": "How are your habits progressing?",
-  "@middayProgress": {
-    "description": "Message for midday progress check notification"
-  },
-  "eveningReview": "Time to review your daily habits",
-  "@eveningReview": {
-    "description": "Message for evening review notification"
-  },
-  "dailyPerformance": "How did you do with your habits today?",
-  "@dailyPerformance": {
-    "description": "Message for daily performance notification"
-  },
-  "lastChance": "Last chance to complete your habits today",
-  "@lastChance": {
-    "description": "Message for last chance notification"
-  },
-  "progressComplete": "Today's progress: {progress}% complete",
-  "@progressComplete": {
-    "description": "Message showing percentage of habits completed today"
-  },
-  "habitsDone": "{completed} of {total} habits done",
-  "@habitsDone": {
-    "description": "Message showing number of habits completed out of total"
-  },
-  "motivationStart": "You've got this! Start with one small habit.",
-  "@motivationStart": {
-    "description": "Motivational message to encourage starting habits"
-  },
-  "motivationKeepGoing": "Keep going! Every habit counts.",
-  "@motivationKeepGoing": {
-    "description": "Motivational message to encourage continuing habits"
-  },
-  "motivationGreatProgress": "Great progress! Finish strong!",
-  "@motivationGreatProgress": {
-    "description": "Motivational message to encourage finishing habits"
-  },
-  "motivationAmazing": "Amazing! You completed all your habits today!",
-  "@motivationAmazing": {
-    "description": "Motivational message for completing all habits"
-  },
   "notificationsTitle": "Notifications",
   "@notificationsTitle": {
     "description": "Title for notifications settings screen"
@@ -204,5 +132,25 @@
   "dontAskAgain": "Don't ask again",
   "@dontAskAgain": {
     "description": "Button to skip notification permission request"
-  }
+  },
+  "notificationTitle": "You have {count} habits to complete",
+  "@notificationTitle": {
+    "description": "Title for the notification showing the number of undone habits. {count} is the number of habits."
+  },
+  "singleHabitNotificationBody": "\"{habitName}\" is waiting for you!",
+  "@singleHabitNotificationBody": {
+    "description": "Notification body when there is one undone habit. {habitName} is the habit title."
+  },
+  "twoHabitNotificationBody": "\"{firstHabitName}\" and \"{secondHabitName}\" are waiting for you!",
+  "@twoHabitNotificationBody": {
+    "description": "Notification body when there are two undone habits. {firstHabitName} and {secondHabitName} are the habit titles."
+  },
+  "multipleHabitNotificationBody": "{firstTwoNames}, and {remainingCount} more are waiting for you!",
+  "@multipleHabitNotificationBody": {
+    "description": "Notification body when there are more than two undone habits. {firstTwoNames} is a string of the first two habit names (already formatted), and {remainingCount} is the number of remaining habits."
+  },
+  "countDownNotificationTitle": "Your time is running out!",
+    "@countDownNotificationTitle": {
+        "description": "Title for the countdown notification"
+    }
 }

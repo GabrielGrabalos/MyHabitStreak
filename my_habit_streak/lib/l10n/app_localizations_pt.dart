@@ -18,7 +18,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get privacyPolicy => 'Política de Privacidade';
 
   @override
-  String get appTitle => 'Meus Hábitos';
+  String get appTitle => 'Minha Sequência de Hábitos';
 
   @override
   String get createHabit => 'Criar Hábito';
@@ -33,7 +33,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get description => 'Descrição';
 
   @override
-  String get noDescription => 'Nenhuma descrição fornecida.';
+  String get noDescription => 'Nenhuma descrição fornecida。';
 
   @override
   String get saveHabit => 'Salvar Hábito';
@@ -48,19 +48,19 @@ class AppLocalizationsPt extends AppLocalizations {
   String get markNotDone => 'Marcar como não feito';
 
   @override
-  String get streakHistory => 'Seu histórico de sequências';
+  String get streakHistory => 'Histórico de sequências';
 
   @override
   String get invalidHabit => 'Hábito Inválido';
 
   @override
-  String get invalidHabitMessage => 'Por favor, verifique se o título do hábito não está vazio e é único.';
+  String get invalidHabitMessage => 'Por favor, verifique se o título do hábito não está vazio e é único。';
 
   @override
   String get deleteConfirmationTitle => 'Excluir Hábito?';
 
   @override
-  String get deleteConfirmationMessage => 'Tem certeza de que deseja excluir este hábito? Esta ação não pode ser desfeita.';
+  String get deleteConfirmationMessage => 'Tem certeza de que deseja excluir este hábito? Esta ação não pode ser desfeita。';
 
   @override
   String get markDoneConfirmation => 'Marcar como feito?';
@@ -69,7 +69,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get markNotDoneConfirmation => 'Marcar como não feito?';
 
   @override
-  String get markDoneMessage => 'Tem certeza de que deseja marcar este hábito como feito?\nLembre-se, estamos aqui para ajudar. Não minta para si mesmo!';
+  String get markDoneMessage => 'Tem certeza de que deseja marcar este hábito como feito?\nLembre-se, estamos aqui para ajudar. Não minta para si!';
 
   @override
   String get markNotDoneMessage => 'Tem certeza de que deseja marcar este hábito como não feito?';
@@ -93,64 +93,6 @@ class AppLocalizationsPt extends AppLocalizations {
   String get startCreating => 'Comece criando\num novo hábito!';
 
   @override
-  String get testNotificationTitle => 'Notificação de Teste';
-
-  @override
-  String get testNotificationBody => 'Esta é uma notificação de teste agendada para aparecer 1 minuto após a configuração';
-
-  @override
-  String get goodMorning => 'Bom Dia!';
-
-  @override
-  String get middayCheckin => 'Check-in do Meio Dia';
-
-  @override
-  String get eveningUpdate => 'Atualização da Tarde';
-
-  @override
-  String get nightlyReflection => 'Reflexão Noturna';
-
-  @override
-  String get finalReminder => 'Lembrete Final';
-
-  @override
-  String get morningHabitCheck => 'Hora de verificar seus hábitos do dia';
-
-  @override
-  String get middayProgress => 'Como estão seus hábitos?';
-
-  @override
-  String get eveningReview => 'Hora de revisar seus hábitos diários';
-
-  @override
-  String get dailyPerformance => 'Como você foi com seus hábitos hoje?';
-
-  @override
-  String get lastChance => 'Última chance para completar seus hábitos hoje';
-
-  @override
-  String progressComplete(Object progress) {
-    return 'Progresso de hoje: $progress% completo';
-  }
-
-  @override
-  String habitsDone(Object completed, Object total) {
-    return '$completed de $total hábitos concluídos';
-  }
-
-  @override
-  String get motivationStart => 'Você consegue! Comece com um pequeno hábito.';
-
-  @override
-  String get motivationKeepGoing => 'Continue! Cada hábito conta.';
-
-  @override
-  String get motivationGreatProgress => 'Ótimo progresso! Termine com força!';
-
-  @override
-  String get motivationAmazing => 'Incrível! Você completou todos os seus hábitos hoje!';
-
-  @override
   String get notificationsTitle => 'Notificações';
 
   @override
@@ -164,6 +106,29 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get dontAskAgain => 'Não perguntar novamente';
+
+  @override
+  String notificationTitle(Object count) {
+    return 'Você tem $count hábitos para completar';
+  }
+
+  @override
+  String singleHabitNotificationBody(Object habitName) {
+    return '\"$habitName\" está esperando por você!';
+  }
+
+  @override
+  String twoHabitNotificationBody(Object firstHabitName, Object secondHabitName) {
+    return '\"$firstHabitName\" e \"$secondHabitName\" estão esperando por você!';
+  }
+
+  @override
+  String multipleHabitNotificationBody(Object firstTwoNames, Object remainingCount) {
+    return '$firstTwoNames, e mais $remainingCount estão esperando por você!';
+  }
+
+  @override
+  String get countDownNotificationTitle => 'Seu tempo está se esgotando!';
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -195,7 +160,7 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get description => 'Descrição';
 
   @override
-  String get noDescription => 'Nenhuma descrição fornecida.';
+  String get noDescription => 'Nenhuma descrição fornecida。';
 
   @override
   String get saveHabit => 'Salvar Hábito';
@@ -216,13 +181,13 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get invalidHabit => 'Hábito Inválido';
 
   @override
-  String get invalidHabitMessage => 'Por favor, verifique se o título do hábito não está vazio e é único.';
+  String get invalidHabitMessage => 'Por favor, verifique se o título do hábito não está vazio e é único。';
 
   @override
   String get deleteConfirmationTitle => 'Excluir Hábito?';
 
   @override
-  String get deleteConfirmationMessage => 'Tem certeza de que deseja excluir este hábito? Esta ação não pode ser desfeita.';
+  String get deleteConfirmationMessage => 'Tem certeza de que deseja excluir este hábito? Esta ação não pode ser desfeita。';
 
   @override
   String get markDoneConfirmation => 'Marcar como feito?';
@@ -231,7 +196,7 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get markNotDoneConfirmation => 'Marcar como não feito?';
 
   @override
-  String get markDoneMessage => 'Tem certeza de que deseja marcar este hábito como feito?\nLembre-se, estamos aqui para ajudar. Não minta para si mesmo!';
+  String get markDoneMessage => 'Tem certeza de que deseja marcar este hábito como feito?\nLembre-se, estamos aqui para ajudar. Não minta para si!';
 
   @override
   String get markNotDoneMessage => 'Tem certeza de que deseja marcar este hábito como não feito?';
@@ -255,64 +220,6 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get startCreating => 'Comece criando\num novo hábito!';
 
   @override
-  String get testNotificationTitle => 'Notificação de Teste';
-
-  @override
-  String get testNotificationBody => 'Esta é uma notificação de teste agendada para aparecer 1 minuto após a configuração';
-
-  @override
-  String get goodMorning => 'Bom Dia!';
-
-  @override
-  String get middayCheckin => 'Check-in do Meio Dia';
-
-  @override
-  String get eveningUpdate => 'Atualização da Tarde';
-
-  @override
-  String get nightlyReflection => 'Reflexão Noturna';
-
-  @override
-  String get finalReminder => 'Lembrete Final';
-
-  @override
-  String get morningHabitCheck => 'Hora de verificar seus hábitos do dia';
-
-  @override
-  String get middayProgress => 'Como estão seus hábitos?';
-
-  @override
-  String get eveningReview => 'Hora de revisar seus hábitos diários';
-
-  @override
-  String get dailyPerformance => 'Como você foi com seus hábitos hoje?';
-
-  @override
-  String get lastChance => 'Última chance para completar seus hábitos hoje';
-
-  @override
-  String progressComplete(Object progress) {
-    return 'Progresso de hoje: $progress% completo';
-  }
-
-  @override
-  String habitsDone(Object completed, Object total) {
-    return '$completed de $total hábitos concluídos';
-  }
-
-  @override
-  String get motivationStart => 'Você consegue! Comece com um pequeno hábito.';
-
-  @override
-  String get motivationKeepGoing => 'Continue! Cada hábito conta.';
-
-  @override
-  String get motivationGreatProgress => 'Ótimo progresso! Termine com força!';
-
-  @override
-  String get motivationAmazing => 'Incrível! Você completou todos os seus hábitos hoje!';
-
-  @override
   String get notificationsTitle => 'Notificações';
 
   @override
@@ -326,4 +233,27 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get dontAskAgain => 'Não perguntar novamente';
+
+  @override
+  String notificationTitle(Object count) {
+    return 'Você tem $count hábitos para completar';
+  }
+
+  @override
+  String singleHabitNotificationBody(Object habitName) {
+    return '\"$habitName\" está esperando por você!';
+  }
+
+  @override
+  String twoHabitNotificationBody(Object firstHabitName, Object secondHabitName) {
+    return '\"$firstHabitName\" e \"$secondHabitName\" estão esperando por você!';
+  }
+
+  @override
+  String multipleHabitNotificationBody(Object firstTwoNames, Object remainingCount) {
+    return '$firstTwoNames, e mais $remainingCount estão esperando por você!';
+  }
+
+  @override
+  String get countDownNotificationTitle => 'Seu tempo está se esgotando!';
 }

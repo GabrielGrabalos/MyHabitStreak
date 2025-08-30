@@ -140,7 +140,7 @@ class _VisualizeHabitState extends State<VisualizeHabit> {
                         setState(() {
                           _currentHabit.isTodayDone =
                               !_currentHabit.isTodayDone;
-                          HabitStorageService().saveOrUpdateHabit(
+                          HabitStorageService.saveOrUpdateHabit(
                               _currentHabit.title, _currentHabit);
                         });
                       },

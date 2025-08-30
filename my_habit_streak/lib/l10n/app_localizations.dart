@@ -276,114 +276,6 @@ abstract class AppLocalizations {
   /// **'Start by creating\na new habit!'**
   String get startCreating;
 
-  /// Title for test notification
-  ///
-  /// In en, this message translates to:
-  /// **'Test Notification'**
-  String get testNotificationTitle;
-
-  /// Body text for test notification
-  ///
-  /// In en, this message translates to:
-  /// **'This is a test notification scheduled to appear 1 minute after setup'**
-  String get testNotificationBody;
-
-  /// Greeting for morning notification
-  ///
-  /// In en, this message translates to:
-  /// **'Good Morning!'**
-  String get goodMorning;
-
-  /// Title for midday check-in notification
-  ///
-  /// In en, this message translates to:
-  /// **'Midday Check-in'**
-  String get middayCheckin;
-
-  /// Title for evening update notification
-  ///
-  /// In en, this message translates to:
-  /// **'Evening Update'**
-  String get eveningUpdate;
-
-  /// Title for nightly reflection notification
-  ///
-  /// In en, this message translates to:
-  /// **'Nightly Reflection'**
-  String get nightlyReflection;
-
-  /// Title for final reminder notification
-  ///
-  /// In en, this message translates to:
-  /// **'Final Reminder'**
-  String get finalReminder;
-
-  /// Message for morning habit check notification
-  ///
-  /// In en, this message translates to:
-  /// **'Time to check your habits for the day'**
-  String get morningHabitCheck;
-
-  /// Message for midday progress check notification
-  ///
-  /// In en, this message translates to:
-  /// **'How are your habits progressing?'**
-  String get middayProgress;
-
-  /// Message for evening review notification
-  ///
-  /// In en, this message translates to:
-  /// **'Time to review your daily habits'**
-  String get eveningReview;
-
-  /// Message for daily performance notification
-  ///
-  /// In en, this message translates to:
-  /// **'How did you do with your habits today?'**
-  String get dailyPerformance;
-
-  /// Message for last chance notification
-  ///
-  /// In en, this message translates to:
-  /// **'Last chance to complete your habits today'**
-  String get lastChance;
-
-  /// Message showing percentage of habits completed today
-  ///
-  /// In en, this message translates to:
-  /// **'Today\'s progress: {progress}% complete'**
-  String progressComplete(Object progress);
-
-  /// Message showing number of habits completed out of total
-  ///
-  /// In en, this message translates to:
-  /// **'{completed} of {total} habits done'**
-  String habitsDone(Object completed, Object total);
-
-  /// Motivational message to encourage starting habits
-  ///
-  /// In en, this message translates to:
-  /// **'You\'ve got this! Start with one small habit.'**
-  String get motivationStart;
-
-  /// Motivational message to encourage continuing habits
-  ///
-  /// In en, this message translates to:
-  /// **'Keep going! Every habit counts.'**
-  String get motivationKeepGoing;
-
-  /// Motivational message to encourage finishing habits
-  ///
-  /// In en, this message translates to:
-  /// **'Great progress! Finish strong!'**
-  String get motivationGreatProgress;
-
-  /// Motivational message for completing all habits
-  ///
-  /// In en, this message translates to:
-  /// **'Amazing! You completed all your habits today!'**
-  String get motivationAmazing;
-
   /// Title for notifications settings screen
   ///
   /// In en, this message translates to:
@@ -413,6 +305,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Don\'t ask again'**
   String get dontAskAgain;
+
+  /// Title for the notification showing the number of undone habits. {count} is the number of habits.
+  ///
+  /// In en, this message translates to:
+  /// **'You have {count} habits to complete'**
+  String notificationTitle(Object count);
+
+  /// Notification body when there is one undone habit. {habitName} is the habit title.
+  ///
+  /// In en, this message translates to:
+  /// **'\"{habitName}\" is waiting for you!'**
+  String singleHabitNotificationBody(Object habitName);
+
+  /// Notification body when there are two undone habits. {firstHabitName} and {secondHabitName} are the habit titles.
+  ///
+  /// In en, this message translates to:
+  /// **'\"{firstHabitName}\" and \"{secondHabitName}\" are waiting for you!'**
+  String twoHabitNotificationBody(Object firstHabitName, Object secondHabitName);
+
+  /// Notification body when there are more than two undone habits. {firstTwoNames} is a string of the first two habit names (already formatted), and {remainingCount} is the number of remaining habits.
+  ///
+  /// In en, this message translates to:
+  /// **'{firstTwoNames}, and {remainingCount} more are waiting for you!'**
+  String multipleHabitNotificationBody(Object firstTwoNames, Object remainingCount);
+
+  /// Title for the countdown notification
+  ///
+  /// In en, this message translates to:
+  /// **'Your time is running out!'**
+  String get countDownNotificationTitle;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

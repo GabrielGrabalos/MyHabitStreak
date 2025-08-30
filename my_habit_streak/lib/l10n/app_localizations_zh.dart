@@ -69,7 +69,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get markNotDoneConfirmation => '标记为未完成？';
 
   @override
-  String get markDoneMessage => '确定要将此习惯标记为完成吗？\n记住，我们在此帮助您。不要欺骗自己！';
+  String get markDoneMessage => '确定要将此习惯标记为完成吗？\n记住，我们在此帮助您。请对自己诚实！';
 
   @override
   String get markNotDoneMessage => '确定要将此习惯标记为未完成吗？';
@@ -93,64 +93,6 @@ class AppLocalizationsZh extends AppLocalizations {
   String get startCreating => '开始创建\n新习惯！';
 
   @override
-  String get testNotificationTitle => '测试通知';
-
-  @override
-  String get testNotificationBody => '这是一个测试通知，将在设置后1分钟出现';
-
-  @override
-  String get goodMorning => '早上好！';
-
-  @override
-  String get middayCheckin => '中午检查';
-
-  @override
-  String get eveningUpdate => '晚间更新';
-
-  @override
-  String get nightlyReflection => '夜间反思';
-
-  @override
-  String get finalReminder => '最终提醒';
-
-  @override
-  String get morningHabitCheck => '该检查你今天的习惯了';
-
-  @override
-  String get middayProgress => '你的习惯进展如何？';
-
-  @override
-  String get eveningReview => '该回顾你的日常习惯了';
-
-  @override
-  String get dailyPerformance => '今天你的习惯完成得怎么样？';
-
-  @override
-  String get lastChance => '完成今天的习惯的最后机会';
-
-  @override
-  String progressComplete(Object progress) {
-    return '今日进度：$progress% 完成';
-  }
-
-  @override
-  String habitsDone(Object completed, Object total) {
-    return '完成 $completed 个习惯，共 $total 个';
-  }
-
-  @override
-  String get motivationStart => '你能行！从一个小的习惯开始。';
-
-  @override
-  String get motivationKeepGoing => '继续加油！每一个习惯都很重要。';
-
-  @override
-  String get motivationGreatProgress => '进展不错！坚持完成！';
-
-  @override
-  String get motivationAmazing => '太棒了！你今天完成了所有的习惯！';
-
-  @override
   String get notificationsTitle => '通知';
 
   @override
@@ -164,4 +106,27 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get dontAskAgain => '不再询问';
+
+  @override
+  String notificationTitle(Object count) {
+    return '您有$count个习惯需要完成';
+  }
+
+  @override
+  String singleHabitNotificationBody(Object habitName) {
+    return '「$habitName」正在等待完成！';
+  }
+
+  @override
+  String twoHabitNotificationBody(Object firstHabitName, Object secondHabitName) {
+    return '「$firstHabitName」和「$secondHabitName」正在等待完成！';
+  }
+
+  @override
+  String multipleHabitNotificationBody(Object firstTwoNames, Object remainingCount) {
+    return '$firstTwoNames，还有$remainingCount个习惯正在等待完成！';
+  }
+
+  @override
+  String get countDownNotificationTitle => '时间不多了！';
 }

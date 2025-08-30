@@ -30,7 +30,6 @@ class Header extends StatelessWidget {
               title,
               style: TextStyle(
                 fontSize: 24,
-                fontWeight: FontWeight.bold,
                 color: Colors.white,
               ),
               maxLines: 1,

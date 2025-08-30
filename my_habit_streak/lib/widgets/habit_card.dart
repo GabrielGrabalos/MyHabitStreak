@@ -63,7 +63,6 @@ class HabitCard extends StatelessWidget {
                               habit.title,
                               style: Theme.of(context).textTheme.titleMedium!.copyWith(
                                 fontSize: 26,
-                                fontWeight: FontWeight.bold,
                                 color: habit.color != yellowTheme
                                     ? Colors.white
                                     : darkBackground,

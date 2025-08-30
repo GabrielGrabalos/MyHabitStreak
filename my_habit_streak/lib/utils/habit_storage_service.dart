@@ -1,14 +1,28 @@
+import 'dart:async';
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:my_habit_streak/models/habit.dart'; // Adjust this path to your Habit model
 
 class HabitStorageService {
-  final FlutterSecureStorage _storage = const FlutterSecureStorage();
+  static final FlutterSecureStorage _storage = const FlutterSecureStorage();
   static const String _habitsKey = 'user_habits';
+
+  // 1. Create a StreamController
+  static final _habitsStreamController = StreamController<List<Habit>>.broadcast();
+
+  // 2. Expose the stream for others to listen to
+  // .broadcast() allows multiple listeners.
+  static Stream<List<Habit>> get habitsStream => _habitsStreamController.stream;
+
+  // You should also have a method to close the stream when the service is no longer needed
+  void dispose() {
+    _habitsStreamController.close();
+  }
 
   // --- Primary method for saving the entire list of habits ---
   // All modifications (add, update, delete) will eventually call this.
-  Future<void> saveAllHabits(List<Habit> habits) async {
+  static Future<void> saveAllHabits(List<Habit> habits) async {
     // Convert each Habit object to its JSON representation
     final List<Map<String, dynamic>> habitsJson =
         habits.map((habit) => habit.toJson()).toList();
@@ -17,11 +31,14 @@ class HabitStorageService {
     // Store the JSON string securely
     await _storage.write(key: _habitsKey, value: jsonString);
 
-    print('Habits saved: ${habits.length} items'); // Debugging output
+    debugPrint('Habits saved: ${habits.length} items'); // Debugging output
+    
+    // 3. Notify all listeners about the updated list
+    _habitsStreamController.add(habits);
   }
 
   // Retrieve a list of Habits
-  Future<List<Habit>> getHabits() async {
+  static Future<List<Habit>> getHabits() async {
     // Read the JSON string from secure storage
     final String? jsonString = await _storage.read(key: _habitsKey);
     if (jsonString == null || jsonString.isEmpty) {
@@ -38,7 +55,7 @@ class HabitStorageService {
           .map((json) => Habit.fromJson(json as Map<String, dynamic>))
           .toList();
     } catch (e) {
-      print('Error decoding habits: $e');
+      debugPrint('Error decoding habits: $e');
       // If data is corrupted, clear it to prevent continuous errors
       await clearAllHabits();
       return [];
@@ -48,7 +65,7 @@ class HabitStorageService {
   // --- New/Updated: Save or Update a single Habit ---
   // This is the "save habit function" you asked for.
   // It handles both adding a new habit and updating an existing one.
-  Future<void> saveOrUpdateHabit(String originalTitle, Habit habitToSave) async {
+  static Future<void> saveOrUpdateHabit(String originalTitle, Habit habitToSave) async {
     List<Habit> currentHabits = await getHabits();
 
     // Find the index of the habit if it already exists (e.g., by title)
@@ -60,11 +77,11 @@ class HabitStorageService {
     if (existingIndex != -1) {
       // Habit exists, update it in the list
       currentHabits[existingIndex] = habitToSave;
-      print('Habit updated: ${habitToSave.title}');
+      debugPrint('Habit updated: ${habitToSave.title}');
     } else {
       // Habit is new, add it to the list
       currentHabits.add(habitToSave);
-      print('Habit added: ${habitToSave.title}');
+      debugPrint('Habit added: ${habitToSave.title}');
     }
 
     // Save the entire updated list back to storage
@@ -72,18 +89,18 @@ class HabitStorageService {
   }
 
   // Delete a specific habit by its identifier (e.g., title)
-  Future<void> deleteHabit(String habitTitle) async {
+  static Future<void> deleteHabit(String habitTitle) async {
     List<Habit> currentHabits = await getHabits();
     // Remove the habit based on its title
     currentHabits.removeWhere((h) => h.title == habitTitle);
-    print('Habit deleted: $habitTitle');
+    debugPrint('Habit deleted: $habitTitle');
     // Save the updated list back
     await saveAllHabits(currentHabits);
   }
 
   // Clear all stored habits
-  Future<void> clearAllHabits() async {
+  static Future<void> clearAllHabits() async {
     await _storage.delete(key: _habitsKey);
-    print('All habits cleared.'); // Debugging output
+    debugPrint('All habits cleared.'); // Debugging output
   }
 }

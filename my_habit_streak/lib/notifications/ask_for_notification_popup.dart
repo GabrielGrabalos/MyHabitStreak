@@ -64,7 +64,7 @@ class AskForNotificationPopup extends StatelessWidget {
                     ),
                     color: Colors.red,
                     onPressed: () {
-                      GeneralStorageService().saveData(
+                      GeneralStorageService.saveData(
                         "not_show_notification_popup",
                         true,
                       );

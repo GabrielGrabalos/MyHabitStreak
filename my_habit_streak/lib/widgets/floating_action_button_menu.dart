@@ -254,7 +254,6 @@ class _Button extends StatelessWidget {
                   style: TextStyle(
                     color: color != yellowTheme ? Colors.white : darkBackground,
                     fontSize: 14,
-                    fontWeight: FontWeight.w500,
                   ),
                   overflow: TextOverflow.ellipsis,
                 ),
