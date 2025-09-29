@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart'; // Using Material Design widgets
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:my_habit_streak/models/habit.dart';
-import 'package:my_habit_streak/utils/general_storage_service.dart';
-import 'package:my_habit_streak/utils/habit_storage_service.dart';
+import 'package:my_habit_streak/services/general_storage_service.dart';
+import 'package:my_habit_streak/services/habit_storage_service.dart';
 import 'package:my_habit_streak/widgets/app_scaffold.dart';
 import '../l10n/app_localizations.dart';
 import 'package:my_habit_streak/widgets/language_selection.dart';

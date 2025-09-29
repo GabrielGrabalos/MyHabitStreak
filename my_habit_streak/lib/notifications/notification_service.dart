@@ -2,7 +2,7 @@
 
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
-import 'package:my_habit_streak/utils/habit_storage_service.dart';
+import 'package:my_habit_streak/services/habit_storage_service.dart';
 import 'package:timezone/data/latest.dart';
 import 'package:timezone/timezone.dart';
 import '../l10n/app_localizations.dart'; // Import your AppLocalizations
@@ -217,7 +217,7 @@ class NotificationService {
         ),
         iOS: const DarwinNotificationDetails(),
       ),
-      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+      androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
     );
   }
 }

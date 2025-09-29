@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:my_habit_streak/utils/habit_storage_service.dart';
+import 'package:my_habit_streak/services/habit_storage_service.dart';
 import 'package:my_habit_streak/widgets/app_scaffold.dart';
 import 'package:my_habit_streak/widgets/button.dart';
 import 'package:my_habit_streak/widgets/color_selector.dart';
