@@ -51,6 +51,10 @@ class _FloatingActionButtonMenuState extends State<FloatingActionButtonMenu>
   @override
   void initState() {
     super.initState();
+    init();
+  }
+
+  void init(){
     _controller = AnimationController(
       duration: const Duration(milliseconds: 300),
       vsync: this,
@@ -59,9 +63,9 @@ class _FloatingActionButtonMenuState extends State<FloatingActionButtonMenu>
     // Initialize random values
     final random = Random(widget.seed);
     _tilts = List.generate(widget.buttons.length,
-        (index) => (random.nextDouble() * 30 - 15) * (pi / 180));
+            (index) => (random.nextDouble() * 30 - 15) * (pi / 180));
     _assignedColors = List.generate(widget.buttons.length,
-        (index) => widget.colors[random.nextInt(widget.colors.length)]);
+            (index) => widget.colors[random.nextInt(widget.colors.length)]);
 
     // Create animations for each button
     _buttonAnimations = List.generate(widget.buttons.length, (index) {
@@ -70,6 +74,41 @@ class _FloatingActionButtonMenuState extends State<FloatingActionButtonMenu>
         curve: Interval(0.1 * index, 1.0, curve: Curves.easeOut),
       );
     });
+  }
+
+  @override
+  void didUpdateWidget(covariant FloatingActionButtonMenu oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (oldWidget.buttons.length != widget.buttons.length ||
+        oldWidget.colors != widget.colors ||
+        oldWidget.seed != widget.seed) {
+
+      // Close menu if open during update
+      if (_isOpen) {
+        _removeOverlay();
+        _controller.reverse();
+        setState(() {
+          _isOpen = false;
+          _isAnimating = false;
+        });
+      }
+
+      // Update data without recreating controller
+      final random = Random(widget.seed);
+      _tilts = List.generate(widget.buttons.length,
+              (index) => (random.nextDouble() * 30 - 15) * (pi / 180));
+      _assignedColors = List.generate(widget.buttons.length,
+              (index) => widget.colors[random.nextInt(widget.colors.length)]);
+
+      // Create new animations with existing controller
+      _buttonAnimations = List.generate(widget.buttons.length, (index) {
+        return CurvedAnimation(
+          parent: _controller,
+          curve: Interval(0.1 * index, 1.0, curve: Curves.easeOut),
+        );
+      });
+    }
   }
 
   void _toggleMenu() {

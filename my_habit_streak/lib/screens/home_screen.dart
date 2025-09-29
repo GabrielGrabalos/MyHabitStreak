@@ -49,14 +49,14 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
       // so they are always in sync with the latest data.
       notificationService.scheduleNotifications();
       debugPrint(
-          'Habits stream updated: ${updatedHabits.length} items\n\n\n'); // Debugging output
+          'Habits stream updated: ${updatedHabits.length} items'); // Debugging output
     });
 
     _storageSubscription = GeneralStorageService.storageStream.listen((_) {
       // Whenever general storage changes, reschedule notifications,
       // in case notification preferences or language were changed.
       notificationService.scheduleNotifications();
-      debugPrint('General storage updated\n\n\n'); // Debugging output
+      debugPrint('General storage updated'); // Debugging output
     });
     _loadAndSeparateHabits(); // Load and separate habits when the screen initializes
     _dealWithNotificationPermission(); // Check notification permission
@@ -127,17 +127,22 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
     try {
       final List<Habit> allHabits = await HabitStorageService.getHabits();
 
+      final doneToday = allHabits.where((habit) => habit.isTodayDone).toList();
+      final notDoneToday =
+          allHabits.where((habit) => !habit.isTodayDone).toList();
+
       // Clear previous lists before repopulating
       _doneTodayHabits.clear();
       _notDoneTodayHabits.clear();
 
-      for (var habit in allHabits) {
-        if (habit.isTodayDone) {
-          _doneTodayHabits.add(habit);
-        } else {
-          _notDoneTodayHabits.add(habit);
-        }
-      }
+      setState(() {
+        _doneTodayHabits.clear();
+        _notDoneTodayHabits.clear();
+
+        // Populate the lists with the separated habits
+        _doneTodayHabits.addAll(doneToday);
+        _notDoneTodayHabits.addAll(notDoneToday);
+      });
     } catch (e) {
       // Handle any errors during habit loading
       debugPrint('Error loading habits: $e');
@@ -272,25 +277,23 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
                           }
                         },
                       ),
-                      ButtonData(
-                        text: 'Show instant notification',
-                        icon: Icons.notifications,
-                        onTap: () {
-                          notificationService.showInstantNotification(
-                            id: 0,
-                            title: 'Notification test',
-                            body:
-                                'Instant notification body. Bla bla bla, borga na galorga',
-                          );
-                        },
-                      ),
-                      ButtonData(
-                        icon: Icons.notifications,
-                        text: 'Scheduled notification',
-                        onTap: () {
-                          notificationService.scheduleNotifications();
-                        },
-                      )
+                      // If there is a card called debugAppData, show this button:
+                      if (_notDoneTodayHabits
+                          .any((habit) => habit.title == 'debugAppData')) ...[
+                        ButtonData(
+                          text: 'Test instant notification',
+                          icon: Icons.notifications,
+                          onTap: () {
+                            notificationService.showInstantNotification(
+                              id: 0,
+                              title: 'This is a test notification',
+                              body:
+                                  'If you see this, the notification system is '
+                                      'working correctly.',
+                            );
+                          },
+                        ),
+                      ],
                     ],
                   ),
                 ),

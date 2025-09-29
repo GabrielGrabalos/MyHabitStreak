@@ -168,9 +168,9 @@ class NotificationService {
     await scheduleCountDownNotification(
       id: 9999,
       title: _appLocalizations!.countDownNotificationTitle,
-      hour: 23,
-      minute: 59,
-      image: 'bee',
+      hour: 22,
+      minute: 00,
+      image: 'bee_sad',
     );
   }
 
@@ -192,10 +192,11 @@ class NotificationService {
     final int secondsUntilMidnight =
         86400 - (now.hour * 3600 + now.minute * 60 + now.second);
 
-    await flutterLocalNotificationsPlugin.show(
+    await flutterLocalNotificationsPlugin.zonedSchedule(
       id,
       title,
       null,
+      scheduledDateTime,
       NotificationDetails(
         android: AndroidNotificationDetails(
           'countdown_notification_channel_id',
@@ -210,10 +211,13 @@ class NotificationService {
           // Countdown to midnight (00:00)
           when: DateTime.now().millisecondsSinceEpoch +
               secondsUntilMidnight * 1000,
+          ongoing: false,
+          autoCancel: true,
+          timeoutAfter: secondsUntilMidnight * 1000,
         ),
         iOS: const DarwinNotificationDetails(),
       ),
-      // androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
+      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
     );
   }
 }
