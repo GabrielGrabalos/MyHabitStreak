@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:my_habit_streak/utils/colors.dart';
-import 'package:my_habit_streak/utils/habit_theme.dart'; // Assuming this defines your HabitTheme enum
+import 'package:my_habit_streak/utils/habit_theme.dart';
+import 'package:uuid/uuid.dart'; // Assuming this defines your HabitTheme enum
 
 class Habit {
   static const int currentVersion = 2;
@@ -27,7 +28,7 @@ class Habit {
     this.color = blueTheme,
     Map<String, bool>? streakHistory,
   })  : streakHistory = streakHistory ?? {},
-        id = id ?? UniqueKey().toString();
+        id = id ?? Uuid().v4();
 
   // Helper function to format DateTime asYYYY-MM-DD
   String formatDate(DateTime date) {

@@ -57,7 +57,7 @@ class HabitStorageService {
     } catch (e) {
       debugPrint('Error decoding habits: $e');
       // If data is corrupted, clear it to prevent continuous errors
-      await clearAllHabits();
+      // await clearAllHabits();
       return [];
     }
   }
