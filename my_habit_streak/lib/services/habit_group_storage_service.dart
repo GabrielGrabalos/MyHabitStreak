@@ -17,7 +17,7 @@ class HabitGroupStorageService {
 
   // 2. Expose the stream for others to listen to
   // .broadcast() allows multiple listeners.
-  static Stream<List<HabitGroup>> get habitsStream =>
+  static Stream<List<HabitGroup>> get habitGroupsStream =>
       _habitGroupsStreamController.stream;
 
   // You should also have a method to close the stream when the service is no longer needed

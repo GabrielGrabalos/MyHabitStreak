@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart'; // Using Material Design widgets
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:my_habit_streak/models/habit.dart';
 import 'package:my_habit_streak/services/general_storage_service.dart';
 import 'package:my_habit_streak/services/habit_storage_service.dart';
 import 'package:my_habit_streak/widgets/app_scaffold.dart';
+import 'package:my_habit_streak/widgets/habit_group_view.dart';
 import '../l10n/app_localizations.dart';
 import 'package:my_habit_streak/widgets/language_selection.dart';
 import 'package:my_habit_streak/widgets/floating_action_button_menu.dart';
@@ -16,7 +16,6 @@ import '../main.dart';
 import '../notifications/ask_for_notification_popup.dart';
 import '../notifications/notification_service.dart';
 import '../utils/colors.dart';
-import '../widgets/habit_list.dart';
 import '../widgets/header.dart';
 import 'create_edit_habit.dart'; // Your storage service
 
@@ -32,13 +31,9 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> with RouteAware {
   late StreamSubscription _habitsSubscription;
 
-  late StreamSubscription _storageSubscription;
-
-  final List<Habit> _doneTodayHabits = [];
-  final List<Habit> _notDoneTodayHabits = [];
-  bool _isLoading = true; // State to manage loading indicator
-
   final notificationService = NotificationService();
+  bool isLoading = true;
+  late bool habitsEmpty;
 
   @override
   void initState() {
@@ -48,17 +43,9 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
       // Whenever habits are updated, reschedule notifications,
       // so they are always in sync with the latest data.
       notificationService.scheduleNotifications();
-      debugPrint(
-          'Habits stream updated: ${updatedHabits.length} items'); // Debugging output
+      debugPrint('Habits stream updated: ${updatedHabits.length} items');
     });
-
-    _storageSubscription = GeneralStorageService.storageStream.listen((_) {
-      // Whenever general storage changes, reschedule notifications,
-      // in case notification preferences or language were changed.
-      notificationService.scheduleNotifications();
-      debugPrint('General storage updated'); // Debugging output
-    });
-    _loadAndSeparateHabits(); // Load and separate habits when the screen initializes
+    _loadHabitsEmpty();
     _dealWithNotificationPermission(); // Check notification permission
   }
 
@@ -76,14 +63,6 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
     routeObserver.unsubscribe(this);
     _habitsSubscription.cancel();
     super.dispose();
-  }
-
-  // Called when returning to HomeScreen via pop
-  @override
-  void didPopNext() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _loadAndSeparateHabits(); // Reload habits when returning to this screen
-    });
   }
 
   void _dealWithNotificationPermission() async {
@@ -118,40 +97,8 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
     }
   }
 
-  // Method to load all habits and separate them
-  Future<void> _loadAndSeparateHabits() async {
-    setState(() {
-      _isLoading = true; // Start loading
-    });
-
-    try {
-      final List<Habit> allHabits = await HabitStorageService.getHabits();
-
-      final doneToday = allHabits.where((habit) => habit.isTodayDone).toList();
-      final notDoneToday =
-          allHabits.where((habit) => !habit.isTodayDone).toList();
-
-      // Clear previous lists before repopulating
-      _doneTodayHabits.clear();
-      _notDoneTodayHabits.clear();
-
-      setState(() {
-        _doneTodayHabits.clear();
-        _notDoneTodayHabits.clear();
-
-        // Populate the lists with the separated habits
-        _doneTodayHabits.addAll(doneToday);
-        _notDoneTodayHabits.addAll(notDoneToday);
-      });
-    } catch (e) {
-      // Handle any errors during habit loading
-      debugPrint('Error loading habits: $e');
-      // Potentially show an error message to the user
-    } finally {
-      setState(() {
-        _isLoading = false; // End loading, even if there was an error
-      });
-    }
+  Future<void> _loadHabitsEmpty() async {
+    habitsEmpty = (await HabitStorageService.getHabits()).isEmpty;
   }
 
   @override
@@ -174,71 +121,12 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
                           context,
                           CreateEditHabit.routeName,
                         ) as Habit?;
-
-                        // If a new habit was created, reload the habits
-                        if (newHabit != null) {
-                          WidgetsBinding.instance.addPostFrameCallback((_) {
-                            _loadAndSeparateHabits();
-                          });
-                        }
                       },
                     ),
                     Expanded(
-                      child: _isLoading
-                          ? const Center(child: CircularProgressIndicator())
-                          : SingleChildScrollView(
-                              child: Column(
-                                children: [
-                                  if (_notDoneTodayHabits.isNotEmpty)
-                                    HabitList(
-                                      title: AppLocalizations.of(context)!
-                                          .notDoneToday,
-                                      habits: _notDoneTodayHabits,
-                                    ),
-                                  if (_doneTodayHabits.isNotEmpty)
-                                    HabitList(
-                                      title: AppLocalizations.of(context)!
-                                          .doneToday,
-                                      habits: _doneTodayHabits,
-                                    ),
-                                  if (_doneTodayHabits.isEmpty &&
-                                      _notDoneTodayHabits.isEmpty)
-                                    Align(
-                                      alignment: Alignment.topRight,
-                                      child: Padding(
-                                        padding: EdgeInsets.only(
-                                          top: 15,
-                                          right: 35,
-                                        ),
-                                        child: Column(
-                                          children: [
-                                            SvgPicture.asset(
-                                              'assets/bee_button_indicator.svg',
-                                              width: constraints.maxWidth * 0.8,
-                                            ),
-                                            const SizedBox(height: 10),
-                                            Transform.rotate(
-                                              angle: -0.25,
-                                              child: Text(
-                                                AppLocalizations.of(context)!
-                                                    .startCreating,
-                                                textAlign: TextAlign.center,
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyMedium!
-                                                    .copyWith(
-                                                      fontSize: 18,
-                                                      color: Colors.white,
-                                                    ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                ],
-                              ),
-                            ),
+                      child: isLoading
+                          ? CircularProgressIndicator()
+                          : HabitGroupView(),
                     ),
                   ],
                 ),
@@ -277,23 +165,6 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
                           }
                         },
                       ),
-                      // If there is a card called debugAppData, show this button:
-                      if (_notDoneTodayHabits
-                          .any((habit) => habit.title == 'debugAppData')) ...[
-                        ButtonData(
-                          text: 'Test instant notification',
-                          icon: Icons.notifications,
-                          onTap: () {
-                            notificationService.showInstantNotification(
-                              id: 0,
-                              title: 'This is a test notification',
-                              body:
-                                  'If you see this, the notification system is '
-                                      'working correctly.',
-                            );
-                          },
-                        ),
-                      ],
                     ],
                   ),
                 ),

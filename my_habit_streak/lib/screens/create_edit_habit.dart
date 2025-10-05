@@ -72,6 +72,11 @@ class _CreateEditHabitState extends State<CreateEditHabit> {
     super.dispose();
   }
 
+  Future<bool> _titleAlreadyExists() async {
+    return HabitStorageService.getHabits().then((habits) => habits.any(
+        (h) => h.title.toLowerCase() == _editableHabit.title.toLowerCase()));
+  }
+
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
@@ -197,7 +202,8 @@ class _CreateEditHabitState extends State<CreateEditHabit> {
                         isLoading = true; // Set loading state to true
                       });
 
-                      if (!_editableHabit.isHabitValid()) {
+                      if (!_editableHabit.isHabitValid() ||
+                          await _titleAlreadyExists()) {
                         // Vibrate  quickly twice to indicate an error
                         if (await Vibration.hasVibrator()) {
                           Vibration.vibrate(duration: 50, amplitude: 128);
@@ -270,7 +276,7 @@ class _CreateEditHabitState extends State<CreateEditHabit> {
 
                         // Delete the habit using the storage service
                         await HabitStorageService.deleteHabit(
-                            _editableHabit.title);
+                            _editableHabit.id);
 
                         setState(() {
                           isLoading = false; // Reset loading state
