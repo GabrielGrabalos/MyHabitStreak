@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart'; // Using Material Design widgets
+import 'package:flutter_svg/svg.dart';
 import 'package:my_habit_streak/models/habit.dart';
 import 'package:my_habit_streak/services/general_storage_service.dart';
 import 'package:my_habit_streak/services/habit_storage_service.dart';
@@ -42,6 +43,7 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
         HabitStorageService.habitsStream.listen((updatedHabits) {
       // Whenever habits are updated, reschedule notifications,
       // so they are always in sync with the latest data.
+      _loadHabitsEmpty();
       notificationService.scheduleNotifications();
       debugPrint('Habits stream updated: ${updatedHabits.length} items');
     });
@@ -98,7 +100,14 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
   }
 
   Future<void> _loadHabitsEmpty() async {
+    setState(() {
+      isLoading = true;
+    });
     habitsEmpty = (await HabitStorageService.getHabits()).isEmpty;
+    print("Habits empty: $habitsEmpty");
+    setState(() {
+      isLoading = false;
+    });
   }
 
   @override
@@ -125,8 +134,46 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
                     ),
                     Expanded(
                       child: isLoading
-                          ? CircularProgressIndicator()
-                          : HabitGroupView(),
+                          ? Center(
+                              child: CircularProgressIndicator(
+                                color: Theme.of(context).colorScheme.onSurface,
+                              ),
+                            )
+                          : !habitsEmpty
+                              ? HabitGroupView()
+                              : Align(
+                                  alignment: Alignment.topRight,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                      top: 15,
+                                      right: 35,
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        SvgPicture.asset(
+                                          'assets/bee_button_indicator.svg',
+                                          width: constraints.maxWidth * 0.8,
+                                        ),
+                                        const SizedBox(height: 10),
+                                        Transform.rotate(
+                                          angle: -0.25,
+                                          child: Text(
+                                            AppLocalizations.of(context)!
+                                                .startCreating,
+                                            textAlign: TextAlign.center,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium!
+                                                .copyWith(
+                                                  fontSize: 18,
+                                                  color: Colors.white,
+                                                ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
                     ),
                   ],
                 ),

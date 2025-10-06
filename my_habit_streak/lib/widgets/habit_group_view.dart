@@ -40,6 +40,13 @@ class _HabitGroupViewState extends State<HabitGroupView> with RouteAware {
     });
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    _habitGroupSubscription.cancel();
+    _habitsSubscription.cancel();
+  }
+
   Future<void> _loadHabitGroupsAndHabits() async {
     setState(() {
       isLoading = true;
