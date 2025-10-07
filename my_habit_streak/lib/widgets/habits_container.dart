@@ -10,18 +10,15 @@ class HabitsContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          ...habits.map(
-            (habit) => Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 0.0, vertical: 8.0),
-              child: HabitCard(habit: habit),
-            ),
+    return Column(
+      children: [
+        ...habits.map(
+          (habit) => Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 8.0),
+            child: HabitCard(habit: habit),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

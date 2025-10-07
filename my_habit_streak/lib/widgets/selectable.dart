@@ -25,6 +25,7 @@ class Selectable<T> extends StatelessWidget {
       onTap: () => onChanged(value),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Radio<T>(
             value: value,
