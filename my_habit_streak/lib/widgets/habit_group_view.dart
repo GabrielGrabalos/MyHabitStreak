@@ -6,6 +6,7 @@ import 'package:my_habit_streak/services/habit_storage_service.dart';
 import 'package:my_habit_streak/utils/colors.dart';
 import 'package:my_habit_streak/widgets/habit_group_tag.dart';
 import 'package:my_habit_streak/widgets/habits_container.dart';
+import 'package:my_habit_streak/screens/create_group_bottom_sheet.dart';
 
 import '../models/habit.dart';
 import '../models/habit_group.dart';
@@ -24,6 +25,7 @@ class _HabitGroupViewState extends State<HabitGroupView> with RouteAware {
   late List<HabitGroup> habitGroups;
   late HabitGroup selectedHabitGroup;
   late List<Habit> currentHabits;
+  List<Habit> allHabits = [];
   bool isLoading = true;
 
   @override
@@ -53,7 +55,7 @@ class _HabitGroupViewState extends State<HabitGroupView> with RouteAware {
     });
 
     habitGroups = await HabitGroupStorageService.getAllHabitGroups();
-    final allHabits = await HabitStorageService.getHabits();
+    allHabits = await HabitStorageService.getHabits();
     List<String> allHabitIds = [];
     for (var habit in allHabits) {
       allHabitIds.add(habit.id);
@@ -122,34 +124,51 @@ class _HabitGroupViewState extends State<HabitGroupView> with RouteAware {
       children: [
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          child: Row(
-            children: [
-              ...habitGroups.map(
-                (group) => Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 14.0,
-                    horizontal: 6.0,
-                  ),
-                  child: HabitGroupTag(
-                    label: group.name,
-                    color: group.color,
-                    onPressed: () {
-                      setState(() {
-                        selectedHabitGroup = group;
-                      });
-                      _loadHabitsFromSelectedGroup();
-                    },
-                    isSelected: group.id == selectedHabitGroup.id,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: 14.0,
+            ),
+            child: Row(
+              children: [
+                ...habitGroups.map(
+                  (group) => Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 4.0),
+                    child: HabitGroupTag(
+                      label: group.name,
+                      color: group.color,
+                      onPressed: () {
+                        setState(() {
+                          selectedHabitGroup = group;
+                        });
+                        _loadHabitsFromSelectedGroup();
+                      },
+                      isSelected: group.id == selectedHabitGroup.id,
+                    ),
                   ),
                 ),
-              ),
-              HabitGroupTag(
-                label: '',
-                icon: Icons.add,
-                onPressed: () {},
-                color: blueTheme,
-              ),
-            ],
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 4.0),
+                  child: HabitGroupTag(
+                    label: '',
+                    icon: Icons.add,
+                    onPressed: () {
+                      showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        // allows full screen
+                        backgroundColor: Colors.transparent,
+                        // keeps rounded corners visible
+                        builder: (context) => CreateGroupBottomSheet(
+                          availableHabits: allHabits,
+                          onCreate: print, // handle group creation
+                        ),
+                      );
+                    },
+                    color: blueTheme,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
         HabitsContainer(
