@@ -10,11 +10,12 @@ class HabitStorageService {
 
   // 1. Create a StreamController
   static final _habitsStreamController =
-      StreamController<List<Habit>>.broadcast();
+      StreamController<(List<Habit>, String)>.broadcast();
 
   // 2. Expose the stream for others to listen to
   // .broadcast() allows multiple listeners.
-  static Stream<List<Habit>> get habitsStream => _habitsStreamController.stream;
+  static Stream<(List<Habit>, String)> get habitsStream =>
+      _habitsStreamController.stream;
 
   // You should also have a method to close the stream when the service is no longer needed
   void dispose() {
@@ -23,7 +24,8 @@ class HabitStorageService {
 
   // --- Primary method for saving the entire list of habits ---
   // All modifications (add, update, delete) will eventually call this.
-  static Future<void> saveAllHabits(List<Habit> habits) async {
+  static Future<void> saveAllHabits(List<Habit> habits,
+      {bool isUpdating = false}) async {
     // Convert each Habit object to its JSON representation
     final List<Map<String, dynamic>> habitsJson =
         habits.map((habit) => habit.toJson()).toList();
@@ -35,7 +37,7 @@ class HabitStorageService {
     debugPrint('Habits saved: ${habits.length} items'); // Debugging output
 
     // 3. Notify all listeners about the updated list
-    _habitsStreamController.add(habits);
+    _habitsStreamController.add((habits, isUpdating ? 'update' : 'create'));
   }
 
   // Retrieve a list of Habits
@@ -87,7 +89,7 @@ class HabitStorageService {
     }
 
     // Save the entire updated list back to storage
-    await saveAllHabits(currentHabits);
+    await saveAllHabits(currentHabits, isUpdating: existingIndex != -1);
   }
 
   // Delete a specific habit by its identifier (e.g., title)

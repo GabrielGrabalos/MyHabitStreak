@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:vibration/vibration.dart';
 
 class HabitGroupTag extends StatelessWidget {
   final String label;
   final Color color;
   final VoidCallback onPressed;
+  final VoidCallback onLongPress;
   final IconData? icon;
   final bool isSelected;
 
@@ -12,6 +14,7 @@ class HabitGroupTag extends StatelessWidget {
     required this.label,
     required this.color,
     required this.onPressed,
+    required this.onLongPress,
     this.icon,
     this.isSelected = false,
   });
@@ -20,6 +23,13 @@ class HabitGroupTag extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onPressed,
+      onLongPress: () async {
+        if (await Vibration.hasAmplitudeControl()) {
+          Vibration.vibrate(amplitude: 255, duration: 5);
+        }
+
+        onLongPress();
+      },
       child: Container(
         decoration: BoxDecoration(
           color: isSelected ? color.withAlpha(50) : Colors.transparent,

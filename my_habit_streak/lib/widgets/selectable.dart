@@ -23,21 +23,37 @@ class Selectable<T> extends StatelessWidget {
     return InkWell(
       borderRadius: BorderRadius.circular(20),
       onTap: () => onChanged(value),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Radio<T>(
-            value: value,
-            groupValue: isSelected == true ? value : null,
-            onChanged: onChanged,
-            activeColor: Theme.of(context).colorScheme.onSurface,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+        decoration: BoxDecoration(
+          color: isSelected == true
+              ? Theme.of(context).colorScheme.onSurface.withAlpha(30)
+              : Colors.transparent,
+          borderRadius: BorderRadius.circular(25),
+          border: Border.all(
+            color: isSelected == true
+                ? Theme.of(context).colorScheme.onSurface
+                : Colors.grey.withAlpha(80),
+            width: isSelected == true ? 2 : 1,
           ),
-          Expanded(
-            child:
-                suppressChildInteractions ? AbsorbPointer(child: child) : child,
-          ),
-        ],
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Radio<T>(
+              value: value,
+              groupValue: isSelected == true ? value : null,
+              onChanged: onChanged,
+              activeColor: Theme.of(context).colorScheme.onSurface,
+            ),
+            Expanded(
+              child: suppressChildInteractions
+                  ? AbsorbPointer(child: child)
+                  : child,
+            ),
+          ],
+        ),
       ),
     );
   }
