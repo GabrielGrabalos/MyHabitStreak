@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:my_habit_streak/models/habit.dart';
 import 'package:my_habit_streak/models/habit_group.dart';
+import 'package:my_habit_streak/services/habit_group_storage_service.dart';
 import 'package:my_habit_streak/utils/colors.dart';
 import 'package:my_habit_streak/widgets/button.dart';
 import 'package:my_habit_streak/widgets/color_selector.dart';
+import 'package:my_habit_streak/widgets/dialog_popup.dart';
 import 'package:my_habit_streak/widgets/habit_card.dart';
 import 'package:my_habit_streak/widgets/selectable.dart';
+
+import '../l10n/app_localizations.dart';
 
 class CreateGroupBottomSheet extends StatefulWidget {
   final List<Habit> availableHabits;
@@ -35,7 +39,8 @@ class _CreateGroupBottomSheetState extends State<CreateGroupBottomSheet> {
 
     if (widget.existingGroup != null) {
       // Prefill data for editing
-      _titleController = TextEditingController(text: widget.existingGroup!.name);
+      _titleController =
+          TextEditingController(text: widget.existingGroup!.name);
       _selectedColor = widget.existingGroup!.color;
       _selectedHabits = widget.availableHabits
           .where((habit) => widget.existingGroup!.habitIds.contains(habit.id))
@@ -58,7 +63,21 @@ class _CreateGroupBottomSheetState extends State<CreateGroupBottomSheet> {
   }
 
   void _handleCreate() async {
-    if (_titleController.text.trim().isEmpty || _selectedHabits.isEmpty) {
+    if (!HabitGroup.isNameValid(_titleController.text.trim()) ||
+        (await HabitGroupStorageService.getAllHabitGroups()).any((group) =>
+            group.name.toLowerCase() ==
+                _titleController.text.trim().toLowerCase() &&
+            group.id != widget.existingGroup?.id)) {
+      if (!mounted) return;
+      showDialog(
+        context: context,
+        builder: (context) => DialogPopup(
+          title: AppLocalizations.of(context)!.invalidGroupTitle,
+          message: AppLocalizations.of(context)!.invalidGroupMessage,
+          hasCancelButton: false,
+          color: _selectedColor,
+        ),
+      );
       return;
     }
 
@@ -123,14 +142,12 @@ class _CreateGroupBottomSheetState extends State<CreateGroupBottomSheet> {
                       // Title
                       Center(
                         child: Text(
-                          isEditing ? 'Edit group' : 'Create new group',
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleLarge!
-                              .copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
+                          isEditing ? AppLocalizations.of(context)!.editHabitGroup : AppLocalizations.of(context)!.createHabitGroup,
+                          style:
+                              Theme.of(context).textTheme.titleLarge!.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
                         ),
                       ),
                       const SizedBox(height: 20),
@@ -140,17 +157,17 @@ class _CreateGroupBottomSheetState extends State<CreateGroupBottomSheet> {
                         controller: _titleController,
                         cursorColor: _selectedColor,
                         decoration: InputDecoration(
-                          labelText: 'Group title',
+                          labelText: AppLocalizations.of(context)!.groupTitle,
                           labelStyle: const TextStyle(color: Colors.white),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(18),
                             borderSide:
-                            BorderSide(color: _selectedColor, width: 2),
+                                BorderSide(color: _selectedColor, width: 2),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(18),
                             borderSide:
-                            BorderSide(color: _selectedColor, width: 2),
+                                BorderSide(color: _selectedColor, width: 2),
                           ),
                         ),
                       ),
@@ -176,7 +193,7 @@ class _CreateGroupBottomSheetState extends State<CreateGroupBottomSheet> {
                       ),
                       const SizedBox(height: 8),
                       ...widget.availableHabits.map(
-                            (habit) => Padding(
+                        (habit) => Padding(
                           padding: const EdgeInsets.symmetric(vertical: 8.0),
                           child: Selectable<Habit>(
                             value: habit,
@@ -200,9 +217,9 @@ class _CreateGroupBottomSheetState extends State<CreateGroupBottomSheet> {
                       Text(
                         '${_selectedHabits.length} selected',
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          color: Colors.white70,
-                          fontWeight: FontWeight.w500,
-                        ),
+                              color: Colors.white70,
+                              fontWeight: FontWeight.w500,
+                            ),
                       ),
                       const SizedBox(width: 20),
                       Expanded(

@@ -152,4 +152,19 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get delete => '删除';
+
+  @override
+  String get invalidGroupTitle => '无效分组';
+
+  @override
+  String get invalidGroupMessage => '请为习惯分组提供一个唯一且有效的名称。';
+
+  @override
+  String get groupTitle => '分组标题';
+
+  @override
+  String get editHabitGroup => '编辑分组';
+
+  @override
+  String get createHabitGroup => '创建分组';
 }

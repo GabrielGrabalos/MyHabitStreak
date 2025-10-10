@@ -45,5 +45,10 @@
   "notDone": "未完了",
   "done": "完了",
   "edit": "編集",
-  "delete": "削除"
+  "delete": "削除",
+  "invalidGroupTitle": "無効なグループ",
+  "invalidGroupMessage": "習慣グループに固有で有効な名前を入力してください。",
+  "groupTitle": "グループタイトル",
+  "editHabitGroup": "グループを編集",
+  "createHabitGroup": "グループを作成"
 }

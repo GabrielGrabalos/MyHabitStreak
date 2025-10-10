@@ -377,6 +377,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Delete'**
   String get delete;
+
+  /// Title for invalid habit group name error dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid Group'**
+  String get invalidGroupTitle;
+
+  /// Error message for invalid habit group name input
+  ///
+  /// In en, this message translates to:
+  /// **'Please provide a unique and valid name for the habit group.'**
+  String get invalidGroupMessage;
+
+  /// Label for habit group title input field
+  ///
+  /// In en, this message translates to:
+  /// **'Group Title'**
+  String get groupTitle;
+
+  /// Title for habit group editing screen
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Group'**
+  String get editHabitGroup;
+
+  /// Title for habit group creation screen
+  ///
+  /// In en, this message translates to:
+  /// **'Create Group'**
+  String get createHabitGroup;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

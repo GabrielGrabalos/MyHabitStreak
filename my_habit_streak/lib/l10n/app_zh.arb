@@ -45,5 +45,10 @@
   "notDone": "未完成",
   "done": "已完成",
   "edit": "编辑",
-  "delete": "删除"
+  "delete": "删除",
+  "invalidGroupTitle": "无效分组",
+  "invalidGroupMessage": "请为习惯分组提供一个唯一且有效的名称。",
+  "groupTitle": "分组标题",
+  "editHabitGroup": "编辑分组",
+  "createHabitGroup": "创建分组"
 }

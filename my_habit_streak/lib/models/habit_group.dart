@@ -55,6 +55,14 @@ class HabitGroup {
     );
   }
 
+  static bool isNameValid(String name) {
+    return name.isNotEmpty;
+  }
+
+  bool isValid() {
+    return name.isNotEmpty;
+  }
+
   @override
   String toString() {
     return "id: $id, name: $name, color: $color, habit ids: $habitIds";

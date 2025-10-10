@@ -180,5 +180,25 @@
   "delete": "Delete",
     "@delete": {
         "description": "Button text to delete something"
+    },
+  "invalidGroupTitle": "Invalid Group",
+    "@invalidGroupTitle": {
+        "description": "Title for invalid habit group name error dialog"
+    },
+  "invalidGroupMessage": "Please provide a unique and valid name for the habit group.",
+    "@invalidGroupMessage": {
+        "description": "Error message for invalid habit group name input"
+    },
+  "groupTitle": "Group Title",
+    "@groupTitle": {
+        "description": "Label for habit group title input field"
+    },
+  "editHabitGroup": "Edit Group",
+    "@editHabitGroup": {
+        "description": "Title for habit group editing screen"
+    },
+  "createHabitGroup": "Create Group",
+    "@createHabitGroup": {
+        "description": "Title for habit group creation screen"
     }
 }

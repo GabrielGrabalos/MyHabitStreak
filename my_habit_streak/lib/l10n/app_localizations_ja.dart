@@ -152,4 +152,19 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get delete => '削除';
+
+  @override
+  String get invalidGroupTitle => '無効なグループ';
+
+  @override
+  String get invalidGroupMessage => '習慣グループに固有で有効な名前を入力してください。';
+
+  @override
+  String get groupTitle => 'グループタイトル';
+
+  @override
+  String get editHabitGroup => 'グループを編集';
+
+  @override
+  String get createHabitGroup => 'グループを作成';
 }

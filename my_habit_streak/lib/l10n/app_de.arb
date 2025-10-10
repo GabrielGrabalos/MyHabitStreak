@@ -45,5 +45,10 @@
   "notDone": "Ausstehend",
   "done": "Erledigt",
   "edit": "Bearbeiten",
-  "delete": "Löschen"
+  "delete": "Löschen",
+  "invalidGroupTitle": "Ungültige Gruppe",
+  "invalidGroupMessage": "Bitte geben Sie einen eindeutigen und gültigen Namen für die Gewohnheitsgruppe an.",
+  "groupTitle": "Gruppentitel",
+  "editHabitGroup": "Gruppe bearbeiten",
+  "createHabitGroup": "Gruppe erstellen"
 }

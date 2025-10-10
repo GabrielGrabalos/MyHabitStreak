@@ -152,4 +152,19 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get delete => 'Удалить';
+
+  @override
+  String get invalidGroupTitle => 'Неверная группа';
+
+  @override
+  String get invalidGroupMessage => 'Пожалуйста, укажите уникальное и допустимое название для группы привычек.';
+
+  @override
+  String get groupTitle => 'Название группы';
+
+  @override
+  String get editHabitGroup => 'Редактировать группу';
+
+  @override
+  String get createHabitGroup => 'Создать группу';
 }

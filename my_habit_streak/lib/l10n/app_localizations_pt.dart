@@ -152,6 +152,21 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get delete => 'Excluir';
+
+  @override
+  String get invalidGroupTitle => 'Grupo Inválido';
+
+  @override
+  String get invalidGroupMessage => 'Por favor, forneça um nome único e válido para o grupo de hábitos.';
+
+  @override
+  String get groupTitle => 'Título do Grupo';
+
+  @override
+  String get editHabitGroup => 'Editar Grupo';
+
+  @override
+  String get createHabitGroup => 'Criar Grupo';
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -302,4 +317,19 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get delete => 'Excluir';
+
+  @override
+  String get invalidGroupTitle => 'Grupo Inválido';
+
+  @override
+  String get invalidGroupMessage => 'Por favor, forneça um nome único e válido para o grupo de hábitos.';
+
+  @override
+  String get groupTitle => 'Título do Grupo';
+
+  @override
+  String get editHabitGroup => 'Editar Grupo';
+
+  @override
+  String get createHabitGroup => 'Criar Grupo';
 }

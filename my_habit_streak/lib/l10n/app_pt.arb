@@ -45,5 +45,10 @@
   "notDone": "Pendentes",
   "done": "Concluídos",
   "edit": "Editar",
-  "delete": "Excluir"
+  "delete": "Excluir",
+  "invalidGroupTitle": "Grupo Inválido",
+  "invalidGroupMessage": "Por favor, forneça um nome único e válido para o grupo de hábitos.",
+  "groupTitle": "Título do Grupo",
+  "editHabitGroup": "Editar Grupo",
+  "createHabitGroup": "Criar Grupo"
 }

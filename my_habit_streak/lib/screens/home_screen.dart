@@ -36,6 +36,7 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
   late StreamSubscription _habitsSubscription;
   late StreamSubscription _habitGroupSubscription;
   late ScrollController _groupScrollController;
+  AppLocalizations? _appLocalizations;
 
   final notificationService = NotificationService();
   bool isLoading = true;
@@ -49,6 +50,7 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
   void initState() {
     super.initState();
     _groupScrollController = ScrollController();
+
     _loadHabitsAndGroups();
 
     _habitsSubscription = HabitStorageService.habitsStream.listen((event) {
@@ -65,16 +67,14 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
         HabitGroupStorageService.habitGroupsStream.listen((updatedGroups) {
       _loadHabitsAndGroups();
     });
-
-    _dealWithNotificationPermission();
   }
 
   @override
   void dispose() {
-    routeObserver.unsubscribe(this);
-    _groupScrollController.dispose();
     _habitsSubscription.cancel();
     _habitGroupSubscription.cancel();
+    _groupScrollController.dispose();
+    routeObserver.unsubscribe(this);
     super.dispose();
   }
 
@@ -82,8 +82,22 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
   void didChangeDependencies() {
     super.didChangeDependencies();
     routeObserver.subscribe(this, ModalRoute.of(context)!);
-    notificationService.setAppLocalizations(AppLocalizations.of(context)!);
+
+    // Initialize localization here instead of initState
+    final newLocalizations = AppLocalizations.of(context)!;
+    final hasLocaleChanged = _appLocalizations == null ||
+        _appLocalizations!.localeName != newLocalizations.localeName;
+
+    _appLocalizations = newLocalizations;
+    notificationService.setAppLocalizations(_appLocalizations!);
+
+    if (hasLocaleChanged) {
+      _loadHabitsAndGroups();
+    }
+
+    _dealWithNotificationPermission();
   }
+
 
   Future<void> _dealWithNotificationPermission() async {
     final status = await Permission.notification.status;
@@ -131,17 +145,17 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
     _habitGroups = [
       HabitGroup(
         id: 'all',
-        name: AppLocalizations.of(context)!.all,
+        name: _appLocalizations!.all,
         habitIds: allHabitIds,
       ),
       HabitGroup(
         id: 'not_done',
-        name: AppLocalizations.of(context)!.notDone,
+        name: _appLocalizations!.notDone,
         habitIds: notDoneHabitIds,
       ),
       HabitGroup(
         id: 'done',
-        name: AppLocalizations.of(context)!.done,
+        name: _appLocalizations!.done,
         habitIds: doneHabitIds,
       ),
       ...customGroups,

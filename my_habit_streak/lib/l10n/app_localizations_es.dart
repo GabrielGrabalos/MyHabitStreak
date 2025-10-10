@@ -152,4 +152,19 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get delete => 'Eliminar';
+
+  @override
+  String get invalidGroupTitle => 'Grupo Inválido';
+
+  @override
+  String get invalidGroupMessage => 'Por favor, proporcione un nombre único y válido para el grupo de hábitos.';
+
+  @override
+  String get groupTitle => 'Título del Grupo';
+
+  @override
+  String get editHabitGroup => 'Editar Grupo';
+
+  @override
+  String get createHabitGroup => 'Crear Grupo';
 }

@@ -31,6 +31,8 @@ class HabitGroupTag extends StatelessWidget {
       onLongPress: () async {
         if (!hasMenu) return;
 
+        Vibration.vibrate(amplitude: 255, duration: 5);
+
         final renderBox = context.findRenderObject() as RenderBox;
         final offset = renderBox.localToGlobal(Offset.zero);
         final size = renderBox.size;
@@ -45,7 +47,8 @@ class HabitGroupTag extends StatelessWidget {
         final selected = await showMenu(
           context: context,
           position: RelativeRect.fromLTRB(
-            offset.dx - (menuWidth / 2) + (size.width / 2), // shift for horizontal centering
+            offset.dx - (menuWidth / 2) + (size.width / 2),
+            // shift for horizontal centering
             offset.dy + size.height + 5,
             offset.dx + size.width,
             0,
@@ -86,11 +89,6 @@ class HabitGroupTag extends StatelessWidget {
             ),
           ],
         );
-
-
-        if (await Vibration.hasAmplitudeControl()) {
-          Vibration.vibrate(amplitude: 255, duration: 5);
-        }
 
         if (selected == 'edit') {
           onGroupEdit();
