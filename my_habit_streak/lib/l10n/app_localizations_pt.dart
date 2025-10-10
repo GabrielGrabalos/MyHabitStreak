@@ -167,6 +167,21 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get createHabitGroup => 'Criar Grupo';
+
+  @override
+  String get selectHabits => 'Selecionar Hábitos:';
+
+  @override
+  String get create => 'Criar';
+
+  @override
+  String get update => 'Atualizar';
+
+  @override
+  String get habitSelected => 'selecionado';
+
+  @override
+  String get habitsSelected => 'selecionados';
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -332,4 +347,19 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get createHabitGroup => 'Criar Grupo';
+
+  @override
+  String get selectHabits => 'Selecionar Hábitos:';
+
+  @override
+  String get create => 'Criar';
+
+  @override
+  String get update => 'Atualizar';
+
+  @override
+  String get habitSelected => 'selecionado';
+
+  @override
+  String get habitsSelected => 'selecionados';
 }

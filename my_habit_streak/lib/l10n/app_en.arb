@@ -200,5 +200,25 @@
   "createHabitGroup": "Create Group",
     "@createHabitGroup": {
         "description": "Title for habit group creation screen"
-    }
+    },
+  "selectHabits": "Select Habits:",
+    "@selectHabits": {
+        "description": "Title for selecting habits to add to a group"
+    },
+    "create": "Create",
+      "@create": {
+          "description": "Button text to create something"
+      },
+    "update": "Update",
+      "@update": {
+          "description": "Button text to update something"
+      },
+    "habitSelected": "selected",
+      "@habitSelected": {
+          "description": "Text to display after the number of selected habits (singular)"
+      },
+      "habitsSelected": "selected",
+      "@habitsSelected": {
+          "description": "Text to display after the number of selected habits (plural)"
+      }
 }

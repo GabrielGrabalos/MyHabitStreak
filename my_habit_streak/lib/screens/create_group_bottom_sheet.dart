@@ -185,7 +185,7 @@ class _CreateGroupBottomSheetState extends State<CreateGroupBottomSheet> {
 
                       // Selectable habits
                       Text(
-                        'Select habits:',
+                        AppLocalizations.of(context)!.selectHabits,
                         style: Theme.of(context)
                             .textTheme
                             .titleMedium
@@ -215,7 +215,7 @@ class _CreateGroupBottomSheetState extends State<CreateGroupBottomSheet> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        '${_selectedHabits.length} selected',
+                        '${_selectedHabits.length} ${_selectedHabits.length <= 1 ? AppLocalizations.of(context)!.habitSelected : AppLocalizations.of(context)!.habitsSelected}',
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                               color: Colors.white70,
                               fontWeight: FontWeight.w500,
@@ -225,7 +225,7 @@ class _CreateGroupBottomSheetState extends State<CreateGroupBottomSheet> {
                       Expanded(
                         child: Button(
                           isLoading: _isCreating,
-                          label: isEditing ? 'Update' : 'Create',
+                          label: isEditing ? AppLocalizations.of(context)!.update : AppLocalizations.of(context)!.create,
                           color: _selectedColor,
                           onPressed: _handleCreate,
                         ),

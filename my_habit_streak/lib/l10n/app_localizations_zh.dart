@@ -167,4 +167,19 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get createHabitGroup => '创建分组';
+
+  @override
+  String get selectHabits => '选择习惯:';
+
+  @override
+  String get create => '创建';
+
+  @override
+  String get update => '更新';
+
+  @override
+  String get habitSelected => '已选';
+
+  @override
+  String get habitsSelected => '已选';
 }

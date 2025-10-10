@@ -50,5 +50,10 @@
   "invalidGroupMessage": "Пожалуйста, укажите уникальное и допустимое название для группы привычек.",
   "groupTitle": "Название группы",
   "editHabitGroup": "Редактировать группу",
-  "createHabitGroup": "Создать группу"
+  "createHabitGroup": "Создать группу",
+  "selectHabits": "Выбрать привычки:",
+  "create": "作成",
+  "update": "更新",
+  "habitSelected": "選択済み",
+  "habitsSelected": "選択済み"
 }

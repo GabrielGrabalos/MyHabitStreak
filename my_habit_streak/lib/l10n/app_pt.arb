@@ -50,5 +50,10 @@
   "invalidGroupMessage": "Por favor, forneça um nome único e válido para o grupo de hábitos.",
   "groupTitle": "Título do Grupo",
   "editHabitGroup": "Editar Grupo",
-  "createHabitGroup": "Criar Grupo"
+  "createHabitGroup": "Criar Grupo",
+  "selectHabits": "Selecionar Hábitos:",
+  "create": "Criar",
+  "update": "Atualizar",
+  "habitSelected": "selecionado",
+  "habitsSelected": "selecionados"
 }

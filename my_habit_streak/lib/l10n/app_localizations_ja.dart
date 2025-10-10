@@ -167,4 +167,19 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get createHabitGroup => 'グループを作成';
+
+  @override
+  String get selectHabits => '習慣を選択:';
+
+  @override
+  String get create => '作成';
+
+  @override
+  String get update => '更新';
+
+  @override
+  String get habitSelected => '選択済み';
+
+  @override
+  String get habitsSelected => '選択済み';
 }

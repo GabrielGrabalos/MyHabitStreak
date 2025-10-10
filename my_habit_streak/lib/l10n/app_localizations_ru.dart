@@ -167,4 +167,19 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get createHabitGroup => 'Создать группу';
+
+  @override
+  String get selectHabits => 'Выбрать привычки:';
+
+  @override
+  String get create => '作成';
+
+  @override
+  String get update => '更新';
+
+  @override
+  String get habitSelected => '選択済み';
+
+  @override
+  String get habitsSelected => '選択済み';
 }

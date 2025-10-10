@@ -167,4 +167,19 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get createHabitGroup => 'Crear Grupo';
+
+  @override
+  String get selectHabits => 'Seleccionar Hábitos:';
+
+  @override
+  String get create => 'Crear';
+
+  @override
+  String get update => 'Actualizar';
+
+  @override
+  String get habitSelected => 'seleccionado';
+
+  @override
+  String get habitsSelected => 'seleccionados';
 }

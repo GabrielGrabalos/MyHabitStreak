@@ -407,6 +407,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Create Group'**
   String get createHabitGroup;
+
+  /// Title for selecting habits to add to a group
+  ///
+  /// In en, this message translates to:
+  /// **'Select Habits:'**
+  String get selectHabits;
+
+  /// Button text to create something
+  ///
+  /// In en, this message translates to:
+  /// **'Create'**
+  String get create;
+
+  /// Button text to update something
+  ///
+  /// In en, this message translates to:
+  /// **'Update'**
+  String get update;
+
+  /// Text to display after the number of selected habits (singular)
+  ///
+  /// In en, this message translates to:
+  /// **'selected'**
+  String get habitSelected;
+
+  /// Text to display after the number of selected habits (plural)
+  ///
+  /// In en, this message translates to:
+  /// **'selected'**
+  String get habitsSelected;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

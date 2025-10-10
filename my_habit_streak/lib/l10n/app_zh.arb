@@ -50,5 +50,10 @@
   "invalidGroupMessage": "请为习惯分组提供一个唯一且有效的名称。",
   "groupTitle": "分组标题",
   "editHabitGroup": "编辑分组",
-  "createHabitGroup": "创建分组"
+  "createHabitGroup": "创建分组",
+  "selectHabits": "选择习惯:",
+  "create": "创建",
+  "update": "更新",
+  "habitSelected": "已选",
+  "habitsSelected": "已选"
 }

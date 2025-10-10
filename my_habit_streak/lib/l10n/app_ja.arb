@@ -50,5 +50,10 @@
   "invalidGroupMessage": "習慣グループに固有で有効な名前を入力してください。",
   "groupTitle": "グループタイトル",
   "editHabitGroup": "グループを編集",
-  "createHabitGroup": "グループを作成"
+  "createHabitGroup": "グループを作成",
+  "selectHabits": "習慣を選択:",
+  "create": "作成",
+  "update": "更新",
+  "habitSelected": "選択済み",
+  "habitsSelected": "選択済み"
 }
