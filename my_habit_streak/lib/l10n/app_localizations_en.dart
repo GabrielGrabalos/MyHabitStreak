@@ -129,4 +129,27 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get countDownNotificationTitle => 'Your time is running out!';
+
+  @override
+  String get deleteHabitGroupTitle => 'Delete Group?';
+
+  @override
+  String deleteHabitGroupMessage(Object groupName) {
+    return 'Are you sure you want to delete the group \"$groupName\"? Don\'t worry, this action will NOT delete the habits inside it.';
+  }
+
+  @override
+  String get all => 'All';
+
+  @override
+  String get notDone => 'Not Done';
+
+  @override
+  String get done => 'Done';
+
+  @override
+  String get edit => 'Edit';
+
+  @override
+  String get delete => 'Delete';
 }

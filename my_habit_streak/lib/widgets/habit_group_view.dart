@@ -13,8 +13,9 @@ class HabitGroupView extends StatelessWidget {
   final List<Habit> allHabits;
   final Function(HabitGroup) onGroupSelected;
   final Function(HabitGroup) onGroupEdit;
+  final Function(HabitGroup) onGroupDelete;
   final Function() onAddGroup;
-  final ScrollController scrollController; // ✅ NEW
+  final ScrollController scrollController;
 
   const HabitGroupView({
     super.key,
@@ -24,6 +25,7 @@ class HabitGroupView extends StatelessWidget {
     required this.allHabits,
     required this.onGroupSelected,
     required this.onGroupEdit,
+    required this.onGroupDelete,
     required this.onAddGroup,
     required this.scrollController,
   });
@@ -50,12 +52,11 @@ class HabitGroupView extends StatelessWidget {
                         label: group.name,
                         color: group.color,
                         onPressed: () => onGroupSelected(group),
-                        onLongPress: () {
-                          if (!['all', 'not_done', 'done'].contains(group.id)) {
-                            onGroupEdit(group);
-                          }
-                        },
+                        onGroupEdit: () => onGroupEdit(group),
+                        onGroupDelete: () => onGroupDelete(group),
                         isSelected: group.id == selectedHabitGroup?.id,
+                        hasMenu:
+                            !['all', 'done', 'not_done'].contains(group.id),
                       ),
                     );
                   }),
@@ -66,7 +67,8 @@ class HabitGroupView extends StatelessWidget {
                       icon: Icons.add,
                       color: blueTheme,
                       onPressed: onAddGroup,
-                      onLongPress: () {},
+                      onGroupEdit: () {},
+                      onGroupDelete: () {},
                     ),
                   ),
                 ],

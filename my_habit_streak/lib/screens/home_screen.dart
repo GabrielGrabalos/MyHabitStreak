@@ -7,6 +7,7 @@ import 'package:my_habit_streak/services/general_storage_service.dart';
 import 'package:my_habit_streak/services/habit_group_storage_service.dart';
 import 'package:my_habit_streak/services/habit_storage_service.dart';
 import 'package:my_habit_streak/widgets/app_scaffold.dart';
+import 'package:my_habit_streak/widgets/dialog_popup.dart';
 import 'package:my_habit_streak/widgets/habit_group_view.dart';
 import '../l10n/app_localizations.dart';
 import 'package:my_habit_streak/widgets/language_selection.dart';
@@ -125,10 +126,24 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
     List<String> doneHabitIds =
         _allHabits.where((h) => h.isTodayDone).map((h) => h.id).toList();
 
+    if (!mounted) return;
+
     _habitGroups = [
-      HabitGroup(id: 'all', name: 'All', habitIds: allHabitIds),
-      HabitGroup(id: 'not_done', name: 'Not Done', habitIds: notDoneHabitIds),
-      HabitGroup(id: 'done', name: 'Done', habitIds: doneHabitIds),
+      HabitGroup(
+        id: 'all',
+        name: AppLocalizations.of(context)!.all,
+        habitIds: allHabitIds,
+      ),
+      HabitGroup(
+        id: 'not_done',
+        name: AppLocalizations.of(context)!.notDone,
+        habitIds: notDoneHabitIds,
+      ),
+      HabitGroup(
+        id: 'done',
+        name: AppLocalizations.of(context)!.done,
+        habitIds: doneHabitIds,
+      ),
       ...customGroups,
     ];
 
@@ -187,6 +202,28 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
         },
       ),
     );
+  }
+
+  void _onGroupDelete(HabitGroup group) async {
+    final shouldDelete = await showDialog<bool>(
+          context: context,
+          builder: (context) => DialogPopup(
+            title: AppLocalizations.of(context)!.deleteHabitGroupTitle,
+            message: AppLocalizations.of(context)!
+                .deleteHabitGroupMessage(group.name),
+            isWarning: true,
+          ),
+        ) ??
+        false;
+
+    if (!shouldDelete) return;
+
+    await HabitGroupStorageService.deleteHabitGroup(group.id);
+    if (_selectedGroup?.id == group.id) {
+      _selectedGroup = _habitGroups.first;
+      _groupScrollController.jumpTo(0.0);
+    }
+    _loadHabitsAndGroups();
   }
 
   void _onAddGroup() {
@@ -268,6 +305,7 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
                                   allHabits: _allHabits,
                                   onGroupSelected: _onGroupSelected,
                                   onGroupEdit: _onGroupEdit,
+                                  onGroupDelete: _onGroupDelete,
                                   onAddGroup: _onAddGroup,
                                   scrollController: _groupScrollController,
                                 ),

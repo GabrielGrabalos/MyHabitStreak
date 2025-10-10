@@ -129,6 +129,29 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get countDownNotificationTitle => 'Seu tempo está se esgotando!';
+
+  @override
+  String get deleteHabitGroupTitle => 'Excluir Grupo?';
+
+  @override
+  String deleteHabitGroupMessage(Object groupName) {
+    return 'Tem certeza de que deseja excluir o grupo \"$groupName\"? Não se preocupe, esta ação NÃO excluirá os hábitos dentro dele.';
+  }
+
+  @override
+  String get all => 'Todos';
+
+  @override
+  String get notDone => 'Pendentes';
+
+  @override
+  String get done => 'Concluídos';
+
+  @override
+  String get edit => 'Editar';
+
+  @override
+  String get delete => 'Excluir';
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -256,4 +279,27 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get countDownNotificationTitle => 'Seu tempo está se esgotando!';
+
+  @override
+  String get deleteHabitGroupTitle => 'Excluir Grupo?';
+
+  @override
+  String deleteHabitGroupMessage(Object groupName) {
+    return 'Tem certeza de que deseja excluir o grupo \"$groupName\"? Não se preocupe, esta ação NÃO excluirá os hábitos dentro dele.';
+  }
+
+  @override
+  String get all => 'Todos';
+
+  @override
+  String get notDone => 'Pendentes';
+
+  @override
+  String get done => 'Concluídos';
+
+  @override
+  String get edit => 'Editar';
+
+  @override
+  String get delete => 'Excluir';
 }

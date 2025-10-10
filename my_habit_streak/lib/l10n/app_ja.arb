@@ -38,5 +38,12 @@
   "singleHabitNotificationBody": "「{habitName}」が完了待ちです！",
   "twoHabitNotificationBody": "「{firstHabitName}」と「{secondHabitName}」が完了待ちです！",
   "multipleHabitNotificationBody": "{firstTwoNames}、あと{remainingCount}個の習慣が完了待ちです！",
-  "countDownNotificationTitle": "時間がなくなりつつあります！"
+  "countDownNotificationTitle": "時間がなくなりつつあります！",
+  "deleteHabitGroupTitle": "グループを削除しますか？",
+  "deleteHabitGroupMessage": "グループ「{groupName}」を削除してもよろしいですか？ご安心ください、この操作で中の習慣は削除されません。",
+  "all": "すべて",
+  "notDone": "未完了",
+  "done": "完了",
+  "edit": "編集",
+  "delete": "削除"
 }

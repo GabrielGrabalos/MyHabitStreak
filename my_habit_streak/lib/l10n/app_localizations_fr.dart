@@ -129,4 +129,27 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get countDownNotificationTitle => 'Votre temps est compté !';
+
+  @override
+  String get deleteHabitGroupTitle => 'Supprimer le Groupe ?';
+
+  @override
+  String deleteHabitGroupMessage(Object groupName) {
+    return 'Êtes-vous sûr de vouloir supprimer le groupe \"$groupName\" ? Ne vous inquiétez pas, cette action ne supprimera PAS les habitudes qu\'il contient.';
+  }
+
+  @override
+  String get all => 'Tous';
+
+  @override
+  String get notDone => 'En attente';
+
+  @override
+  String get done => 'Terminés';
+
+  @override
+  String get edit => 'Modifier';
+
+  @override
+  String get delete => 'Supprimer';
 }

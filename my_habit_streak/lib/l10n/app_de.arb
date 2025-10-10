@@ -38,5 +38,12 @@
   "singleHabitNotificationBody": "\"{habitName}\" wartet auf Sie!",
   "twoHabitNotificationBody": "\"{firstHabitName}\" und \"{secondHabitName}\" warten auf Sie!",
   "multipleHabitNotificationBody": "{firstTwoNames}, und {remainingCount} weitere warten auf Sie!",
-  "countDownNotificationTitle": "Ihre Zeit läuft ab!"
+  "countDownNotificationTitle": "Ihre Zeit läuft ab!",
+  "deleteHabitGroupTitle": "Gruppe löschen?",
+  "deleteHabitGroupMessage": "Sind Sie sicher, dass Sie die Gruppe \"{groupName}\" löschen möchten? Keine Sorge, diese Aktion löscht NICHT die darin enthaltenen Gewohnheiten.",
+  "all": "Alle",
+  "notDone": "Ausstehend",
+  "done": "Erledigt",
+  "edit": "Bearbeiten",
+  "delete": "Löschen"
 }

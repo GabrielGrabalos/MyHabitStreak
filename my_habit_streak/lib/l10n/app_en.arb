@@ -152,5 +152,33 @@
   "countDownNotificationTitle": "Your time is running out!",
     "@countDownNotificationTitle": {
         "description": "Title for the countdown notification"
+    },
+  "deleteHabitGroupTitle": "Delete Group?",
+    "@deleteHabitGroupTitle": {
+        "description": "Title for habit group deletion confirmation dialog"
+    },
+  "deleteHabitGroupMessage": "Are you sure you want to delete the group \"{groupName}\"? Don't worry, this action will NOT delete the habits inside it.",
+    "@deleteHabitGroupMessage": {
+        "description": "Message in habit group deletion confirmation dialog"
+    },
+  "all": "All",
+    "@all": {
+        "description": "Filter option to show all habits"
+    },
+  "notDone": "Not Done",
+    "@notDone": {
+        "description": "Filter option to show not done habits"
+    },
+  "done": "Done",
+    "@done": {
+        "description": "Filter option to show done habits"
+    },
+  "edit": "Edit",
+    "@edit": {
+        "description": "Button text to edit something"
+    },
+  "delete": "Delete",
+    "@delete": {
+        "description": "Button text to delete something"
     }
 }

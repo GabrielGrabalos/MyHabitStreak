@@ -38,5 +38,12 @@
   "singleHabitNotificationBody": "「{habitName}」正在等待完成！",
   "twoHabitNotificationBody": "「{firstHabitName}」和「{secondHabitName}」正在等待完成！",
   "multipleHabitNotificationBody": "{firstTwoNames}，还有{remainingCount}个习惯正在等待完成！",
-  "countDownNotificationTitle": "时间不多了！"
+  "countDownNotificationTitle": "时间不多了！",
+  "deleteHabitGroupTitle": "删除分组？",
+  "deleteHabitGroupMessage": "确定要删除分组「{groupName}」吗？请放心，此操作不会删除其中的习惯。",
+  "all": "全部",
+  "notDone": "未完成",
+  "done": "已完成",
+  "edit": "编辑",
+  "delete": "删除"
 }

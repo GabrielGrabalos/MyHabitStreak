@@ -38,5 +38,12 @@
   "singleHabitNotificationBody": "« {habitName} » vous attend !",
   "twoHabitNotificationBody": "« {firstHabitName} » et « {secondHabitName} » vous attendent !",
   "multipleHabitNotificationBody": "{firstTwoNames}, et {remainingCount} autres vous attendent !",
-  "countDownNotificationTitle": "Votre temps est compté !"
+  "countDownNotificationTitle": "Votre temps est compté !",
+  "deleteHabitGroupTitle": "Supprimer le Groupe ?",
+  "deleteHabitGroupMessage": "Êtes-vous sûr de vouloir supprimer le groupe \"{groupName}\" ? Ne vous inquiétez pas, cette action ne supprimera PAS les habitudes qu'il contient.",
+  "all": "Tous",
+  "notDone": "En attente",
+  "done": "Terminés",
+  "edit": "Modifier",
+  "delete": "Supprimer"
 }

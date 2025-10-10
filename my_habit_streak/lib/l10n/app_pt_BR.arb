@@ -38,5 +38,12 @@
   "singleHabitNotificationBody": "\"{habitName}\" está esperando por você!",
   "twoHabitNotificationBody": "\"{firstHabitName}\" e \"{secondHabitName}\" estão esperando por você!",
   "multipleHabitNotificationBody": "{firstTwoNames}, e mais {remainingCount} estão esperando por você!",
-  "countDownNotificationTitle": "Seu tempo está se esgotando!"
+  "countDownNotificationTitle": "Seu tempo está se esgotando!",
+  "deleteHabitGroupTitle": "Excluir Grupo?",
+  "deleteHabitGroupMessage": "Tem certeza de que deseja excluir o grupo \"{groupName}\"? Não se preocupe, esta ação NÃO excluirá os hábitos dentro dele.",
+  "all": "Todos",
+  "notDone": "Pendentes",
+  "done": "Concluídos",
+  "edit": "Editar",
+  "delete": "Excluir"
 }

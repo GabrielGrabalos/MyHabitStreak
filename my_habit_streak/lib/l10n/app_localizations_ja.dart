@@ -129,4 +129,27 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get countDownNotificationTitle => '時間がなくなりつつあります！';
+
+  @override
+  String get deleteHabitGroupTitle => 'グループを削除しますか？';
+
+  @override
+  String deleteHabitGroupMessage(Object groupName) {
+    return 'グループ「$groupName」を削除してもよろしいですか？ご安心ください、この操作で中の習慣は削除されません。';
+  }
+
+  @override
+  String get all => 'すべて';
+
+  @override
+  String get notDone => '未完了';
+
+  @override
+  String get done => '完了';
+
+  @override
+  String get edit => '編集';
+
+  @override
+  String get delete => '削除';
 }

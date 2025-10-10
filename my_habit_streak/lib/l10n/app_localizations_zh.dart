@@ -129,4 +129,27 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get countDownNotificationTitle => '时间不多了！';
+
+  @override
+  String get deleteHabitGroupTitle => '删除分组？';
+
+  @override
+  String deleteHabitGroupMessage(Object groupName) {
+    return '确定要删除分组「$groupName」吗？请放心，此操作不会删除其中的习惯。';
+  }
+
+  @override
+  String get all => '全部';
+
+  @override
+  String get notDone => '未完成';
+
+  @override
+  String get done => '已完成';
+
+  @override
+  String get edit => '编辑';
+
+  @override
+  String get delete => '删除';
 }

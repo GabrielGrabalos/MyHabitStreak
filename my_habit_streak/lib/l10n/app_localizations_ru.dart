@@ -129,4 +129,27 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get countDownNotificationTitle => 'Время истекает!';
+
+  @override
+  String get deleteHabitGroupTitle => 'Удалить Группу?';
+
+  @override
+  String deleteHabitGroupMessage(Object groupName) {
+    return 'Вы уверены, что хотите удалить группу \"$groupName\"? Не волнуйтесь, это действие НЕ удалит привычки внутри нее.';
+  }
+
+  @override
+  String get all => 'Все';
+
+  @override
+  String get notDone => 'Ожидающие';
+
+  @override
+  String get done => 'Выполненные';
+
+  @override
+  String get edit => 'Редактировать';
+
+  @override
+  String get delete => 'Удалить';
 }

@@ -335,6 +335,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Your time is running out!'**
   String get countDownNotificationTitle;
+
+  /// Title for habit group deletion confirmation dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Group?'**
+  String get deleteHabitGroupTitle;
+
+  /// Message in habit group deletion confirmation dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete the group \"{groupName}\"? Don\'t worry, this action will NOT delete the habits inside it.'**
+  String deleteHabitGroupMessage(Object groupName);
+
+  /// Filter option to show all habits
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get all;
+
+  /// Filter option to show not done habits
+  ///
+  /// In en, this message translates to:
+  /// **'Not Done'**
+  String get notDone;
+
+  /// Filter option to show done habits
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get done;
+
+  /// Button text to edit something
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get edit;
+
+  /// Button text to delete something
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get delete;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -38,5 +38,12 @@
   "singleHabitNotificationBody": "«{habitName}» ждет выполнения!",
   "twoHabitNotificationBody": "«{firstHabitName}» и «{secondHabitName}» ждут выполнения!",
   "multipleHabitNotificationBody": "{firstTwoNames}, и еще {remainingCount} ждут выполнения!",
-  "countDownNotificationTitle": "Время истекает!"
+  "countDownNotificationTitle": "Время истекает!",
+  "deleteHabitGroupTitle": "Удалить Группу?",
+  "deleteHabitGroupMessage": "Вы уверены, что хотите удалить группу \"{groupName}\"? Не волнуйтесь, это действие НЕ удалит привычки внутри нее.",
+  "all": "Все",
+  "notDone": "Ожидающие",
+  "done": "Выполненные",
+  "edit": "Редактировать",
+  "delete": "Удалить"
 }
