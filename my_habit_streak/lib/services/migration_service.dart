@@ -17,9 +17,9 @@ class MigrationService {
     if (savedHabitsVersion < currentHabitVersion) {
       debugPrint('Migrating habits from version $savedHabitsVersion to $currentHabitVersion');
       final migratedHabits = await migrateHabits(currentHabits);
-      //await HabitStorageService.saveAllHabits(migratedHabits);
+      await HabitStorageService.saveAllHabits(migratedHabits);
       debugPrint('Migration completed. All habits are now at version $currentHabitVersion');
-      print("\n\old habits:");
+      print("\n\n\nold habits:");
       print(currentHabits);
       print("\n\n\n\nMigrated habits:");
       print(migratedHabits);

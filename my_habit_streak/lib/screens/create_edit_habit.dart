@@ -203,7 +203,7 @@ class _CreateEditHabitState extends State<CreateEditHabit> {
                       });
 
                       if (!_editableHabit.isHabitValid() ||
-                          await _titleAlreadyExists()) {
+                          (isCreatingNewHabit && await _titleAlreadyExists())) {
                         // Vibrate  quickly twice to indicate an error
                         if (await Vibration.hasVibrator()) {
                           Vibration.vibrate(duration: 50, amplitude: 128);
