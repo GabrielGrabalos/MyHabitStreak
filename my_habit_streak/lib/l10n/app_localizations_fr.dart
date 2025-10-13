@@ -182,4 +182,10 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get habitsSelected => 'sélectionnés';
+
+  @override
+  String get nothingMuchHere => 'Pas grand-chose ici...';
+
+  @override
+  String get goToGroupAll => 'Aller à \"Tous\"';
 }

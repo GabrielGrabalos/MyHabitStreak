@@ -182,4 +182,10 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get habitsSelected => '選択済み';
+
+  @override
+  String get nothingMuchHere => 'Здесь ничего нет...';
+
+  @override
+  String get goToGroupAll => 'Перейти в \"Все\"';
 }

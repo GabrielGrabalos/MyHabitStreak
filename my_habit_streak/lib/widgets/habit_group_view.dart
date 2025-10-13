@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:my_habit_streak/l10n/app_localizations.dart';
 import 'package:my_habit_streak/utils/colors.dart';
+import 'package:my_habit_streak/widgets/clickable_text.dart';
 import 'package:my_habit_streak/widgets/habit_group_tag.dart';
 import 'package:my_habit_streak/widgets/habits_container.dart';
 
@@ -69,13 +72,35 @@ class HabitGroupView extends StatelessWidget {
                       onPressed: onAddGroup,
                       onGroupEdit: () {},
                       onGroupDelete: () {},
+                      hasMenu: false,
                     ),
                   ),
                 ],
               ),
             ),
           ),
-          HabitsContainer(habits: currentHabits),
+          currentHabits.isNotEmpty
+              ? HabitsContainer(habits: currentHabits)
+              : Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 50.0),
+                  child: Column(
+                    children: [
+                      SvgPicture.asset(
+                        'assets/bee_sleeping.svg',
+                        height: 100,
+                      ),
+                      const SizedBox(height: 25),
+                      Text(
+                        AppLocalizations.of(context)!.nothingMuchHere,
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                      ClickableText(
+                        label: AppLocalizations.of(context)!.goToGroupAll,
+                        onTap: () => onGroupSelected(habitGroups[0]),
+                      ),
+                    ],
+                  ),
+                ),
         ],
       ),
     );

@@ -55,5 +55,7 @@
   "create": "Créer",
   "update": "Mettre à jour",
   "habitSelected": "sélectionné",
-  "habitsSelected": "sélectionnés"
+  "habitsSelected": "sélectionnés",
+  "nothingMuchHere": "Pas grand-chose ici...",
+  "goToGroupAll": "Aller à \"Tous\""
 }

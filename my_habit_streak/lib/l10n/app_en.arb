@@ -220,5 +220,13 @@
       "habitsSelected": "selected",
       "@habitsSelected": {
           "description": "Text to display after the number of selected habits (plural)"
-      }
+      },
+  "nothingMuchHere": "Nothing much here...",
+    "@nothingMuchHere": {
+        "description": "Text to display when a habit group has no habits"
+    },
+  "goToGroupAll": "Go to \"All\"",
+    "@goToGroupAll": {
+        "description": "Prompt shown when a habit group has no habits"
+    }
 }

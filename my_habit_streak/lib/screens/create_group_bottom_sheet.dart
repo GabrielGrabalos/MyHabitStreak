@@ -142,7 +142,9 @@ class _CreateGroupBottomSheetState extends State<CreateGroupBottomSheet> {
                       // Title
                       Center(
                         child: Text(
-                          isEditing ? AppLocalizations.of(context)!.editHabitGroup : AppLocalizations.of(context)!.createHabitGroup,
+                          isEditing
+                              ? AppLocalizations.of(context)!.editHabitGroup
+                              : AppLocalizations.of(context)!.createHabitGroup,
                           style:
                               Theme.of(context).textTheme.titleLarge!.copyWith(
                                     fontWeight: FontWeight.bold,
@@ -225,7 +227,9 @@ class _CreateGroupBottomSheetState extends State<CreateGroupBottomSheet> {
                       Expanded(
                         child: Button(
                           isLoading: _isCreating,
-                          label: isEditing ? AppLocalizations.of(context)!.update : AppLocalizations.of(context)!.create,
+                          label: isEditing
+                              ? AppLocalizations.of(context)!.update
+                              : AppLocalizations.of(context)!.create,
                           color: _selectedColor,
                           onPressed: _handleCreate,
                         ),

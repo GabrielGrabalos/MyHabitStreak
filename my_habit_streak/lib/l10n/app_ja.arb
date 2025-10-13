@@ -55,5 +55,7 @@
   "create": "作成",
   "update": "更新",
   "habitSelected": "選択済み",
-  "habitsSelected": "選択済み"
+  "habitsSelected": "選択済み",
+  "nothingMuchHere": "ここには何もありません...",
+  "goToGroupAll": "「すべて」に移動"
 }

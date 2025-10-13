@@ -437,6 +437,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'selected'**
   String get habitsSelected;
+
+  /// Text to display when a habit group has no habits
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing much here...'**
+  String get nothingMuchHere;
+
+  /// Prompt shown when a habit group has no habits
+  ///
+  /// In en, this message translates to:
+  /// **'Go to \"All\"'**
+  String get goToGroupAll;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

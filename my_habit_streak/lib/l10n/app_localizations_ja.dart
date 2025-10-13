@@ -182,4 +182,10 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get habitsSelected => '選択済み';
+
+  @override
+  String get nothingMuchHere => 'ここには何もありません...';
+
+  @override
+  String get goToGroupAll => '「すべて」に移動';
 }

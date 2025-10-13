@@ -182,4 +182,10 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get habitsSelected => '已选';
+
+  @override
+  String get nothingMuchHere => '这里没什么...';
+
+  @override
+  String get goToGroupAll => '转到\"全部\"';
 }

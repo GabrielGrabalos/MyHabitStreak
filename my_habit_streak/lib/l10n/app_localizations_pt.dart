@@ -182,6 +182,12 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get habitsSelected => 'selecionados';
+
+  @override
+  String get nothingMuchHere => 'Nada por aqui...';
+
+  @override
+  String get goToGroupAll => 'Ir para \"Todos\"';
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -362,4 +368,10 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get habitsSelected => 'selecionados';
+
+  @override
+  String get nothingMuchHere => 'Nada por aqui...';
+
+  @override
+  String get goToGroupAll => 'Ir para \"Todos\"';
 }

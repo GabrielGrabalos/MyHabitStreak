@@ -55,5 +55,7 @@
   "create": "创建",
   "update": "更新",
   "habitSelected": "已选",
-  "habitsSelected": "已选"
+  "habitsSelected": "已选",
+  "nothingMuchHere": "这里没什么...",
+  "goToGroupAll": "转到\"全部\""
 }
