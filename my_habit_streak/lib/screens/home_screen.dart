@@ -98,7 +98,6 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
     }
   }
 
-
   Future<void> _dealWithNotificationPermission() async {
     final status = await Permission.notification.status;
 
@@ -283,14 +282,13 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
                         ),
                         Expanded(
                           child: _allHabits.isEmpty
-                              ? Align(
-                                  alignment: Alignment.topRight,
+                              ? SingleChildScrollView(
                                   child: Padding(
                                     padding: EdgeInsets.only(
                                       top: 15,
-                                      right: 35,
                                     ),
                                     child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.end,
                                       children: [
                                         SvgPicture.asset(
                                           'assets/bee_button_indicator.svg',
