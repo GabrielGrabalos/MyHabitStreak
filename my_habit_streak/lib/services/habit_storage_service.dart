@@ -9,11 +9,13 @@ class HabitStorageService {
   static const String _habitsKey = 'user_habits';
 
   // 1. Create a StreamController
-  static final _habitsStreamController = StreamController<List<Habit>>.broadcast();
+  static final _habitsStreamController =
+      StreamController<(List<Habit>, String)>.broadcast();
 
   // 2. Expose the stream for others to listen to
   // .broadcast() allows multiple listeners.
-  static Stream<List<Habit>> get habitsStream => _habitsStreamController.stream;
+  static Stream<(List<Habit>, String)> get habitsStream =>
+      _habitsStreamController.stream;
 
   // You should also have a method to close the stream when the service is no longer needed
   void dispose() {
@@ -22,7 +24,8 @@ class HabitStorageService {
 
   // --- Primary method for saving the entire list of habits ---
   // All modifications (add, update, delete) will eventually call this.
-  static Future<void> saveAllHabits(List<Habit> habits) async {
+  static Future<void> saveAllHabits(List<Habit> habits,
+      {bool isUpdating = false}) async {
     // Convert each Habit object to its JSON representation
     final List<Map<String, dynamic>> habitsJson =
         habits.map((habit) => habit.toJson()).toList();
@@ -32,9 +35,9 @@ class HabitStorageService {
     await _storage.write(key: _habitsKey, value: jsonString);
 
     debugPrint('Habits saved: ${habits.length} items'); // Debugging output
-    
+
     // 3. Notify all listeners about the updated list
-    _habitsStreamController.add(habits);
+    _habitsStreamController.add((habits, isUpdating ? 'update' : 'create'));
   }
 
   // Retrieve a list of Habits
@@ -57,7 +60,7 @@ class HabitStorageService {
     } catch (e) {
       debugPrint('Error decoding habits: $e');
       // If data is corrupted, clear it to prevent continuous errors
-      await clearAllHabits();
+      // await clearAllHabits();
       return [];
     }
   }
@@ -65,7 +68,8 @@ class HabitStorageService {
   // --- New/Updated: Save or Update a single Habit ---
   // This is the "save habit function" you asked for.
   // It handles both adding a new habit and updating an existing one.
-  static Future<void> saveOrUpdateHabit(String originalTitle, Habit habitToSave) async {
+  static Future<void> saveOrUpdateHabit(
+      String originalTitle, Habit habitToSave) async {
     List<Habit> currentHabits = await getHabits();
 
     // Find the index of the habit if it already exists (e.g., by title)
@@ -85,15 +89,15 @@ class HabitStorageService {
     }
 
     // Save the entire updated list back to storage
-    await saveAllHabits(currentHabits);
+    await saveAllHabits(currentHabits, isUpdating: existingIndex != -1);
   }
 
   // Delete a specific habit by its identifier (e.g., title)
-  static Future<void> deleteHabit(String habitTitle) async {
+  static Future<void> deleteHabit(String habitId) async {
     List<Habit> currentHabits = await getHabits();
     // Remove the habit based on its title
-    currentHabits.removeWhere((h) => h.title == habitTitle);
-    debugPrint('Habit deleted: $habitTitle');
+    currentHabits.removeWhere((h) => h.id == habitId);
+    debugPrint('Habit deleted: $habitId');
     // Save the updated list back
     await saveAllHabits(currentHabits);
   }
@@ -102,5 +106,10 @@ class HabitStorageService {
   static Future<void> clearAllHabits() async {
     await _storage.delete(key: _habitsKey);
     debugPrint('All habits cleared.'); // Debugging output
+  }
+
+  static Future<List<Habit>> getHabitsById(List<String> ids) async {
+    return getHabits().then((allHabits) =>
+        allHabits.where((habit) => ids.contains(habit.id)).toList());
   }
 }

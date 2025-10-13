@@ -129,4 +129,63 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get countDownNotificationTitle => 'Your time is running out!';
+
+  @override
+  String get deleteHabitGroupTitle => 'Delete Group?';
+
+  @override
+  String deleteHabitGroupMessage(Object groupName) {
+    return 'Are you sure you want to delete the group \"$groupName\"? Don\'t worry, this action will NOT delete the habits inside it.';
+  }
+
+  @override
+  String get all => 'All';
+
+  @override
+  String get notDone => 'Not Done';
+
+  @override
+  String get done => 'Done';
+
+  @override
+  String get edit => 'Edit';
+
+  @override
+  String get delete => 'Delete';
+
+  @override
+  String get invalidGroupTitle => 'Invalid Group';
+
+  @override
+  String get invalidGroupMessage => 'Please provide a unique and valid name for the habit group.';
+
+  @override
+  String get groupTitle => 'Group Title';
+
+  @override
+  String get editHabitGroup => 'Edit Group';
+
+  @override
+  String get createHabitGroup => 'Create Group';
+
+  @override
+  String get selectHabits => 'Select Habits:';
+
+  @override
+  String get create => 'Create';
+
+  @override
+  String get update => 'Update';
+
+  @override
+  String get habitSelected => 'selected';
+
+  @override
+  String get habitsSelected => 'selected';
+
+  @override
+  String get nothingMuchHere => 'Nothing much here...';
+
+  @override
+  String get goToGroupAll => 'Go to \"All\"';
 }

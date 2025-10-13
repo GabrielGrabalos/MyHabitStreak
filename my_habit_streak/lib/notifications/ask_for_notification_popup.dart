@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:my_habit_streak/utils/general_storage_service.dart';
+import 'package:my_habit_streak/services/general_storage_service.dart';
 import 'package:my_habit_streak/widgets/button.dart';
 import 'package:my_habit_streak/widgets/dialog_popup.dart';
 import 'package:permission_handler/permission_handler.dart';

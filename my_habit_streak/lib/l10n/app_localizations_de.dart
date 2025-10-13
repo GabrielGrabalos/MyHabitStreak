@@ -129,4 +129,63 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get countDownNotificationTitle => 'Ihre Zeit läuft ab!';
+
+  @override
+  String get deleteHabitGroupTitle => 'Gruppe löschen?';
+
+  @override
+  String deleteHabitGroupMessage(Object groupName) {
+    return 'Sind Sie sicher, dass Sie die Gruppe \"$groupName\" löschen möchten? Keine Sorge, diese Aktion löscht NICHT die darin enthaltenen Gewohnheiten.';
+  }
+
+  @override
+  String get all => 'Alle';
+
+  @override
+  String get notDone => 'Ausstehend';
+
+  @override
+  String get done => 'Erledigt';
+
+  @override
+  String get edit => 'Bearbeiten';
+
+  @override
+  String get delete => 'Löschen';
+
+  @override
+  String get invalidGroupTitle => 'Ungültige Gruppe';
+
+  @override
+  String get invalidGroupMessage => 'Bitte geben Sie einen eindeutigen und gültigen Namen für die Gewohnheitsgruppe an.';
+
+  @override
+  String get groupTitle => 'Gruppentitel';
+
+  @override
+  String get editHabitGroup => 'Gruppe bearbeiten';
+
+  @override
+  String get createHabitGroup => 'Gruppe erstellen';
+
+  @override
+  String get selectHabits => 'Gewohnheiten auswählen:';
+
+  @override
+  String get create => 'Erstellen';
+
+  @override
+  String get update => 'Aktualisieren';
+
+  @override
+  String get habitSelected => 'ausgewählt';
+
+  @override
+  String get habitsSelected => 'ausgewählt';
+
+  @override
+  String get nothingMuchHere => 'Nicht viel hier...';
+
+  @override
+  String get goToGroupAll => 'Zu \"Alle\" gehen';
 }

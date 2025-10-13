@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:my_habit_streak/screens/create_edit_habit.dart';
-import 'package:my_habit_streak/utils/habit_storage_service.dart';
+import 'package:my_habit_streak/services/habit_storage_service.dart';
 import 'package:my_habit_streak/widgets/app_scaffold.dart';
 import 'package:my_habit_streak/widgets/button.dart';
 import 'package:my_habit_streak/widgets/dialog_popup.dart';

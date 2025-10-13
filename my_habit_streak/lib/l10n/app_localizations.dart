@@ -335,6 +335,120 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Your time is running out!'**
   String get countDownNotificationTitle;
+
+  /// Title for habit group deletion confirmation dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Group?'**
+  String get deleteHabitGroupTitle;
+
+  /// Message in habit group deletion confirmation dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete the group \"{groupName}\"? Don\'t worry, this action will NOT delete the habits inside it.'**
+  String deleteHabitGroupMessage(Object groupName);
+
+  /// Filter option to show all habits
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get all;
+
+  /// Filter option to show not done habits
+  ///
+  /// In en, this message translates to:
+  /// **'Not Done'**
+  String get notDone;
+
+  /// Filter option to show done habits
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get done;
+
+  /// Button text to edit something
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get edit;
+
+  /// Button text to delete something
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get delete;
+
+  /// Title for invalid habit group name error dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid Group'**
+  String get invalidGroupTitle;
+
+  /// Error message for invalid habit group name input
+  ///
+  /// In en, this message translates to:
+  /// **'Please provide a unique and valid name for the habit group.'**
+  String get invalidGroupMessage;
+
+  /// Label for habit group title input field
+  ///
+  /// In en, this message translates to:
+  /// **'Group Title'**
+  String get groupTitle;
+
+  /// Title for habit group editing screen
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Group'**
+  String get editHabitGroup;
+
+  /// Title for habit group creation screen
+  ///
+  /// In en, this message translates to:
+  /// **'Create Group'**
+  String get createHabitGroup;
+
+  /// Title for selecting habits to add to a group
+  ///
+  /// In en, this message translates to:
+  /// **'Select Habits:'**
+  String get selectHabits;
+
+  /// Button text to create something
+  ///
+  /// In en, this message translates to:
+  /// **'Create'**
+  String get create;
+
+  /// Button text to update something
+  ///
+  /// In en, this message translates to:
+  /// **'Update'**
+  String get update;
+
+  /// Text to display after the number of selected habits (singular)
+  ///
+  /// In en, this message translates to:
+  /// **'selected'**
+  String get habitSelected;
+
+  /// Text to display after the number of selected habits (plural)
+  ///
+  /// In en, this message translates to:
+  /// **'selected'**
+  String get habitsSelected;
+
+  /// Text to display when a habit group has no habits
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing much here...'**
+  String get nothingMuchHere;
+
+  /// Prompt shown when a habit group has no habits
+  ///
+  /// In en, this message translates to:
+  /// **'Go to \"All\"'**
+  String get goToGroupAll;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

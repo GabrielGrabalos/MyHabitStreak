@@ -4,10 +4,11 @@ import 'package:my_habit_streak/l10n/l10n.dart';
 import 'package:my_habit_streak/screens/create_edit_habit.dart';
 import 'package:my_habit_streak/screens/home_screen.dart';
 import 'package:my_habit_streak/screens/visualize_habit.dart';
+import 'package:my_habit_streak/services/migration_service.dart';
 import 'package:my_habit_streak/theme.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'l10n/app_localizations.dart';
-import 'package:my_habit_streak/utils/general_storage_service.dart';
+import 'package:my_habit_streak/services/general_storage_service.dart';
 import 'models/habit.dart';
 
 final RouteObserver<ModalRoute> routeObserver = RouteObserver<ModalRoute>();
@@ -41,6 +42,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     _resolveSystemLocale();
+    MigrationService.migrateIfNeeded();
   }
 
   void _resolveSystemLocale() async {

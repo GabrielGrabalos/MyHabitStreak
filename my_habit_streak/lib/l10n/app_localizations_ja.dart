@@ -129,4 +129,63 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get countDownNotificationTitle => '時間がなくなりつつあります！';
+
+  @override
+  String get deleteHabitGroupTitle => 'グループを削除しますか？';
+
+  @override
+  String deleteHabitGroupMessage(Object groupName) {
+    return 'グループ「$groupName」を削除してもよろしいですか？ご安心ください、この操作で中の習慣は削除されません。';
+  }
+
+  @override
+  String get all => 'すべて';
+
+  @override
+  String get notDone => '未完了';
+
+  @override
+  String get done => '完了';
+
+  @override
+  String get edit => '編集';
+
+  @override
+  String get delete => '削除';
+
+  @override
+  String get invalidGroupTitle => '無効なグループ';
+
+  @override
+  String get invalidGroupMessage => '習慣グループに固有で有効な名前を入力してください。';
+
+  @override
+  String get groupTitle => 'グループタイトル';
+
+  @override
+  String get editHabitGroup => 'グループを編集';
+
+  @override
+  String get createHabitGroup => 'グループを作成';
+
+  @override
+  String get selectHabits => '習慣を選択:';
+
+  @override
+  String get create => '作成';
+
+  @override
+  String get update => '更新';
+
+  @override
+  String get habitSelected => '選択済み';
+
+  @override
+  String get habitsSelected => '選択済み';
+
+  @override
+  String get nothingMuchHere => 'ここには何もありません...';
+
+  @override
+  String get goToGroupAll => '「すべて」に移動';
 }

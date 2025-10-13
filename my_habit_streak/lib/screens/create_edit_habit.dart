@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:my_habit_streak/utils/habit_storage_service.dart';
+import 'package:my_habit_streak/services/habit_storage_service.dart';
 import 'package:my_habit_streak/widgets/app_scaffold.dart';
 import 'package:my_habit_streak/widgets/button.dart';
 import 'package:my_habit_streak/widgets/color_selector.dart';
@@ -70,6 +70,11 @@ class _CreateEditHabitState extends State<CreateEditHabit> {
     _titleController.dispose();
     _descriptionController.dispose();
     super.dispose();
+  }
+
+  Future<bool> _titleAlreadyExists() async {
+    return HabitStorageService.getHabits().then((habits) => habits.any(
+        (h) => h.title.toLowerCase() == _editableHabit.title.toLowerCase()));
   }
 
   @override
@@ -197,7 +202,8 @@ class _CreateEditHabitState extends State<CreateEditHabit> {
                         isLoading = true; // Set loading state to true
                       });
 
-                      if (!_editableHabit.isHabitValid()) {
+                      if (!_editableHabit.isHabitValid() ||
+                          (isCreatingNewHabit && await _titleAlreadyExists())) {
                         // Vibrate  quickly twice to indicate an error
                         if (await Vibration.hasVibrator()) {
                           Vibration.vibrate(duration: 50, amplitude: 128);
@@ -270,7 +276,7 @@ class _CreateEditHabitState extends State<CreateEditHabit> {
 
                         // Delete the habit using the storage service
                         await HabitStorageService.deleteHabit(
-                            _editableHabit.title);
+                            _editableHabit.id);
 
                         setState(() {
                           isLoading = false; // Reset loading state

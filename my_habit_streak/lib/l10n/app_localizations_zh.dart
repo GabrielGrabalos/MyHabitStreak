@@ -129,4 +129,63 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get countDownNotificationTitle => '时间不多了！';
+
+  @override
+  String get deleteHabitGroupTitle => '删除分组？';
+
+  @override
+  String deleteHabitGroupMessage(Object groupName) {
+    return '确定要删除分组「$groupName」吗？请放心，此操作不会删除其中的习惯。';
+  }
+
+  @override
+  String get all => '全部';
+
+  @override
+  String get notDone => '未完成';
+
+  @override
+  String get done => '已完成';
+
+  @override
+  String get edit => '编辑';
+
+  @override
+  String get delete => '删除';
+
+  @override
+  String get invalidGroupTitle => '无效分组';
+
+  @override
+  String get invalidGroupMessage => '请为习惯分组提供一个唯一且有效的名称。';
+
+  @override
+  String get groupTitle => '分组标题';
+
+  @override
+  String get editHabitGroup => '编辑分组';
+
+  @override
+  String get createHabitGroup => '创建分组';
+
+  @override
+  String get selectHabits => '选择习惯:';
+
+  @override
+  String get create => '创建';
+
+  @override
+  String get update => '更新';
+
+  @override
+  String get habitSelected => '已选';
+
+  @override
+  String get habitsSelected => '已选';
+
+  @override
+  String get nothingMuchHere => '这里没什么...';
+
+  @override
+  String get goToGroupAll => '转到\"全部\"';
 }

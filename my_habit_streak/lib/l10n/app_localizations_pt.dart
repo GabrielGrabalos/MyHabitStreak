@@ -129,6 +129,65 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get countDownNotificationTitle => 'Seu tempo está se esgotando!';
+
+  @override
+  String get deleteHabitGroupTitle => 'Excluir Grupo?';
+
+  @override
+  String deleteHabitGroupMessage(Object groupName) {
+    return 'Tem certeza de que deseja excluir o grupo \"$groupName\"? Não se preocupe, esta ação NÃO excluirá os hábitos dentro dele.';
+  }
+
+  @override
+  String get all => 'Todos';
+
+  @override
+  String get notDone => 'Pendentes';
+
+  @override
+  String get done => 'Concluídos';
+
+  @override
+  String get edit => 'Editar';
+
+  @override
+  String get delete => 'Excluir';
+
+  @override
+  String get invalidGroupTitle => 'Grupo Inválido';
+
+  @override
+  String get invalidGroupMessage => 'Por favor, forneça um nome único e válido para o grupo de hábitos.';
+
+  @override
+  String get groupTitle => 'Título do Grupo';
+
+  @override
+  String get editHabitGroup => 'Editar Grupo';
+
+  @override
+  String get createHabitGroup => 'Criar Grupo';
+
+  @override
+  String get selectHabits => 'Selecionar Hábitos:';
+
+  @override
+  String get create => 'Criar';
+
+  @override
+  String get update => 'Atualizar';
+
+  @override
+  String get habitSelected => 'selecionado';
+
+  @override
+  String get habitsSelected => 'selecionados';
+
+  @override
+  String get nothingMuchHere => 'Nada por aqui...';
+
+  @override
+  String get goToGroupAll => 'Ir para \"Todos\"';
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -256,4 +315,63 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get countDownNotificationTitle => 'Seu tempo está se esgotando!';
+
+  @override
+  String get deleteHabitGroupTitle => 'Excluir Grupo?';
+
+  @override
+  String deleteHabitGroupMessage(Object groupName) {
+    return 'Tem certeza de que deseja excluir o grupo \"$groupName\"? Não se preocupe, esta ação NÃO excluirá os hábitos dentro dele.';
+  }
+
+  @override
+  String get all => 'Todos';
+
+  @override
+  String get notDone => 'Pendentes';
+
+  @override
+  String get done => 'Concluídos';
+
+  @override
+  String get edit => 'Editar';
+
+  @override
+  String get delete => 'Excluir';
+
+  @override
+  String get invalidGroupTitle => 'Grupo Inválido';
+
+  @override
+  String get invalidGroupMessage => 'Por favor, forneça um nome único e válido para o grupo de hábitos.';
+
+  @override
+  String get groupTitle => 'Título do Grupo';
+
+  @override
+  String get editHabitGroup => 'Editar Grupo';
+
+  @override
+  String get createHabitGroup => 'Criar Grupo';
+
+  @override
+  String get selectHabits => 'Selecionar Hábitos:';
+
+  @override
+  String get create => 'Criar';
+
+  @override
+  String get update => 'Atualizar';
+
+  @override
+  String get habitSelected => 'selecionado';
+
+  @override
+  String get habitsSelected => 'selecionados';
+
+  @override
+  String get nothingMuchHere => 'Nada por aqui...';
+
+  @override
+  String get goToGroupAll => 'Ir para \"Todos\"';
 }

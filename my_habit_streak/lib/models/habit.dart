@@ -1,8 +1,13 @@
-import 'dart:ui'; // For Color
+import 'package:flutter/cupertino.dart';
 import 'package:my_habit_streak/utils/colors.dart';
-import 'package:my_habit_streak/utils/habit_theme.dart'; // Assuming this defines your HabitTheme enum
+import 'package:my_habit_streak/utils/habit_theme.dart';
+import 'package:uuid/uuid.dart'; // Assuming this defines your HabitTheme enum
 
 class Habit {
+  static const int currentVersion = 2;
+
+  String id; // Unique identifier for each habit
+  final int version;
   final String title;
   final String description;
   final HabitTheme theme;
@@ -15,12 +20,15 @@ class Habit {
 
   // Default constructor with optional parameters:
   Habit({
+    String? id,
+    this.version = currentVersion,
     this.title = '',
     this.description = '',
     this.theme = HabitTheme.bee,
     this.color = blueTheme,
     Map<String, bool>? streakHistory,
-  }) : streakHistory = streakHistory ?? {};
+  })  : streakHistory = streakHistory ?? {},
+        id = id ?? Uuid().v4();
 
   // Helper function to format DateTime asYYYY-MM-DD
   String formatDate(DateTime date) {
@@ -123,12 +131,14 @@ class Habit {
   // Convert to JSON
   Map<String, dynamic> toJson() {
     return {
+      'version': version,
+      'id': id,
       'title': title,
       'description': description,
       // Convert HabitTheme enum to its string name (e.g., 'bee', 'flower')
       'theme': theme.toString().split('.').last,
       // Convert Color object to its integer value (ARGB format)
-      'color': color.value,
+      'color': color.toARGB32(),
       // streakHistory is already Map<String, bool>, which is directly JSON-serializable
       'streakHistory': streakHistory,
     };
@@ -154,19 +164,54 @@ class Habit {
 
   // Create from JSON
   factory Habit.fromJson(Map<String, dynamic> json) {
-    // Helper to parse HabitTheme from string
-    HabitTheme parseHabitTheme(String themeString) {
-      return HabitTheme.values.firstWhere(
-        (e) => e.toString().split('.').last == themeString,
-        orElse: () => HabitTheme.bee, // Provide a default if string not found
-      );
+    // Version aware parsing:
+    int version = json['version'] as int? ?? 1;
+
+    switch (version) {
+      case 1:
+        return _fromV1Json(json);
+      case 2:
+        return _fromV2Json(json);
+      default:
+        debugPrint('Unknown Habit version: $version');
+        break;
     }
 
+    return Habit(); // Default empty habit if version is unknown
+  }
+
+  // Helper to parse HabitTheme from string
+  static HabitTheme _parseHabitTheme(String themeString) {
+    return HabitTheme.values.firstWhere(
+      (e) => e.toString().split('.').last == themeString,
+      orElse: () => HabitTheme.bee, // Provide a default if string not found
+    );
+  }
+
+  static Habit _fromV1Json(Map<String, dynamic> json) {
     return Habit(
+      version: 1,
       title: json['title'] as String,
       description: json['description'] as String,
       // Convert string back to HabitTheme enum
-      theme: parseHabitTheme(json['theme'] as String),
+      theme: _parseHabitTheme(json['theme'] as String),
+      // Convert integer value back to Color object
+      color: Color(json['color'] as int),
+      // Map JSON dynamic map back to Map<String, bool>
+      streakHistory: (json['streakHistory'] as Map<String, dynamic>).map(
+        (key, value) => MapEntry(key, value as bool),
+      ),
+    );
+  }
+
+  static Habit _fromV2Json(Map<String, dynamic> json) {
+    return Habit(
+      version: 2,
+      id: json['id'] as String,
+      title: json['title'] as String,
+      description: json['description'] as String,
+      // Convert string back to HabitTheme enum
+      theme: _parseHabitTheme(json['theme'] as String),
       // Convert integer value back to Color object
       color: Color(json['color'] as int),
       // Map JSON dynamic map back to Map<String, bool>
@@ -191,5 +236,11 @@ class Habit {
       color: color ?? this.color,
       streakHistory: streakHistory ?? this.streakHistory,
     );
+  }
+
+  // to string:
+  @override
+  String toString() {
+    return 'Habit{id: $id, version: $version, title: $title, description: $description, theme: $theme, color: $color, streakHistory: $streakHistory}';
   }
 }

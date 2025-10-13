@@ -1,11 +1,14 @@
 import 'dart:async';
-
-import 'package:flutter/material.dart'; // Using Material Design widgets
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:my_habit_streak/models/habit.dart';
-import 'package:my_habit_streak/utils/general_storage_service.dart';
-import 'package:my_habit_streak/utils/habit_storage_service.dart';
+import 'package:my_habit_streak/models/habit_group.dart';
+import 'package:my_habit_streak/services/general_storage_service.dart';
+import 'package:my_habit_streak/services/habit_group_storage_service.dart';
+import 'package:my_habit_streak/services/habit_storage_service.dart';
 import 'package:my_habit_streak/widgets/app_scaffold.dart';
+import 'package:my_habit_streak/widgets/dialog_popup.dart';
+import 'package:my_habit_streak/widgets/habit_group_view.dart';
 import '../l10n/app_localizations.dart';
 import 'package:my_habit_streak/widgets/language_selection.dart';
 import 'package:my_habit_streak/widgets/floating_action_button_menu.dart';
@@ -16,9 +19,9 @@ import '../main.dart';
 import '../notifications/ask_for_notification_popup.dart';
 import '../notifications/notification_service.dart';
 import '../utils/colors.dart';
-import '../widgets/habit_list.dart';
 import '../widgets/header.dart';
-import 'create_edit_habit.dart'; // Your storage service
+import 'create_edit_habit.dart';
+import 'create_group_bottom_sheet.dart'; // Your storage service
 
 class HomeScreen extends StatefulWidget {
   static String routeName = '/home';
@@ -31,77 +34,84 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> with RouteAware {
   late StreamSubscription _habitsSubscription;
-
-  late StreamSubscription _storageSubscription;
-
-  final List<Habit> _doneTodayHabits = [];
-  final List<Habit> _notDoneTodayHabits = [];
-  bool _isLoading = true; // State to manage loading indicator
+  late StreamSubscription _habitGroupSubscription;
+  late ScrollController _groupScrollController;
+  AppLocalizations? _appLocalizations;
 
   final notificationService = NotificationService();
+  bool isLoading = true;
+
+  HabitGroup? _selectedGroup;
+  List<HabitGroup> _habitGroups = [];
+  List<Habit> _currentHabits = [];
+  List<Habit> _allHabits = [];
 
   @override
   void initState() {
     super.initState();
-    _habitsSubscription =
-        HabitStorageService.habitsStream.listen((updatedHabits) {
-      // Whenever habits are updated, reschedule notifications,
-      // so they are always in sync with the latest data.
-      notificationService.scheduleNotifications();
-      debugPrint(
-          'Habits stream updated: ${updatedHabits.length} items'); // Debugging output
-    });
+    _groupScrollController = ScrollController();
 
-    _storageSubscription = GeneralStorageService.storageStream.listen((_) {
-      // Whenever general storage changes, reschedule notifications,
-      // in case notification preferences or language were changed.
+    _loadHabitsAndGroups();
+
+    _habitsSubscription = HabitStorageService.habitsStream.listen((event) {
+      _loadHabitsAndGroups();
       notificationService.scheduleNotifications();
-      debugPrint('General storage updated'); // Debugging output
+      if (event.$2 == "create") {
+        // Select "All" group:
+        _selectedGroup = _habitGroups.first;
+        _groupScrollController.jumpTo(0.0);
+      }
+    } as void Function((List<Habit>, String) event)?);
+
+    _habitGroupSubscription =
+        HabitGroupStorageService.habitGroupsStream.listen((updatedGroups) {
+      _loadHabitsAndGroups();
     });
-    _loadAndSeparateHabits(); // Load and separate habits when the screen initializes
-    _dealWithNotificationPermission(); // Check notification permission
   }
 
-  // Subscribe to route observer
+  @override
+  void dispose() {
+    _habitsSubscription.cancel();
+    _habitGroupSubscription.cancel();
+    _groupScrollController.dispose();
+    routeObserver.unsubscribe(this);
+    super.dispose();
+  }
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     routeObserver.subscribe(this, ModalRoute.of(context)!);
-    notificationService.setAppLocalizations(AppLocalizations.of(context)!);
+
+    // Initialize localization here instead of initState
+    final newLocalizations = AppLocalizations.of(context)!;
+    final hasLocaleChanged = _appLocalizations == null ||
+        _appLocalizations!.localeName != newLocalizations.localeName;
+
+    _appLocalizations = newLocalizations;
+    notificationService.setAppLocalizations(_appLocalizations!);
+
+    if (hasLocaleChanged) {
+      _loadHabitsAndGroups();
+    }
+
+    _dealWithNotificationPermission();
   }
 
-  // Unsubscribe to prevent memory leaks
-  @override
-  void dispose() {
-    routeObserver.unsubscribe(this);
-    _habitsSubscription.cancel();
-    super.dispose();
-  }
 
-  // Called when returning to HomeScreen via pop
-  @override
-  void didPopNext() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _loadAndSeparateHabits(); // Reload habits when returning to this screen
-    });
-  }
-
-  void _dealWithNotificationPermission() async {
-    // Check if notification permission is granted
+  Future<void> _dealWithNotificationPermission() async {
     final status = await Permission.notification.status;
 
-    if (status.isGranted) return; // Already granted
+    if (status.isGranted) return;
 
     final notShowPopup = await GeneralStorageService.getData(
           'not_show_notification_popup',
         ) as bool? ??
         false;
 
-    if (notShowPopup) return; // User opted out of the popup.
+    if (notShowPopup) return;
+    if (!mounted) return;
 
-    if (!mounted) return; // Ensure the widget is still mounted.
-
-    // Show the notification permission dialog
     final shouldRequestNotification = await showDialog(
         context: context,
         builder: (context) {
@@ -111,197 +121,252 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
 
     if (shouldRequestNotification == true) {
       await Permission.notification.request();
-      // No need to verify if we were actually granted the permission,
-      // since it wouldn't change the behaviour of not having notifications
-      // and would waist resources for the checking.
       await notificationService.scheduleNotifications();
     }
   }
 
-  // Method to load all habits and separate them
-  Future<void> _loadAndSeparateHabits() async {
-    setState(() {
-      _isLoading = true; // Start loading
-    });
+  Future<void> _loadHabitsAndGroups() async {
+    setState(() => isLoading = true);
 
-    try {
-      final List<Habit> allHabits = await HabitStorageService.getHabits();
+    _allHabits = await HabitStorageService.getHabits();
 
-      final doneToday = allHabits.where((habit) => habit.isTodayDone).toList();
-      final notDoneToday =
-          allHabits.where((habit) => !habit.isTodayDone).toList();
+    // Load habit groups:
+    final customGroups = await HabitGroupStorageService.getAllHabitGroups();
 
-      // Clear previous lists before repopulating
-      _doneTodayHabits.clear();
-      _notDoneTodayHabits.clear();
+    // Build dynamic groups (All, Not Done, Done):
+    List<String> allHabitIds = _allHabits.map((h) => h.id).toList();
+    List<String> notDoneHabitIds =
+        _allHabits.where((h) => !h.isTodayDone).map((h) => h.id).toList();
+    List<String> doneHabitIds =
+        _allHabits.where((h) => h.isTodayDone).map((h) => h.id).toList();
 
-      setState(() {
-        _doneTodayHabits.clear();
-        _notDoneTodayHabits.clear();
+    if (!mounted) return;
 
-        // Populate the lists with the separated habits
-        _doneTodayHabits.addAll(doneToday);
-        _notDoneTodayHabits.addAll(notDoneToday);
-      });
-    } catch (e) {
-      // Handle any errors during habit loading
-      debugPrint('Error loading habits: $e');
-      // Potentially show an error message to the user
-    } finally {
-      setState(() {
-        _isLoading = false; // End loading, even if there was an error
-      });
+    _habitGroups = [
+      HabitGroup(
+        id: 'all',
+        name: _appLocalizations!.all,
+        habitIds: allHabitIds,
+      ),
+      HabitGroup(
+        id: 'not_done',
+        name: _appLocalizations!.notDone,
+        color: yellowTheme,
+        habitIds: notDoneHabitIds,
+      ),
+      HabitGroup(
+        id: 'done',
+        name: _appLocalizations!.done,
+        color: greenTheme,
+        habitIds: doneHabitIds,
+      ),
+      ...customGroups,
+    ];
+
+    // Preserve selection OR default to "All":
+    if (_selectedGroup == null ||
+        !_habitGroups.any((g) => g.id == _selectedGroup!.id)) {
+      _selectedGroup = _habitGroups.first;
     }
+
+    _loadCurrentHabitsFromSelectedGroup();
+
+    if (mounted) {
+      setState(() => isLoading = false);
+    }
+  }
+
+  void _loadCurrentHabitsFromSelectedGroup() {
+    if (_selectedGroup == null) return;
+
+    List<String> habitIds;
+    if (_selectedGroup!.id == 'all') {
+      habitIds = _allHabits.map((h) => h.id).toList();
+    } else if (_selectedGroup!.id == 'not_done') {
+      habitIds =
+          _allHabits.where((h) => !h.isTodayDone).map((h) => h.id).toList();
+    } else if (_selectedGroup!.id == 'done') {
+      habitIds =
+          _allHabits.where((h) => h.isTodayDone).map((h) => h.id).toList();
+    } else {
+      habitIds = _selectedGroup!.habitIds;
+    }
+
+    _currentHabits =
+        _allHabits.where((habit) => habitIds.contains(habit.id)).toList();
+  }
+
+  void _onGroupSelected(HabitGroup group) {
+    setState(() {
+      _selectedGroup = group;
+      _loadCurrentHabitsFromSelectedGroup();
+    });
+  }
+
+  void _onGroupEdit(HabitGroup group) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => CreateGroupBottomSheet(
+        existingGroup: group,
+        availableHabits: _allHabits,
+        onCreate: (updatedGroup) async {
+          await HabitGroupStorageService.saveOrUpdateHabitGroup(updatedGroup);
+          _selectedGroup = updatedGroup;
+          _loadHabitsAndGroups();
+        },
+      ),
+    );
+  }
+
+  void _onGroupDelete(HabitGroup group) async {
+    final shouldDelete = await showDialog<bool>(
+          context: context,
+          builder: (context) => DialogPopup(
+            title: AppLocalizations.of(context)!.deleteHabitGroupTitle,
+            message: AppLocalizations.of(context)!
+                .deleteHabitGroupMessage(group.name),
+            isWarning: true,
+          ),
+        ) ??
+        false;
+
+    if (!shouldDelete) return;
+
+    await HabitGroupStorageService.deleteHabitGroup(group.id);
+    if (_selectedGroup?.id == group.id) {
+      _selectedGroup = _habitGroups.first;
+      _groupScrollController.jumpTo(0.0);
+    }
+    _loadHabitsAndGroups();
+  }
+
+  void _onAddGroup() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => CreateGroupBottomSheet(
+        availableHabits: _allHabits,
+        onCreate: (newGroup) async {
+          await HabitGroupStorageService.saveOrUpdateHabitGroup(newGroup);
+          _selectedGroup = newGroup;
+          _loadHabitsAndGroups();
+        },
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          return Stack(
-            children: [
-              SizedBox(
-                width: constraints.maxWidth,
-                child: Column(
+      body: isLoading
+          ? Center(child: CircularProgressIndicator())
+          : LayoutBuilder(
+              builder: (context, constraints) {
+                return Stack(
                   children: [
-                    Header(
-                      title: AppLocalizations.of(context)!.myHabits,
-                      icon: Icons.add,
-                      onActionPressed: () async {
-                        // Navigate to the Create/Edit Habit screen
-                        final Habit? newHabit = await Navigator.pushNamed(
-                          context,
-                          CreateEditHabit.routeName,
-                        ) as Habit?;
-
-                        // If a new habit was created, reload the habits
-                        if (newHabit != null) {
-                          WidgetsBinding.instance.addPostFrameCallback((_) {
-                            _loadAndSeparateHabits();
-                          });
-                        }
-                      },
-                    ),
-                    Expanded(
-                      child: _isLoading
-                          ? const Center(child: CircularProgressIndicator())
-                          : SingleChildScrollView(
-                              child: Column(
-                                children: [
-                                  if (_notDoneTodayHabits.isNotEmpty)
-                                    HabitList(
-                                      title: AppLocalizations.of(context)!
-                                          .notDoneToday,
-                                      habits: _notDoneTodayHabits,
-                                    ),
-                                  if (_doneTodayHabits.isNotEmpty)
-                                    HabitList(
-                                      title: AppLocalizations.of(context)!
-                                          .doneToday,
-                                      habits: _doneTodayHabits,
-                                    ),
-                                  if (_doneTodayHabits.isEmpty &&
-                                      _notDoneTodayHabits.isEmpty)
-                                    Align(
-                                      alignment: Alignment.topRight,
-                                      child: Padding(
-                                        padding: EdgeInsets.only(
-                                          top: 15,
-                                          right: 35,
-                                        ),
-                                        child: Column(
-                                          children: [
-                                            SvgPicture.asset(
-                                              'assets/bee_button_indicator.svg',
-                                              width: constraints.maxWidth * 0.8,
-                                            ),
-                                            const SizedBox(height: 10),
-                                            Transform.rotate(
-                                              angle: -0.25,
-                                              child: Text(
-                                                AppLocalizations.of(context)!
-                                                    .startCreating,
-                                                textAlign: TextAlign.center,
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyMedium!
-                                                    .copyWith(
-                                                      fontSize: 18,
-                                                      color: Colors.white,
-                                                    ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                ],
-                              ),
-                            ),
-                    ),
-                  ],
-                ),
-              ),
-              Align(
-                alignment: Alignment.bottomLeft,
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: FloatingActionButtonMenu(
-                    seed: 12,
-                    colors: cardColors,
-                    mainButtonColor: pinkTheme,
-                    buttons: [
-                      ButtonData(
-                          text: AppLocalizations.of(context)!.idiom,
-                          icon: Icons.language,
-                          onTap: () {
-                            showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return LanguageSelection();
-                                });
-                          }),
-                      ButtonData(
-                        text: AppLocalizations.of(context)!.privacyPolicy,
-                        icon: Icons.privacy_tip,
-                        onTap: () async {
-                          final url = Uri.parse(
-                            'https://my-habit-streak.web.app/privacy-policy',
-                          );
-                          // Attempt to launch the URL in an in-app web view:
-                          // redirect to privacy policy URL:
-                          if (!await launchUrl(url,
-                              mode: LaunchMode.inAppBrowserView)) {
-                            throw Exception('Could not launch $url');
-                          }
-                        },
-                      ),
-                      // If there is a card called debugAppData, show this button:
-                      if (_notDoneTodayHabits
-                          .any((habit) => habit.title == 'debugAppData')) ...[
-                        ButtonData(
-                          text: 'Test instant notification',
-                          icon: Icons.notifications,
-                          onTap: () {
-                            notificationService.showInstantNotification(
-                              id: 0,
-                              title: 'This is a test notification',
-                              body:
-                                  'If you see this, the notification system is '
-                                      'working correctly.',
+                    Column(
+                      children: [
+                        Header(
+                          title: AppLocalizations.of(context)!.myHabits,
+                          icon: Icons.add,
+                          onActionPressed: () async {
+                            await Navigator.pushNamed(
+                              context,
+                              CreateEditHabit.routeName,
                             );
                           },
                         ),
+                        Expanded(
+                          child: _allHabits.isEmpty
+                              ? Align(
+                                  alignment: Alignment.topRight,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                      top: 15,
+                                      right: 35,
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        SvgPicture.asset(
+                                          'assets/bee_button_indicator.svg',
+                                          width: constraints.maxWidth * 0.8,
+                                        ),
+                                        const SizedBox(height: 10),
+                                        Transform.rotate(
+                                          angle: -0.25,
+                                          child: Text(
+                                            AppLocalizations.of(context)!
+                                                .startCreating,
+                                            textAlign: TextAlign.center,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium!
+                                                .copyWith(
+                                                  fontSize: 18,
+                                                  color: Colors.white,
+                                                ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                )
+                              : HabitGroupView(
+                                  habitGroups: _habitGroups,
+                                  selectedHabitGroup: _selectedGroup,
+                                  currentHabits: _currentHabits,
+                                  allHabits: _allHabits,
+                                  onGroupSelected: _onGroupSelected,
+                                  onGroupEdit: _onGroupEdit,
+                                  onGroupDelete: _onGroupDelete,
+                                  onAddGroup: _onAddGroup,
+                                  scrollController: _groupScrollController,
+                                ),
+                        ),
                       ],
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          );
-        },
-      ),
+                    ),
+                    Align(
+                      alignment: Alignment.bottomLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: FloatingActionButtonMenu(
+                          seed: 12,
+                          colors: cardColors,
+                          mainButtonColor: pinkTheme,
+                          buttons: [
+                            ButtonData(
+                                text: AppLocalizations.of(context)!.idiom,
+                                icon: Icons.language,
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => LanguageSelection(),
+                                  );
+                                }),
+                            ButtonData(
+                              text: AppLocalizations.of(context)!.privacyPolicy,
+                              icon: Icons.privacy_tip,
+                              onTap: () async {
+                                final url = Uri.parse(
+                                  'https://my-habit-streak.web.app/privacy-policy',
+                                );
+                                if (!await launchUrl(url,
+                                    mode: LaunchMode.inAppBrowserView)) {
+                                  throw Exception('Could not launch $url');
+                                }
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              },
+            ),
     );
   }
 }

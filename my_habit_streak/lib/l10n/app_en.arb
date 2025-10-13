@@ -152,5 +152,81 @@
   "countDownNotificationTitle": "Your time is running out!",
     "@countDownNotificationTitle": {
         "description": "Title for the countdown notification"
+    },
+  "deleteHabitGroupTitle": "Delete Group?",
+    "@deleteHabitGroupTitle": {
+        "description": "Title for habit group deletion confirmation dialog"
+    },
+  "deleteHabitGroupMessage": "Are you sure you want to delete the group \"{groupName}\"? Don't worry, this action will NOT delete the habits inside it.",
+    "@deleteHabitGroupMessage": {
+        "description": "Message in habit group deletion confirmation dialog"
+    },
+  "all": "All",
+    "@all": {
+        "description": "Filter option to show all habits"
+    },
+  "notDone": "Not Done",
+    "@notDone": {
+        "description": "Filter option to show not done habits"
+    },
+  "done": "Done",
+    "@done": {
+        "description": "Filter option to show done habits"
+    },
+  "edit": "Edit",
+    "@edit": {
+        "description": "Button text to edit something"
+    },
+  "delete": "Delete",
+    "@delete": {
+        "description": "Button text to delete something"
+    },
+  "invalidGroupTitle": "Invalid Group",
+    "@invalidGroupTitle": {
+        "description": "Title for invalid habit group name error dialog"
+    },
+  "invalidGroupMessage": "Please provide a unique and valid name for the habit group.",
+    "@invalidGroupMessage": {
+        "description": "Error message for invalid habit group name input"
+    },
+  "groupTitle": "Group Title",
+    "@groupTitle": {
+        "description": "Label for habit group title input field"
+    },
+  "editHabitGroup": "Edit Group",
+    "@editHabitGroup": {
+        "description": "Title for habit group editing screen"
+    },
+  "createHabitGroup": "Create Group",
+    "@createHabitGroup": {
+        "description": "Title for habit group creation screen"
+    },
+  "selectHabits": "Select Habits:",
+    "@selectHabits": {
+        "description": "Title for selecting habits to add to a group"
+    },
+    "create": "Create",
+      "@create": {
+          "description": "Button text to create something"
+      },
+    "update": "Update",
+      "@update": {
+          "description": "Button text to update something"
+      },
+    "habitSelected": "selected",
+      "@habitSelected": {
+          "description": "Text to display after the number of selected habits (singular)"
+      },
+      "habitsSelected": "selected",
+      "@habitsSelected": {
+          "description": "Text to display after the number of selected habits (plural)"
+      },
+  "nothingMuchHere": "Nothing much here...",
+    "@nothingMuchHere": {
+        "description": "Text to display when a habit group has no habits"
+    },
+  "goToGroupAll": "Go to \"All\"",
+    "@goToGroupAll": {
+        "description": "Prompt shown when a habit group has no habits"
     }
 }

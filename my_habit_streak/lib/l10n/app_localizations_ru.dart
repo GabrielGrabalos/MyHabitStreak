@@ -129,4 +129,63 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get countDownNotificationTitle => 'Время истекает!';
+
+  @override
+  String get deleteHabitGroupTitle => 'Удалить Группу?';
+
+  @override
+  String deleteHabitGroupMessage(Object groupName) {
+    return 'Вы уверены, что хотите удалить группу \"$groupName\"? Не волнуйтесь, это действие НЕ удалит привычки внутри нее.';
+  }
+
+  @override
+  String get all => 'Все';
+
+  @override
+  String get notDone => 'Ожидающие';
+
+  @override
+  String get done => 'Выполненные';
+
+  @override
+  String get edit => 'Редактировать';
+
+  @override
+  String get delete => 'Удалить';
+
+  @override
+  String get invalidGroupTitle => 'Неверная группа';
+
+  @override
+  String get invalidGroupMessage => 'Пожалуйста, укажите уникальное и допустимое название для группы привычек.';
+
+  @override
+  String get groupTitle => 'Название группы';
+
+  @override
+  String get editHabitGroup => 'Редактировать группу';
+
+  @override
+  String get createHabitGroup => 'Создать группу';
+
+  @override
+  String get selectHabits => 'Выбрать привычки:';
+
+  @override
+  String get create => '作成';
+
+  @override
+  String get update => '更新';
+
+  @override
+  String get habitSelected => '選択済み';
+
+  @override
+  String get habitsSelected => '選択済み';
+
+  @override
+  String get nothingMuchHere => 'Здесь ничего нет...';
+
+  @override
+  String get goToGroupAll => 'Перейти в \"Все\"';
 }
