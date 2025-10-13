@@ -67,6 +67,7 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
         HabitGroupStorageService.habitGroupsStream.listen((updatedGroups) {
       _loadHabitsAndGroups();
     });
+    _dealWithNotificationPermission();
   }
 
   @override
@@ -93,14 +94,15 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
 
     if (hasLocaleChanged) {
       _loadHabitsAndGroups();
+      notificationService.scheduleNotifications();
     }
-
-    _dealWithNotificationPermission();
   }
 
 
   Future<void> _dealWithNotificationPermission() async {
     final status = await Permission.notification.status;
+
+    debugPrint("\n\n\nNotification permission status: $status");
 
     if (status.isGranted) return;
 
@@ -333,7 +335,7 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: FloatingActionButtonMenu(
-                          seed: 12,
+                          seed: 2007,
                           colors: cardColors,
                           mainButtonColor: pinkTheme,
                           buttons: [
