@@ -21,7 +21,7 @@ import '../notifications/notification_service.dart';
 import '../utils/colors.dart';
 import '../widgets/header.dart';
 import 'create_edit_habit.dart';
-import 'create_group_bottom_sheet.dart'; // Your storage service
+import 'create_edit_group_bottom_sheet.dart'; // Your storage service
 
 class HomeScreen extends StatefulWidget {
   static String routeName = '/home';
@@ -208,7 +208,7 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (context) => CreateGroupBottomSheet(
+      builder: (context) => CreateEditGroupBottomSheet(
         existingGroup: group,
         availableHabits: _allHabits,
         onCreate: (updatedGroup) async {
@@ -247,7 +247,7 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (context) => CreateGroupBottomSheet(
+      builder: (context) => CreateEditGroupBottomSheet(
         availableHabits: _allHabits,
         onCreate: (newGroup) async {
           await HabitGroupStorageService.saveOrUpdateHabitGroup(newGroup);

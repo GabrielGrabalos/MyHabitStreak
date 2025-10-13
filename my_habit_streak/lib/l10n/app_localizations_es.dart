@@ -33,7 +33,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get description => 'Descripción';
 
   @override
-  String get noDescription => 'No se proporcionó descripción。';
+  String get noDescription => 'No se proporcionó descripción.';
 
   @override
   String get saveHabit => 'Guardar Hábito';
@@ -54,13 +54,13 @@ class AppLocalizationsEs extends AppLocalizations {
   String get invalidHabit => 'Hábito Inválido';
 
   @override
-  String get invalidHabitMessage => 'Por favor, asegúrese de que el título del hábito no esté vacío y sea único。';
+  String get invalidHabitMessage => 'Por favor, asegúrese de que el título del hábito no esté vacío y sea único.';
 
   @override
   String get deleteConfirmationTitle => '¿Eliminar hábito?';
 
   @override
-  String get deleteConfirmationMessage => '¿Está seguro de que desea eliminar este hábito? Esta acción no se puede deshacer。';
+  String get deleteConfirmationMessage => '¿Está seguro de que desea eliminar este hábito? Esta acción no se puede deshacer.';
 
   @override
   String get markDoneConfirmation => '¿Marcar como hecho?';

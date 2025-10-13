@@ -73,8 +73,9 @@ class _CreateEditHabitState extends State<CreateEditHabit> {
   }
 
   Future<bool> _titleAlreadyExists() async {
-    return HabitStorageService.getHabits().then((habits) => habits.any(
-        (h) => h.title.toLowerCase() == _editableHabit.title.toLowerCase()));
+    return HabitStorageService.getHabits().then((habits) => habits.any((h) =>
+        h.title.toLowerCase().trim() ==
+        _editableHabit.title.toLowerCase().trim()));
   }
 
   @override

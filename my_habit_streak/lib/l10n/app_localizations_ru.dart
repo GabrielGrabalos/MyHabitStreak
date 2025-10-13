@@ -33,7 +33,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get description => 'Описание';
 
   @override
-  String get noDescription => 'Описание отсутствует。';
+  String get noDescription => 'Описание отсутствует.';
 
   @override
   String get saveHabit => 'Сохранить Привычку';
@@ -54,13 +54,13 @@ class AppLocalizationsRu extends AppLocalizations {
   String get invalidHabit => 'Недействительная Привычка';
 
   @override
-  String get invalidHabitMessage => 'Пожалуйста, убедитесь, что название привычки не пустое и уникальное。';
+  String get invalidHabitMessage => 'Пожалуйста, убедитесь, что название привычки не пустое и уникальное.';
 
   @override
   String get deleteConfirmationTitle => 'Удалить Привычку?';
 
   @override
-  String get deleteConfirmationMessage => 'Вы уверены, что хотите удалить эту привычку? Это действие нельзя отменить。';
+  String get deleteConfirmationMessage => 'Вы уверены, что хотите удалить эту привычку? Это действие нельзя отменить.';
 
   @override
   String get markDoneConfirmation => 'Отметить как выполненное?';
