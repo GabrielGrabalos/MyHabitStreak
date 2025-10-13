@@ -11,12 +11,12 @@ import 'package:my_habit_streak/widgets/selectable.dart';
 
 import '../l10n/app_localizations.dart';
 
-class CreateGroupBottomSheet extends StatefulWidget {
+class CreateEditGroupBottomSheet extends StatefulWidget {
   final List<Habit> availableHabits;
   final ValueChanged<HabitGroup> onCreate;
   final HabitGroup? existingGroup; // <-- New optional parameter
 
-  const CreateGroupBottomSheet({
+  const CreateEditGroupBottomSheet({
     super.key,
     required this.availableHabits,
     required this.onCreate,
@@ -24,10 +24,10 @@ class CreateGroupBottomSheet extends StatefulWidget {
   });
 
   @override
-  State<CreateGroupBottomSheet> createState() => _CreateGroupBottomSheetState();
+  State<CreateEditGroupBottomSheet> createState() => _CreateEditGroupBottomSheetState();
 }
 
-class _CreateGroupBottomSheetState extends State<CreateGroupBottomSheet> {
+class _CreateEditGroupBottomSheetState extends State<CreateEditGroupBottomSheet> {
   late TextEditingController _titleController;
   late List<Habit> _selectedHabits;
   late Color _selectedColor;

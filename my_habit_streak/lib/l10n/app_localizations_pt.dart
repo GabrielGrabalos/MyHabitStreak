@@ -33,7 +33,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get description => 'Descrição';
 
   @override
-  String get noDescription => 'Nenhuma descrição fornecida。';
+  String get noDescription => 'Nenhuma descrição fornecida.';
 
   @override
   String get saveHabit => 'Salvar Hábito';
@@ -54,13 +54,13 @@ class AppLocalizationsPt extends AppLocalizations {
   String get invalidHabit => 'Hábito Inválido';
 
   @override
-  String get invalidHabitMessage => 'Por favor, verifique se o título do hábito não está vazio e é único。';
+  String get invalidHabitMessage => 'Por favor, verifique se o título do hábito não está vazio e é único.';
 
   @override
   String get deleteConfirmationTitle => 'Excluir Hábito?';
 
   @override
-  String get deleteConfirmationMessage => 'Tem certeza de que deseja excluir este hábito? Esta ação não pode ser desfeita。';
+  String get deleteConfirmationMessage => 'Tem certeza de que deseja excluir este hábito? Esta ação não pode ser desfeita.';
 
   @override
   String get markDoneConfirmation => 'Marcar como feito?';
@@ -219,7 +219,7 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get description => 'Descrição';
 
   @override
-  String get noDescription => 'Nenhuma descrição fornecida。';
+  String get noDescription => 'Nenhuma descrição fornecida.';
 
   @override
   String get saveHabit => 'Salvar Hábito';
@@ -240,13 +240,13 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get invalidHabit => 'Hábito Inválido';
 
   @override
-  String get invalidHabitMessage => 'Por favor, verifique se o título do hábito não está vazio e é único。';
+  String get invalidHabitMessage => 'Por favor, verifique se o título do hábito não está vazio e é único.';
 
   @override
   String get deleteConfirmationTitle => 'Excluir Hábito?';
 
   @override
-  String get deleteConfirmationMessage => 'Tem certeza de que deseja excluir este hábito? Esta ação não pode ser desfeita。';
+  String get deleteConfirmationMessage => 'Tem certeza de que deseja excluir este hábito? Esta ação não pode ser desfeita.';
 
   @override
   String get markDoneConfirmation => 'Marcar como feito?';

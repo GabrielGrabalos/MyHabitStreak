@@ -33,7 +33,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get description => 'Beschreibung';
 
   @override
-  String get noDescription => 'Keine Beschreibung vorhanden。';
+  String get noDescription => 'Keine Beschreibung vorhanden.';
 
   @override
   String get saveHabit => 'Gewohnheit speichern';
@@ -54,13 +54,13 @@ class AppLocalizationsDe extends AppLocalizations {
   String get invalidHabit => 'Ungültige Gewohnheit';
 
   @override
-  String get invalidHabitMessage => 'Bitte stellen Sie sicher, dass der Gewohnheitstitel nicht leer und eindeutig ist。';
+  String get invalidHabitMessage => 'Bitte stellen Sie sicher, dass der Gewohnheitstitel nicht leer und eindeutig ist.';
 
   @override
   String get deleteConfirmationTitle => 'Gewohnheit löschen?';
 
   @override
-  String get deleteConfirmationMessage => 'Sind Sie sicher, dass Sie diese Gewohnheit löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden。';
+  String get deleteConfirmationMessage => 'Sind Sie sicher, dass Sie diese Gewohnheit löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.';
 
   @override
   String get markDoneConfirmation => 'Als erledigt markieren?';
