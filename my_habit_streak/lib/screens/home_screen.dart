@@ -151,11 +151,13 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
       HabitGroup(
         id: 'not_done',
         name: _appLocalizations!.notDone,
+        color: yellowTheme,
         habitIds: notDoneHabitIds,
       ),
       HabitGroup(
         id: 'done',
         name: _appLocalizations!.done,
+        color: greenTheme,
         habitIds: doneHabitIds,
       ),
       ...customGroups,
