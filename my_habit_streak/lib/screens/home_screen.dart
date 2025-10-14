@@ -52,6 +52,9 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
     _groupScrollController = ScrollController();
 
     _loadHabitsAndGroups();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _dealWithNotificationPermission();
+    });
 
     _habitsSubscription = HabitStorageService.habitsStream.listen((event) {
       _loadHabitsAndGroups();
@@ -67,7 +70,6 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
         HabitGroupStorageService.habitGroupsStream.listen((updatedGroups) {
       _loadHabitsAndGroups();
     });
-    _dealWithNotificationPermission();
   }
 
   @override
