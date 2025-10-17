@@ -42,8 +42,15 @@ class HabitStorageService {
 
   // Retrieve a list of Habits
   static Future<List<Habit>> getHabits() async {
+    String? jsonString;
     // Read the JSON string from secure storage
-    final String? jsonString = await _storage.read(key: _habitsKey);
+    try {
+      jsonString = await _storage.read(key: _habitsKey);
+    }
+    catch (e) {
+      debugPrint('Error reading habits from storage: $e');
+      return [];
+    }
     if (jsonString == null || jsonString.isEmpty) {
       return []; // Return an empty list if no habits are stored or string is empty
     }

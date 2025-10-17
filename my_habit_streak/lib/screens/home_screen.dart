@@ -51,7 +51,6 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
     super.initState();
     _groupScrollController = ScrollController();
 
-    _loadHabitsAndGroups();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _dealWithNotificationPermission();
     });
@@ -85,6 +84,13 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
   void didChangeDependencies() {
     super.didChangeDependencies();
     routeObserver.subscribe(this, ModalRoute.of(context)!);
+
+    if (_appLocalizations == null) {
+      _appLocalizations = AppLocalizations.of(context)!;
+      notificationService.setAppLocalizations(_appLocalizations!);
+
+      _loadHabitsAndGroups();
+    }
 
     // Initialize localization here instead of initState
     final newLocalizations = AppLocalizations.of(context)!;
@@ -142,8 +148,6 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
         _allHabits.where((h) => !h.isTodayDone).map((h) => h.id).toList();
     List<String> doneHabitIds =
         _allHabits.where((h) => h.isTodayDone).map((h) => h.id).toList();
-
-    if (!mounted) return;
 
     _habitGroups = [
       HabitGroup(

@@ -8,11 +8,13 @@ class GeneralStorageService {
   static const String _generalKeyPrefix = 'general_';
 
   // 1. Create a StreamController
-  static final _storageStreamController = StreamController<Map<String, dynamic>>.broadcast();
+  static final _storageStreamController =
+      StreamController<Map<String, dynamic>>.broadcast();
 
   // 2. Expose the stream for others to listen to
   // .broadcast() allows multiple listeners.
-  static Stream<Map<String, dynamic>> get storageStream => _storageStreamController.stream;
+  static Stream<Map<String, dynamic>> get storageStream =>
+      _storageStreamController.stream;
 
   static Future<void> saveData(String key, dynamic value) async {
     debugPrint('saving data with key: $key, value: $value');
@@ -31,7 +33,14 @@ class GeneralStorageService {
 
   static Future<dynamic> getData(String key) async {
     // Read the stored string using the key
-    final storedValue = await _storage.read(key: _generalKeyPrefix + key);
+    String? storedValue;
+    try {
+      storedValue = await _storage.read(key: _generalKeyPrefix + key);
+    } catch (e) {
+      debugPrint('Error reading data from storage: $e');
+      return null;
+    }
+
     debugPrint('getting data with key: $key, value: $storedValue');
     if (storedValue == null) return null;
 
