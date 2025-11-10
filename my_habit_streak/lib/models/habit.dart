@@ -81,7 +81,7 @@ class Habit {
       final dateStr = formatDate(current);
       final status = streakHistory[dateStr];
 
-      if (status == true) {
+      if (status != null && status.isNotEmpty) {
         streak++;
         current = current.subtract(const Duration(days: 1));
       } else {

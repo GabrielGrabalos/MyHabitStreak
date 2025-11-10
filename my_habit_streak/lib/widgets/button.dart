@@ -7,7 +7,7 @@ class Button extends StatefulWidget {
   final VoidCallback onPressed;
   final Color color;
   final EdgeInsetsGeometry? padding;
-  final bool isLoading; // New isLoading parameter
+  final bool isLoading;
 
   const Button({
     super.key,
@@ -15,7 +15,7 @@ class Button extends StatefulWidget {
     required this.onPressed,
     this.color = blueTheme,
     this.padding,
-    this.isLoading = false, // Default to false
+    this.isLoading = false,
   });
 
   @override

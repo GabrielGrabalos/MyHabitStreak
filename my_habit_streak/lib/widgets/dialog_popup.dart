@@ -48,61 +48,61 @@ class DialogPopup extends StatelessWidget {
                 ),
               ),
               child: SingleChildScrollView(
-                child: child ??
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          title,
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleLarge
-                              ?.copyWith(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 24,
-                                color: isWarning ? Colors.red : Colors.white,
-                              ),
-                          textAlign: TextAlign.center,
-                        ),
-                        const SizedBox(height: 20),
-                        SvgPicture.asset(
-                          !isWarning
-                              ? 'assets/happy_emote.svg'
-                              : 'assets/warning_${theme.name}_emote.svg',
-                          height: 150,
-                        ),
-                        const SizedBox(height: 20),
-                        Text(
-                          message,
-                          style:
-                              Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                    fontSize: 18,
-                                  ),
-                          textAlign: TextAlign.center,
-                        ),
-                        const SizedBox(height: 25),
-                        // Cancel button if hasCancelButton is true
-                        if (hasCancelButton) ...[
-                          Button(
-                            label: AppLocalizations.of(context)!.cancel,
-                            onPressed: () {
-                              Navigator.of(context).pop(
-                                  false); // Close the dialog and return false
-                            },
-                            color: Colors.grey.shade300,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      title,
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 24,
+                            color: isWarning ? Colors.red : Colors.white,
                           ),
-                          const SizedBox(height: 10),
-                        ],
-                        Button(
-                          label: AppLocalizations.of(context)!.confirm,
-                          onPressed: () {
-                            Navigator.of(context)
-                                .pop(true); // Close the dialog and return true
-                          },
-                          color: isWarning ? Colors.red : color,
-                        ),
-                      ],
+                      textAlign: TextAlign.center,
                     ),
+                    if (child != null) ...[
+                      const SizedBox(height: 20),
+                      child!,
+                    ] else ...[
+                      const SizedBox(height: 20),
+                      SvgPicture.asset(
+                        !isWarning
+                            ? 'assets/happy_emote.svg'
+                            : 'assets/warning_${theme.name}_emote.svg',
+                        height: 150,
+                      ),
+                      const SizedBox(height: 20),
+                      Text(
+                        message,
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              fontSize: 18,
+                            ),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 25),
+                      // Cancel button if hasCancelButton is true
+                      if (hasCancelButton) ...[
+                        Button(
+                          label: AppLocalizations.of(context)!.cancel,
+                          onPressed: () {
+                            Navigator.of(context).pop(
+                                false); // Close the dialog and return false
+                          },
+                          color: Colors.grey.shade300,
+                        ),
+                        const SizedBox(height: 10),
+                      ],
+                      Button(
+                        label: AppLocalizations.of(context)!.confirm,
+                        onPressed: () {
+                          Navigator.of(context)
+                              .pop(true); // Close the dialog and return true
+                        },
+                        color: isWarning ? Colors.red : color,
+                      ),
+                    ]
+                  ],
+                ),
               ),
             ),
             // X mark button to close the dialog
@@ -112,7 +112,7 @@ class DialogPopup extends StatelessWidget {
               child: IconButton(
                 icon: const Icon(Icons.close, color: Colors.white),
                 onPressed: () {
-                  Navigator.of(context).pop(); // Close the dialog
+                  Navigator.of(context).pop(false); // Close the dialog
                 },
               ),
             ),

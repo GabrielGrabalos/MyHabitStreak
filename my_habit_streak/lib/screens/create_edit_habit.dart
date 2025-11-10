@@ -50,7 +50,8 @@ class _CreateEditHabitState extends State<CreateEditHabit> {
       originalTitle = _editableHabit.title;
 
       _titleController.text = _editableHabit.title;
-      _descriptionController.text = _editableHabit.description; // Initialize description controller
+      _descriptionController.text =
+          _editableHabit.description; // Initialize description controller
     });
   }
 
@@ -120,7 +121,8 @@ class _CreateEditHabitState extends State<CreateEditHabit> {
                       cursorColor: _editableHabit.color,
                       onChanged: (value) {
                         setState(() {
-                          _editableHabit = _editableHabit.copyWith(title: value);
+                          _editableHabit =
+                              _editableHabit.copyWith(title: value);
                         });
                       },
                       onEditingComplete: () {
@@ -139,7 +141,8 @@ class _CreateEditHabitState extends State<CreateEditHabit> {
                       cursorColor: _editableHabit.color,
                       onChanged: (value) {
                         setState(() {
-                          _editableHabit = _editableHabit.copyWith(description: value);
+                          _editableHabit =
+                              _editableHabit.copyWith(description: value);
                         });
                       },
                       minLines: 3,
