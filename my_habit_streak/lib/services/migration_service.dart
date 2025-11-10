@@ -19,10 +19,10 @@ class MigrationService {
       final migratedHabits = await migrateHabits(currentHabits);
       await HabitStorageService.saveAllHabits(migratedHabits);
       debugPrint('Migration completed. All habits are now at version $currentHabitVersion');
-      print("\n\n\nold habits:");
-      print(currentHabits);
-      print("\n\n\n\nMigrated habits:");
-      print(migratedHabits);
+      debugPrint("\n\n\nold habits:");
+      debugPrint(currentHabits.toString());
+      debugPrint("\n\n\n\nMigrated habits:");
+      debugPrint(migratedHabits.toString());
     } else {
       debugPrint('No migration needed. Current version: $currentHabitVersion, Saved version: $savedHabitsVersion');
     }
@@ -49,7 +49,8 @@ class MigrationService {
     switch(fromVersion) {
       case 1:
         return _migrateV1toV2(habit);
-      // Future migrations can be added here
+      case 2:
+        return _migrateV2toV3(habit);
       default:
         debugPrint('No migration defined for version $fromVersion');
         return habit;
@@ -69,6 +70,23 @@ class MigrationService {
       color: habit.color,
       streakHistory: habit.streakHistory,
       version: 2, // Update to new version
+    );
+  }
+
+  static Habit _migrateV2toV3(Habit habit) {
+    // Version 3 adds a list of HabitCompletion objects
+    // instead of just bools in streakHistory.
+    // Here the mapping is automated on the fromJson method,
+    // so we just need to update the version.
+
+    return Habit(
+      id: habit.id,
+      title: habit.title,
+      description: habit.description,
+      theme: habit.theme,
+      color: habit.color,
+      streakHistory: habit.streakHistory,
+      version: 3, // Update to new version
     );
   }
 }

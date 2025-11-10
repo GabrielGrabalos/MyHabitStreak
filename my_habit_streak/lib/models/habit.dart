@@ -1,10 +1,11 @@
 import 'package:flutter/cupertino.dart';
+import 'package:my_habit_streak/models/habit_completion.dart';
 import 'package:my_habit_streak/utils/colors.dart';
 import 'package:my_habit_streak/utils/habit_theme.dart';
 import 'package:uuid/uuid.dart'; // Assuming this defines your HabitTheme enum
 
 class Habit {
-  static const int currentVersion = 2;
+  static const int currentVersion = 3;
 
   String id; // Unique identifier for each habit
   final int version;
@@ -12,7 +13,7 @@ class Habit {
   final String description;
   final HabitTheme theme;
   final Color color;
-  final Map<String, bool>
+  final Map<String, List<HabitCompletion>>
       streakHistory; // Date string (YYYY-MM-DD) -> completion status
 
   int? _streak; // Cached streak value
@@ -26,7 +27,7 @@ class Habit {
     this.description = '',
     this.theme = HabitTheme.bee,
     this.color = blueTheme,
-    Map<String, bool>? streakHistory,
+    Map<String, List<HabitCompletion>>? streakHistory,
   })  : streakHistory = streakHistory ?? {},
         id = id ?? Uuid().v4();
 
@@ -46,16 +47,20 @@ class Habit {
     // For a local app, it's often fine, but be aware.
     final today = DateTime.now();
     final todayKey = formatDate(today);
-    _isTodayDone = streakHistory[todayKey] ?? false;
+    _isTodayDone = streakHistory[todayKey]?.isNotEmpty ?? false;
     return _isTodayDone!;
   }
 
-  set isTodayDone(bool value) {
-    final today = DateTime.now();
-    final todayKey = formatDate(today);
-    streakHistory[todayKey] = value;
-    _isTodayDone = value;
-    _streak = null; // Reset cached streak when updating today's status
+  void addCompletion(HabitCompletion completion) {
+    final dateKey = formatDate(completion.date);
+    if (streakHistory.containsKey(dateKey)) {
+      streakHistory[dateKey]!.add(completion);
+    } else {
+      streakHistory[dateKey] = [completion];
+    }
+    // Invalidate cached values
+    _isTodayDone = null;
+    _streak = null;
   }
 
   // Calculate current streak length
@@ -103,7 +108,7 @@ class Habit {
     return List.generate(7, (index) {
       final day = sunday.add(Duration(days: index));
       final dateKey = formatDate(day);
-      return streakHistory[dateKey] ?? false;
+      return streakHistory[dateKey]?.isNotEmpty ?? false;
     });
   }
 
@@ -124,7 +129,7 @@ class Habit {
     return List.generate(7, (index) {
       final currentDay = sunday.add(Duration(days: index));
       final dateKey = formatDate(currentDay);
-      return streakHistory[dateKey] ?? false;
+      return streakHistory[dateKey]?.isNotEmpty ?? false;
     });
   }
 
@@ -172,6 +177,8 @@ class Habit {
         return _fromV1Json(json);
       case 2:
         return _fromV2Json(json);
+      case 3:
+        return _fromV3Json(json);
       default:
         debugPrint('Unknown Habit version: $version');
         break;
@@ -199,7 +206,12 @@ class Habit {
       color: Color(json['color'] as int),
       // Map JSON dynamic map back to Map<String, bool>
       streakHistory: (json['streakHistory'] as Map<String, dynamic>).map(
-        (key, value) => MapEntry(key, value as bool),
+        (key, value) => MapEntry(key, [
+          HabitCompletion(
+            text: "",
+            date: DateTime.parse(key),
+          ),
+        ]),
       ),
     );
   }
@@ -216,7 +228,32 @@ class Habit {
       color: Color(json['color'] as int),
       // Map JSON dynamic map back to Map<String, bool>
       streakHistory: (json['streakHistory'] as Map<String, dynamic>).map(
-        (key, value) => MapEntry(key, value as bool),
+        (key, value) => MapEntry(key, [
+          HabitCompletion(
+            text: "",
+            date: DateTime.parse(key),
+          ),
+        ]),
+      ),
+    );
+  }
+
+  static Habit _fromV3Json(Map<String, dynamic> json) {
+    return Habit(
+      version: 3,
+      id: json['id'] as String,
+      title: json['title'] as String,
+      description: json['description'] as String,
+      // Convert string back to HabitTheme enum
+      theme: _parseHabitTheme(json['theme'] as String),
+      // Convert integer value back to Color object
+      color: Color(json['color'] as int),
+      // Map JSON dynamic map back to Map<String, List<HabitCompletion>>
+      streakHistory: (json['streakHistory'] as Map<String, dynamic>).map(
+        (key, value) => MapEntry(
+          key,
+          (value as List<dynamic>).map((e) => HabitCompletion.fromJson(e as Map<String, dynamic>)).toList(),
+        ),
       ),
     );
   }
@@ -227,7 +264,7 @@ class Habit {
     String? description,
     HabitTheme? theme,
     Color? color,
-    Map<String, bool>? streakHistory,
+    Map<String, List<HabitCompletion>>? streakHistory,
   }) {
     return Habit(
       title: title ?? this.title,

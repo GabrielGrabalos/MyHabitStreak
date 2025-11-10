@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:my_habit_streak/models/habit_completion.dart';
 import 'package:my_habit_streak/screens/create_edit_habit.dart';
 import 'package:my_habit_streak/services/habit_storage_service.dart';
+import 'package:my_habit_streak/widgets/add_edit_completion_popup.dart';
 import 'package:my_habit_streak/widgets/app_scaffold.dart';
 import 'package:my_habit_streak/widgets/button.dart';
-import 'package:my_habit_streak/widgets/dialog_popup.dart';
 import 'package:my_habit_streak/widgets/header.dart';
 import 'package:my_habit_streak/widgets/streak_calendar.dart';
 import 'package:my_habit_streak/widgets/streak_week.dart';
@@ -30,12 +31,20 @@ class _VisualizeHabitState extends State<VisualizeHabit> {
   // It's good practice to have a mutable habit in the state if it can be updated
   // within this widget or from a navigated screen.
   late Habit _currentHabit; // Use a private variable for the mutable state
+  late TextEditingController _noteController;
 
   @override
   void initState() {
     super.initState();
     // Initialize the current habit from the passed argument
     _currentHabit = widget.habit; // Use the habit passed to this widget
+    _noteController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _noteController.dispose();
   }
 
   @override
@@ -111,26 +120,14 @@ class _VisualizeHabitState extends State<VisualizeHabit> {
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
                     child: Button(
                       color: _currentHabit.color,
-                      label: _currentHabit.isTodayDone
-                          ? AppLocalizations.of(context)!.markNotDone
-                          : AppLocalizations.of(context)!.markDone,
+                      label: "Add completion",
                       onPressed: () async {
                         final confirmChange = await showDialog<bool>(
                           context: context,
                           builder: (context) {
-                            return DialogPopup(
-                              title: _currentHabit.isTodayDone
-                                  ? AppLocalizations.of(context)!
-                                      .markNotDoneConfirmation
-                                  : AppLocalizations.of(context)!
-                                      .markDoneConfirmation,
-                              message: _currentHabit.isTodayDone
-                                  ? AppLocalizations.of(context)!
-                                      .markNotDoneMessage
-                                  : AppLocalizations.of(context)!
-                                      .markDoneMessage,
-                              theme: _currentHabit.theme,
-                              color: _currentHabit.color,
+                            return AddEditCompletionPopup(
+                              noteController: _noteController,
+                              isEditMode: false,
                             );
                           },
                         );
@@ -138,10 +135,16 @@ class _VisualizeHabitState extends State<VisualizeHabit> {
                         if (!confirmChange!) return;
 
                         setState(() {
-                          _currentHabit.isTodayDone =
-                              !_currentHabit.isTodayDone;
+                          HabitCompletion newCompletion = HabitCompletion(
+                            date: DateTime.now(),
+                            text: _noteController.text,
+                          );
+                          _currentHabit.addCompletion(newCompletion);
+
                           HabitStorageService.saveOrUpdateHabit(
-                              _currentHabit.title, _currentHabit);
+                            _currentHabit.title,
+                            _currentHabit,
+                          );
                         });
                       },
                     ),

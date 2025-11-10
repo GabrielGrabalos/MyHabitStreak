@@ -8,6 +8,7 @@ import 'package:my_habit_streak/widgets/color_selector.dart';
 import 'package:my_habit_streak/widgets/dialog_popup.dart';
 import 'package:my_habit_streak/widgets/habit_card.dart';
 import 'package:my_habit_streak/widgets/selectable.dart';
+import 'package:my_habit_streak/widgets/text_input.dart';
 
 import '../l10n/app_localizations.dart';
 
@@ -155,23 +156,10 @@ class _CreateEditGroupBottomSheetState extends State<CreateEditGroupBottomSheet>
                       const SizedBox(height: 20),
 
                       // Group title input
-                      TextField(
+                      ThemedTextInput(
                         controller: _titleController,
                         cursorColor: _selectedColor,
-                        decoration: InputDecoration(
-                          labelText: AppLocalizations.of(context)!.groupTitle,
-                          labelStyle: const TextStyle(color: Colors.white),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(18),
-                            borderSide:
-                                BorderSide(color: _selectedColor, width: 2),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(18),
-                            borderSide:
-                                BorderSide(color: _selectedColor, width: 2),
-                          ),
-                        ),
+                        labelText: AppLocalizations.of(context)!.groupTitle,
                       ),
                       const SizedBox(height: 20),
 

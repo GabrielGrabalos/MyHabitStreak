@@ -9,6 +9,7 @@ import 'package:my_habit_streak/widgets/header.dart';
 import 'package:my_habit_streak/widgets/theme_selector.dart';
 import 'package:vibration/vibration.dart';
 import '../l10n/app_localizations.dart';
+import 'package:my_habit_streak/widgets/text_input.dart';
 
 import '../models/habit.dart';
 
@@ -49,8 +50,7 @@ class _CreateEditHabitState extends State<CreateEditHabit> {
       originalTitle = _editableHabit.title;
 
       _titleController.text = _editableHabit.title;
-      _descriptionController.text =
-          _editableHabit.description ?? ''; // Initialize description controller
+      _descriptionController.text = _editableHabit.description; // Initialize description controller
     });
   }
 
@@ -114,33 +114,15 @@ class _CreateEditHabitState extends State<CreateEditHabit> {
                   const SizedBox(height: 20),
                   Padding(
                     padding: const EdgeInsets.all(16.0),
-                    child: TextField(
+                    child: ThemedTextInput(
                       controller: _titleController,
+                      labelText: AppLocalizations.of(context)!.habitTitle,
+                      cursorColor: _editableHabit.color,
                       onChanged: (value) {
                         setState(() {
-                          _editableHabit =
-                              _editableHabit.copyWith(title: value);
+                          _editableHabit = _editableHabit.copyWith(title: value);
                         });
                       },
-                      cursorColor: _editableHabit.color,
-                      decoration: InputDecoration(
-                        labelText: AppLocalizations.of(context)!.habitTitle,
-                        labelStyle: const TextStyle(color: Colors.white),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(18.0),
-                          borderSide: BorderSide(
-                            color: _editableHabit.color,
-                            width: 2.0,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(18.0),
-                          borderSide: BorderSide(
-                            color: _editableHabit.color,
-                            width: 2.0,
-                          ),
-                        ),
-                      ),
                       onEditingComplete: () {
                         // Focus on next field when editing is complete
                         FocusScope.of(context).nextFocus();
@@ -151,39 +133,18 @@ class _CreateEditHabitState extends State<CreateEditHabit> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(16.0),
-                    child: TextField(
+                    child: ThemedTextInput(
                       controller: _descriptionController,
+                      labelText: AppLocalizations.of(context)!.description,
+                      cursorColor: _editableHabit.color,
                       onChanged: (value) {
                         setState(() {
-                          _editableHabit =
-                              _editableHabit.copyWith(description: value);
+                          _editableHabit = _editableHabit.copyWith(description: value);
                         });
                       },
-                      // Set minLines to 3 for a minimum height of 3 lines
                       minLines: 3,
-                      // Set maxLines to null to allow the field to grow indefinitely
                       maxLines: null,
                       keyboardType: TextInputType.multiline,
-                      // Enable multiline input
-                      cursorColor: _editableHabit.color,
-                      decoration: InputDecoration(
-                        labelText: AppLocalizations.of(context)!.description,
-                        labelStyle: const TextStyle(color: Colors.white),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(18.0),
-                          borderSide: BorderSide(
-                            color: _editableHabit.color,
-                            width: 2.0,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(18.0),
-                          borderSide: BorderSide(
-                            color: _editableHabit.color,
-                            width: 2.0,
-                          ),
-                        ),
-                      ),
                       textCapitalization: TextCapitalization.sentences,
                       autocorrect: true,
                     ),
