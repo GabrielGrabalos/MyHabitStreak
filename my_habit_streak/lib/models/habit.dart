@@ -187,6 +187,11 @@ class Habit {
     return Habit(); // Default empty habit if version is unknown
   }
 
+  List<HabitCompletion> get completions {
+    final todayKey = formatDate(DateTime.now());
+    return streakHistory[todayKey] ?? [];
+  }
+
   // Helper to parse HabitTheme from string
   static HabitTheme _parseHabitTheme(String themeString) {
     return HabitTheme.values.firstWhere(
