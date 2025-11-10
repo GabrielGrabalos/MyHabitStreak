@@ -6,6 +6,7 @@ import 'package:my_habit_streak/services/habit_storage_service.dart';
 import 'package:my_habit_streak/widgets/add_edit_completion_popup.dart';
 import 'package:my_habit_streak/widgets/app_scaffold.dart';
 import 'package:my_habit_streak/widgets/button.dart';
+import 'package:my_habit_streak/widgets/dialog_popup.dart';
 import 'package:my_habit_streak/widgets/habit_completion_card.dart';
 import 'package:my_habit_streak/widgets/header.dart';
 import 'package:my_habit_streak/widgets/streak_calendar.dart';
@@ -123,12 +124,14 @@ class _VisualizeHabitState extends State<VisualizeHabit> {
                       color: _currentHabit.color,
                       label: "Add completion",
                       onPressed: () async {
+                        _noteController.clear();
                         final confirmChange = await showDialog<bool>(
                           context: context,
                           builder: (context) {
                             return AddEditCompletionPopup(
                               noteController: _noteController,
                               isEditMode: false,
+                              color: _currentHabit.color,
                             );
                           },
                         );
@@ -160,7 +163,6 @@ class _VisualizeHabitState extends State<VisualizeHabit> {
                           ),
                     ),
                   ),
-
                   Padding(
                     padding: const EdgeInsets.all(15.0),
                     child: Text(
@@ -176,20 +178,67 @@ class _VisualizeHabitState extends State<VisualizeHabit> {
                     child: Text(
                       "Completions: ${_currentHabit.completions.length}",
                       style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 24,
-                      ),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 24,
+                          ),
                     ),
                   ),
                   const SizedBox(height: 10),
                   if (_currentHabit.completions.isNotEmpty)
                     ..._currentHabit.completions.map(
-                          (completion) {
+                      (completion) {
                         return Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 20.0, vertical: 10.0),
                           child: HabitCompletionCard(
                             habitCompletion: completion,
+                            onCompletionEdit: () async {
+                              final confirmChange = await showDialog<bool>(
+                                context: context,
+                                builder: (context) {
+                                  _noteController.text = completion.text;
+                                  return AddEditCompletionPopup(
+                                    noteController: _noteController,
+                                    isEditMode: true,
+                                    color: _currentHabit.color,
+                                  );
+                                },
+                              );
+
+                              if (!confirmChange!) return;
+
+                              setState(() {
+                                completion.text = _noteController.text.trim();
+                                HabitStorageService.saveOrUpdateHabit(
+                                  _currentHabit.title,
+                                  _currentHabit,
+                                );
+                              });
+                            },
+                            onCompletionDelete: () async {
+                              final confirmDelete = await showDialog<bool>(
+                                context: context,
+                                builder: (context) {
+                                  return DialogPopup(
+                                    title: AppLocalizations.of(context)!
+                                        .deleteConfirmationTitle,
+                                    isWarning: true,
+                                    message: AppLocalizations.of(context)!
+                                        .deleteConfirmationMessage
+                                  );
+                                },
+                              );
+
+                              if (!confirmDelete!) return;
+
+                              setState(() {
+                                _currentHabit.removeCompletion(completion);
+                                HabitStorageService.saveOrUpdateHabit(
+                                  _currentHabit.title,
+                                  _currentHabit,
+                                );
+                              });
+                            },
                             color: _currentHabit.color,
                           ),
                         );

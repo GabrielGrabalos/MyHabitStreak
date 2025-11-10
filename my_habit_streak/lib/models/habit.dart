@@ -63,6 +63,20 @@ class Habit {
     _streak = null;
   }
 
+  void removeCompletion(HabitCompletion completion) {
+    final dateKey = formatDate(completion.date);
+    if (streakHistory.containsKey(dateKey)) {
+      streakHistory[dateKey]!.removeWhere(
+          (c) => c.date == completion.date && c.text == completion.text);
+      if (streakHistory[dateKey]!.isEmpty) {
+        streakHistory.remove(dateKey);
+      }
+    }
+    // Invalidate cached values
+    _isTodayDone = null;
+    _streak = null;
+  }
+
   // Calculate current streak length
   int get streak {
     if (_streak != null) return _streak!;
@@ -257,7 +271,9 @@ class Habit {
       streakHistory: (json['streakHistory'] as Map<String, dynamic>).map(
         (key, value) => MapEntry(
           key,
-          (value as List<dynamic>).map((e) => HabitCompletion.fromJson(e as Map<String, dynamic>)).toList(),
+          (value as List<dynamic>)
+              .map((e) => HabitCompletion.fromJson(e as Map<String, dynamic>))
+              .toList(),
         ),
       ),
     );
