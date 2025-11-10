@@ -31,6 +31,7 @@ class AddEditCompletionPopup extends StatelessWidget {
               labelText: 'Add a note... (optional)',
               minLines: 3,
               maxLines: 5,
+              textCapitalization: TextCapitalization.sentences,
             ),
             const SizedBox(height: 20),
             Button(

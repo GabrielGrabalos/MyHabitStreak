@@ -138,7 +138,7 @@ class _VisualizeHabitState extends State<VisualizeHabit> {
                         setState(() {
                           HabitCompletion newCompletion = HabitCompletion(
                             date: DateTime.now(),
-                            text: _noteController.text,
+                            text: _noteController.text.trim(),
                           );
                           _currentHabit.addCompletion(newCompletion);
 
