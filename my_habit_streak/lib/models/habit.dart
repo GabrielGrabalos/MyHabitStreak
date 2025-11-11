@@ -31,10 +31,10 @@ class Habit {
   })  : streakHistory = streakHistory ?? {},
         id = id ?? Uuid().v4();
 
-  // Helper function to format DateTime asYYYY-MM-DD
+  // Helper function to format DateTime as YYYY-MM-DD
   String formatDate(DateTime date) {
     // Ensure consistent format, including padding for month/day if needed
-    // For ISO8601String, it's alreadyYYYY-MM-DD for the date part
+    // For ISO8601String, it's already YYYY-MM-DD for the date part
     return date.toIso8601String().split('T')[0];
   }
 
@@ -51,8 +51,10 @@ class Habit {
     return _isTodayDone!;
   }
 
-  void addCompletion(HabitCompletion completion) {
-    final dateKey = formatDate(completion.date);
+  void addCompletion(HabitCompletion completion, {String dateKey = ''}) {
+    dateKey = dateKey.isNotEmpty
+        ? dateKey
+        : formatDate(completion.date);
     if (streakHistory.containsKey(dateKey)) {
       streakHistory[dateKey]!.add(completion);
     } else {

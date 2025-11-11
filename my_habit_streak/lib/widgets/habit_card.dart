@@ -72,6 +72,9 @@ class HabitCard extends StatelessWidget {
                             ),
                             StreakWeek(
                               isDone: habit.getCurrentWeekStatus(),
+                              month: -1,
+                              year: -1,
+                              onDayClick: (_) {},
                             ),
                           ],
                         ),

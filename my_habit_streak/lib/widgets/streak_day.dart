@@ -10,9 +10,13 @@ class StreakDay extends StatelessWidget {
   final Color labelColor;
   final Color color;
   final int day;
+  final String dateKey;
+  final Function(String dateKey) onClick;
 
   const StreakDay({
     super.key,
+    required this.dateKey,
+    required this.onClick,
     this.label = '',
     this.isDone = false,
     this.isOtherMonth = false,
@@ -41,6 +45,8 @@ class StreakDay extends StatelessWidget {
           clipBehavior: Clip.none,
           children: [
             StreakCircle(
+              dateKey: dateKey,
+              onClick: onClick,
               isDone: isDone,
               size: size,
               color: color,

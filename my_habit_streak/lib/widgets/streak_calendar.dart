@@ -7,10 +7,12 @@ import '../models/habit.dart';
 
 class StreakCalendar extends StatefulWidget {
   final Habit habit;
+  final Function(String dateKey) onDayClick;
 
   const StreakCalendar({
     super.key,
     required this.habit,
+    required this.onDayClick,
   });
 
   @override
@@ -72,6 +74,9 @@ class _StreakCalendarState extends State<StreakCalendar> {
           7,
           (index) => index < firstWeekDayOfMonth ? 0 : dayCounter++,
         ),
+        month: currentDate.month,
+        year: currentDate.year,
+        onDayClick: widget.onDayClick,
       ),
     );
 
@@ -102,6 +107,9 @@ class _StreakCalendarState extends State<StreakCalendar> {
           isDone: weekStreakHistory,
           isOtherMonth: isOtherMonth,
           days: days,
+          month: currentDate.month,
+          year: currentDate.year,
+          onDayClick: widget.onDayClick,
         ),
       );
     }

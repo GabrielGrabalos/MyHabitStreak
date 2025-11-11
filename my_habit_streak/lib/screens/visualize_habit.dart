@@ -49,6 +49,11 @@ class _VisualizeHabitState extends State<VisualizeHabit> {
     _noteController.dispose();
   }
 
+  void onDayClick(String dateKey) {
+    // Handle day click if needed
+    print("\n\n\nClicked on date: $dateKey\n\n\n");
+  }
+
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
@@ -115,6 +120,9 @@ class _VisualizeHabitState extends State<VisualizeHabit> {
                       padding: const EdgeInsets.all(15.0),
                       child: StreakWeek(
                         isDone: _currentHabit.getCurrentWeekStatus(),
+                        month: DateTime.now().month,
+                        year: DateTime.now().year,
+                        onDayClick: onDayClick,
                       ),
                     ),
                   ),
@@ -265,6 +273,7 @@ class _VisualizeHabitState extends State<VisualizeHabit> {
                   const SizedBox(height: 10),
                   StreakCalendar(
                     habit: _currentHabit,
+                    onDayClick: onDayClick,
                   ),
                 ],
               ),
