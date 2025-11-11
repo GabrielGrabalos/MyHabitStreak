@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_habit_streak/models/habit_completion.dart';
 import '../l10n/app_localizations.dart';
 import '../models/habit.dart';
 import '../services/habit_storage_service.dart';
@@ -8,19 +9,23 @@ import '../widgets/habit_completion_card.dart';
 
 class CompletionList extends StatelessWidget {
   final Habit habit;
+  final List<HabitCompletion> completions;
   final TextEditingController noteController;
   final VoidCallback onCompletionsChanged;
+  final String? dateKey;
 
   const CompletionList({
     super.key,
     required this.habit,
+    required this.completions,
     required this.noteController,
     required this.onCompletionsChanged,
+    this.dateKey,
   });
 
   @override
   Widget build(BuildContext context) {
-    if (habit.completions.isEmpty) {
+    if (completions.isEmpty) {
       return Padding(
         padding: const EdgeInsets.all(15.0),
         child: Text(
@@ -32,7 +37,7 @@ class CompletionList extends StatelessWidget {
     }
 
     return Column(
-      children: habit.completions.map((completion) {
+      children: completions.map((completion) {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
           child: HabitCompletionCard(

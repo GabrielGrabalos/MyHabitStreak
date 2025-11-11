@@ -187,6 +187,7 @@ class _VisualizeHabitState extends State<VisualizeHabit> {
                   const SizedBox(height: 10),
                   CompletionList(
                     habit: _currentHabit,
+                    completions: _currentHabit.completions,
                     noteController: _noteController,
                     onCompletionsChanged: () => setState(() {}),
                   ),

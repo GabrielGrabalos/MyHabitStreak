@@ -70,33 +70,50 @@ class _VisualizeSpecificHabitDayState extends State<VisualizeSpecificHabitDay> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                SvgPicture.asset(
-                  'assets/${widget.habit.theme.name}'
-                  '${widget.habit.streakHistory[widget.dateKey] == null || widget.habit.streakHistory[widget.dateKey]!.isEmpty ? '_gray' : ''}.svg',
-                  width: 150,
-                  fit: BoxFit.contain,
-                ),
-                const SizedBox(height: 20),
-                AddCompletionButton(
-                  habit: widget.habit,
-                  noteController: _noteController,
-                  onCompletionAdded: () => setState(() {}),
-                ),
-                const SizedBox(height: 20),
-                Center(
-                  child: Text(
-                    "Completions: ${widget.habit.completions.length}",
-                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 24,
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        SvgPicture.asset(
+                          'assets/${widget.habit.theme.name}'
+                          '${widget.habit.streakHistory[widget.dateKey] == null || widget.habit.streakHistory[widget.dateKey]!.isEmpty ? '_gray' : ''}.svg',
+                          width: 150,
+                          fit: BoxFit.contain,
                         ),
+                        const SizedBox(height: 20),
+                        AddCompletionButton(
+                          habit: widget.habit,
+                          dateKey: widget.dateKey,
+                          noteController: _noteController,
+                          onCompletionAdded: () => setState(() {}),
+                        ),
+                        const SizedBox(height: 20),
+                        if (widget.habit.streakHistory[widget.dateKey] !=
+                            null) ...[
+                          Center(
+                            child: Text(
+                              "Completions: ${widget.habit.streakHistory[widget.dateKey]!.length}",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleLarge!
+                                  .copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 24,
+                                  ),
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                        ],
+                        CompletionList(
+                          habit: widget.habit,
+                          completions:
+                              widget.habit.streakHistory[widget.dateKey] ?? [],
+                          noteController: _noteController,
+                          onCompletionsChanged: () => setState(() {}),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                const SizedBox(height: 10),
-                CompletionList(
-                  habit: widget.habit,
-                  noteController: _noteController,
-                  onCompletionsChanged: () => setState(() {}),
                 ),
               ],
             ),

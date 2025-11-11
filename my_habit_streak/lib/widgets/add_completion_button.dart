@@ -9,12 +9,14 @@ class AddCompletionButton extends StatelessWidget {
   final Habit habit;
   final TextEditingController noteController;
   final VoidCallback onCompletionAdded;
+  final String? dateKey;
 
   const AddCompletionButton({
     super.key,
     required this.habit,
     required this.noteController,
     required this.onCompletionAdded,
+    this.dateKey,
   });
 
   @override
@@ -38,10 +40,10 @@ class AddCompletionButton extends StatelessWidget {
         if (confirmChange != true) return;
 
         HabitCompletion newCompletion = HabitCompletion(
-          date: DateTime.now(),
+          date: dateKey != null ? DateTime.parse(dateKey!) : DateTime.now(),
           text: noteController.text.trim(),
         );
-        habit.addCompletion(newCompletion);
+        habit.addCompletion(newCompletion, dateKey: dateKey ?? "");
         await HabitStorageService.saveOrUpdateHabit(habit.title, habit);
         onCompletionAdded();
       },
