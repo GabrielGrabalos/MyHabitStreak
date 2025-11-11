@@ -1,0 +1,85 @@
+import 'package:flutter/material.dart';
+import '../l10n/app_localizations.dart';
+import '../models/habit.dart';
+import '../services/habit_storage_service.dart';
+import '../widgets/add_edit_completion_popup.dart';
+import '../widgets/dialog_popup.dart';
+import '../widgets/habit_completion_card.dart';
+
+class CompletionList extends StatelessWidget {
+  final Habit habit;
+  final TextEditingController noteController;
+  final VoidCallback onCompletionsChanged;
+
+  const CompletionList({
+    super.key,
+    required this.habit,
+    required this.noteController,
+    required this.onCompletionsChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    if (habit.completions.isEmpty) {
+      return Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: Text(
+          "No completions yet.",
+          style: Theme.of(context).textTheme.bodyLarge,
+          textAlign: TextAlign.center,
+        ),
+      );
+    }
+
+    return Column(
+      children: habit.completions.map((completion) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+          child: HabitCompletionCard(
+            habitCompletion: completion,
+            onCompletionEdit: () async {
+              noteController.text = completion.text;
+              final confirmChange = await showDialog<bool>(
+                context: context,
+                builder: (context) {
+                  return AddEditCompletionPopup(
+                    noteController: noteController,
+                    isEditMode: true,
+                    color: habit.color,
+                  );
+                },
+              );
+
+              if (confirmChange != true) return;
+
+              completion.text = noteController.text.trim();
+              await HabitStorageService.saveOrUpdateHabit(habit.title, habit);
+              onCompletionsChanged();
+            },
+            onCompletionDelete: () async {
+              final confirmDelete = await showDialog<bool>(
+                context: context,
+                builder: (context) {
+                  return DialogPopup(
+                    title:
+                        AppLocalizations.of(context)!.deleteConfirmationTitle,
+                    isWarning: true,
+                    message:
+                        AppLocalizations.of(context)!.deleteConfirmationMessage,
+                  );
+                },
+              );
+
+              if (confirmDelete != true) return;
+
+              habit.removeCompletion(completion);
+              await HabitStorageService.saveOrUpdateHabit(habit.title, habit);
+              onCompletionsChanged();
+            },
+            color: habit.color,
+          ),
+        );
+      }).toList(),
+    );
+  }
+}

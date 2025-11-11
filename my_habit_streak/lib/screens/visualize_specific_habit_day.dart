@@ -1,11 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:my_habit_streak/widgets/add_completion_button.dart';
+import 'package:my_habit_streak/widgets/completion_list.dart';
 
+import '../l10n/app_localizations.dart';
 import '../models/habit.dart';
+import '../models/habit_completion.dart';
+import '../services/habit_storage_service.dart';
 import '../utils/colors.dart';
+import '../widgets/add_edit_completion_popup.dart';
+import '../widgets/button.dart';
+import '../widgets/dialog_popup.dart';
+import '../widgets/habit_completion_card.dart';
 
 class VisualizeSpecificHabitDay extends StatefulWidget {
   final Habit habit;
-  const VisualizeSpecificHabitDay({super.key, required this.habit});
+  final String dateKey;
+
+  const VisualizeSpecificHabitDay({
+    super.key,
+    required this.habit,
+    required this.dateKey,
+  });
 
   @override
   State<VisualizeSpecificHabitDay> createState() =>
@@ -13,6 +29,14 @@ class VisualizeSpecificHabitDay extends StatefulWidget {
 }
 
 class _VisualizeSpecificHabitDayState extends State<VisualizeSpecificHabitDay> {
+  final TextEditingController _noteController = TextEditingController();
+
+  @override
+  void dispose() {
+    super.dispose();
+    _noteController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return DraggableScrollableSheet(
@@ -44,6 +68,35 @@ class _VisualizeSpecificHabitDayState extends State<VisualizeSpecificHabitDay> {
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
+                ),
+                const SizedBox(height: 20),
+                SvgPicture.asset(
+                  'assets/${widget.habit.theme.name}'
+                  '${widget.habit.streakHistory[widget.dateKey] == null || widget.habit.streakHistory[widget.dateKey]!.isEmpty ? '_gray' : ''}.svg',
+                  width: 150,
+                  fit: BoxFit.contain,
+                ),
+                const SizedBox(height: 20),
+                AddCompletionButton(
+                  habit: widget.habit,
+                  noteController: _noteController,
+                  onCompletionAdded: () => setState(() {}),
+                ),
+                const SizedBox(height: 20),
+                Center(
+                  child: Text(
+                    "Completions: ${widget.habit.completions.length}",
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 24,
+                        ),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                CompletionList(
+                  habit: widget.habit,
+                  noteController: _noteController,
+                  onCompletionsChanged: () => setState(() {}),
                 ),
               ],
             ),

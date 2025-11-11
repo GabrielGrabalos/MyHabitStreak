@@ -38,6 +38,7 @@ class Habit {
     return date.toIso8601String().split('T')[0];
   }
 
+
   // Check if today's habit is completed
   bool get isTodayDone {
     if (_isTodayDone != null) return _isTodayDone!;

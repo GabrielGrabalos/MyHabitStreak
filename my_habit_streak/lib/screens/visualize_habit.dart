@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:my_habit_streak/models/habit_completion.dart';
 import 'package:my_habit_streak/screens/create_edit_habit.dart';
-import 'package:my_habit_streak/services/habit_storage_service.dart';
-import 'package:my_habit_streak/widgets/add_edit_completion_popup.dart';
+import 'package:my_habit_streak/screens/visualize_specific_habit_day.dart';
+import 'package:my_habit_streak/widgets/add_completion_button.dart';
 import 'package:my_habit_streak/widgets/app_scaffold.dart';
-import 'package:my_habit_streak/widgets/button.dart';
-import 'package:my_habit_streak/widgets/dialog_popup.dart';
-import 'package:my_habit_streak/widgets/habit_completion_card.dart';
+import 'package:my_habit_streak/widgets/completion_list.dart';
 import 'package:my_habit_streak/widgets/header.dart';
 import 'package:my_habit_streak/widgets/streak_calendar.dart';
 import 'package:my_habit_streak/widgets/streak_week.dart';
@@ -50,8 +47,30 @@ class _VisualizeHabitState extends State<VisualizeHabit> {
   }
 
   void onDayClick(String dateKey) {
-    // Handle day click if needed
-    print("\n\n\nClicked on date: $dateKey\n\n\n");
+    // If day is today or after:
+    DateTime clickedDate = DateTime.parse(dateKey);
+    DateTime today = DateTime.now();
+    if (!clickedDate.isBefore(DateTime(today.year, today.month, today.day))) {
+      return;
+    }
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => VisualizeSpecificHabitDay(
+        habit: _currentHabit,
+        dateKey: dateKey,
+      ),
+    );
+  }
+
+  List<int> getDaysOfThisWeek() {
+    DateTime now = DateTime.now();
+    int currentWeekday = now.weekday; // 1 (Mon) to 7 (Sun)
+    DateTime monday = now.subtract(Duration(days: currentWeekday - 1));
+    return List<int>.generate(
+        7, (index) => monday.add(Duration(days: index)).day - 1);
   }
 
   @override
@@ -120,6 +139,7 @@ class _VisualizeHabitState extends State<VisualizeHabit> {
                       padding: const EdgeInsets.all(15.0),
                       child: StreakWeek(
                         isDone: _currentHabit.getCurrentWeekStatus(),
+                        days: getDaysOfThisWeek(),
                         month: DateTime.now().month,
                         year: DateTime.now().year,
                         onDayClick: onDayClick,
@@ -128,37 +148,10 @@ class _VisualizeHabitState extends State<VisualizeHabit> {
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: Button(
-                      color: _currentHabit.color,
-                      label: "Add completion",
-                      onPressed: () async {
-                        _noteController.clear();
-                        final confirmChange = await showDialog<bool>(
-                          context: context,
-                          builder: (context) {
-                            return AddEditCompletionPopup(
-                              noteController: _noteController,
-                              isEditMode: false,
-                              color: _currentHabit.color,
-                            );
-                          },
-                        );
-
-                        if (!confirmChange!) return;
-
-                        setState(() {
-                          HabitCompletion newCompletion = HabitCompletion(
-                            date: DateTime.now(),
-                            text: _noteController.text.trim(),
-                          );
-                          _currentHabit.addCompletion(newCompletion);
-
-                          HabitStorageService.saveOrUpdateHabit(
-                            _currentHabit.title,
-                            _currentHabit,
-                          );
-                        });
-                      },
+                    child: AddCompletionButton(
+                      habit: _currentHabit,
+                      noteController: _noteController,
+                      onCompletionAdded: () => setState(() {}),
                     ),
                   ),
                   const SizedBox(height: 30),
@@ -192,75 +185,11 @@ class _VisualizeHabitState extends State<VisualizeHabit> {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  if (_currentHabit.completions.isNotEmpty)
-                    ..._currentHabit.completions.map(
-                      (completion) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 20.0, vertical: 10.0),
-                          child: HabitCompletionCard(
-                            habitCompletion: completion,
-                            onCompletionEdit: () async {
-                              final confirmChange = await showDialog<bool>(
-                                context: context,
-                                builder: (context) {
-                                  _noteController.text = completion.text;
-                                  return AddEditCompletionPopup(
-                                    noteController: _noteController,
-                                    isEditMode: true,
-                                    color: _currentHabit.color,
-                                  );
-                                },
-                              );
-
-                              if (!confirmChange!) return;
-
-                              setState(() {
-                                completion.text = _noteController.text.trim();
-                                HabitStorageService.saveOrUpdateHabit(
-                                  _currentHabit.title,
-                                  _currentHabit,
-                                );
-                              });
-                            },
-                            onCompletionDelete: () async {
-                              final confirmDelete = await showDialog<bool>(
-                                context: context,
-                                builder: (context) {
-                                  return DialogPopup(
-                                    title: AppLocalizations.of(context)!
-                                        .deleteConfirmationTitle,
-                                    isWarning: true,
-                                    message: AppLocalizations.of(context)!
-                                        .deleteConfirmationMessage
-                                  );
-                                },
-                              );
-
-                              if (!confirmDelete!) return;
-
-                              setState(() {
-                                _currentHabit.removeCompletion(completion);
-                                HabitStorageService.saveOrUpdateHabit(
-                                  _currentHabit.title,
-                                  _currentHabit,
-                                );
-                              });
-                            },
-                            color: _currentHabit.color,
-                          ),
-                        );
-                      },
-                    ),
-                  if (_currentHabit.completions.isEmpty)
-                    Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Text(
-                        "No completions yet.",
-                        style: Theme.of(context).textTheme.bodyLarge,
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
+                  CompletionList(
+                    habit: _currentHabit,
+                    noteController: _noteController,
+                    onCompletionsChanged: () => setState(() {}),
+                  ),
                   const SizedBox(height: 20),
                   Text(
                     AppLocalizations.of(context)!.streakHistory,

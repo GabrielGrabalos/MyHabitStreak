@@ -20,21 +20,6 @@ class StreakCalendar extends StatefulWidget {
 }
 
 class _StreakCalendarState extends State<StreakCalendar> {
-  final months = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December'
-  ];
-
   DateTime currentDate = DateTime.now();
 
   void updateMonth(int monthOffset) {
