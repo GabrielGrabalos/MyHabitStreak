@@ -50,18 +50,20 @@ class _StreakCalendarState extends State<StreakCalendar> {
 
     // Add the first:
     weeks.add(
-      StreakWeek(
-        isDone: weekStreakHistory,
-        isOtherMonth: List.generate(
-            7, (index) => index < firstWeekDayOfMonth ? true : false),
-        dynamicLabelColor: false,
-        days: List.generate(
-          7,
-          (index) => index < firstWeekDayOfMonth ? 0 : dayCounter++,
+      RepaintBoundary(
+        child: StreakWeek(
+          isDone: weekStreakHistory,
+          isOtherMonth: List.generate(
+              7, (index) => index < firstWeekDayOfMonth ? true : false),
+          dynamicLabelColor: false,
+          days: List.generate(
+            7,
+            (index) => index < firstWeekDayOfMonth ? 0 : dayCounter++,
+          ),
+          month: currentDate.month,
+          year: currentDate.year,
+          onDayClick: widget.onDayClick,
         ),
-        month: currentDate.month,
-        year: currentDate.year,
-        onDayClick: widget.onDayClick,
       ),
     );
 
@@ -80,21 +82,22 @@ class _StreakCalendarState extends State<StreakCalendar> {
         if (dayCounter > daysInMonth) {
           isOtherMonth[i] = true; // Mark remaining days as other month
         }
-        days[i] =
-            dayCounter <= daysInMonth ? dayCounter : 0;
+        days[i] = dayCounter <= daysInMonth ? dayCounter : 0;
         dayCounter++;
       }
 
       weeks.add(const SizedBox(height: 15.0));
       weeks.add(
-        StreakWeek(
-          labels: List.generate(7, (index) => ''),
-          isDone: weekStreakHistory,
-          isOtherMonth: isOtherMonth,
-          days: days,
-          month: currentDate.month,
-          year: currentDate.year,
-          onDayClick: widget.onDayClick,
+        RepaintBoundary(
+          child: StreakWeek(
+            labels: List.generate(7, (index) => ''),
+            isDone: weekStreakHistory,
+            isOtherMonth: isOtherMonth,
+            days: days,
+            month: currentDate.month,
+            year: currentDate.year,
+            onDayClick: widget.onDayClick,
+          ),
         ),
       );
     }

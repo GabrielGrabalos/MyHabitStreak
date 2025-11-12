@@ -57,5 +57,13 @@
   "habitSelected": "selecionado",
   "habitsSelected": "selecionados",
   "nothingMuchHere": "Nada por aqui...",
-  "goToGroupAll": "Ir para \"Todos\""
+  "goToGroupAll": "Ir para \"Todos\"",
+  "completions": "Conclusões:",
+  "editCompletion": "Editar conclusão",
+  "addCompletion": "Adicionar conclusão",
+  "addANote": "Adicionar uma nota... (opcional)",
+  "noNoteProvided": "Nenhuma nota fornecida.",
+  "noCompletionsYet": "Ainda não há conclusões.",
+  "deleteCompletionTitle": "Excluir conclusão?",
+  "deleteCompletionMessage": "Tem certeza de que deseja excluir esta conclusão?\n({completionTime} - {completionDate})\nEsta ação não pode ser desfeita."
 }

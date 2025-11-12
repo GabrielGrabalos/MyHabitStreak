@@ -57,5 +57,13 @@
   "habitSelected": "seleccionado",
   "habitsSelected": "seleccionados",
   "nothingMuchHere": "No hay mucho aquí...",
-  "goToGroupAll": "Ir a \"Todos\""
+  "goToGroupAll": "Ir a \"Todos\"",
+  "completions": "Finalizaciones:",
+  "editCompletion": "Editar finalización",
+  "addCompletion": "Agregar finalización",
+  "addANote": "Agrega una nota... (opcional)",
+  "noNoteProvided": "No se proporcionó nota.",
+  "noCompletionsYet": "Aún no hay completaciones.",
+  "deleteCompletionTitle": "¿Eliminar finalización?",
+  "deleteCompletionMessage": "¿Está seguro de que desea eliminar esta finalización?\n({completionTime} - {completionDate})\nEsta acción no se puede deshacer."
 }

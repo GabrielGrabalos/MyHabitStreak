@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:my_habit_streak/models/habit_completion.dart';
 import 'package:my_habit_streak/utils/colors.dart';
 import 'package:my_habit_streak/widgets/dialog_popup.dart';
 
 import '../l10n/app_localizations.dart';
+import '../utils/utils.dart';
 
 class HabitCompletionCard extends StatelessWidget {
   final HabitCompletion habitCompletion;
@@ -19,21 +19,6 @@ class HabitCompletionCard extends StatelessWidget {
     required this.onCompletionDelete,
     this.color = blueTheme,
   });
-
-  String _formatTime(BuildContext context, DateTime time) {
-    // Ensure the DateTime is in the device local timezone
-    final localTime = time.toLocal();
-
-    // Get locale and 24h preference from the device
-    final locale = Localizations.localeOf(context).toString();
-    final use24Hour = MediaQuery.of(context).alwaysUse24HourFormat;
-
-    // Use intl for reliable locale-aware formatting.
-    // DateFormat.Hm -> 24-hour like "18:30"
-    // DateFormat.jm -> 12-hour like "6:30 PM"
-    final formatter = use24Hour ? DateFormat.Hm(locale) : DateFormat.jm(locale);
-    return formatter.format(localTime);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +40,7 @@ class HabitCompletionCard extends StatelessWidget {
             context: context,
             builder: (context) {
               return DialogPopup(
-                title: "${_formatTime(context, habitCompletion.date)}",
+                title: Utils.formatTime(context, habitCompletion.date),
                 color: color,
                 child: Container(
                   width: double.infinity,
@@ -67,7 +52,7 @@ class HabitCompletionCard extends StatelessWidget {
                     child: Text(
                       habitCompletion.text.isNotEmpty
                           ? habitCompletion.text
-                          : "No note provided.",
+                          : AppLocalizations.of(context)!.noNoteProvided,
                       style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                             fontSize: 18,
                             color: habitCompletion.text.isNotEmpty
@@ -150,7 +135,7 @@ class HabitCompletionCard extends StatelessWidget {
           child: Row(
             children: [
               Text(
-                _formatTime(context, habitCompletion.date),
+                Utils.formatTime(context, habitCompletion.date),
                 style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                       fontWeight: FontWeight.w700,
                       fontSize: 22,
@@ -170,7 +155,7 @@ class HabitCompletionCard extends StatelessWidget {
                 child: Text(
                   habitCompletion.text.isNotEmpty
                       ? habitCompletion.text
-                      : "No note provided.",
+                      : AppLocalizations.of(context)!.noNoteProvided,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                   softWrap: false,

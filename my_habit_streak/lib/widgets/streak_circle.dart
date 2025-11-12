@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -28,9 +27,9 @@ class StreakCircle extends StatelessWidget {
       height: size,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: color.withOpacity(opacity),
+        color: color.withValues(alpha: opacity),
       ),
-      child: InkWell(
+      child: GestureDetector(
         onTap: () => onClick(dateKey),
         child: FittedBox(
           fit: BoxFit.scaleDown,

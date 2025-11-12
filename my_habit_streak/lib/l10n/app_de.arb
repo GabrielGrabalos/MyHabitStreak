@@ -57,5 +57,13 @@
   "habitSelected": "ausgewählt",
   "habitsSelected": "ausgewählt",
   "nothingMuchHere": "Nicht viel hier...",
-  "goToGroupAll": "Zu \"Alle\" gehen"
+  "goToGroupAll": "Zu \"Alle\" gehen",
+  "completions": "Abschlüsse:",
+  "editCompletion": "Abschluss bearbeiten",
+  "addCompletion": "Abschluss hinzufügen",
+  "addANote": "Eine Notiz hinzufügen... (optional)",
+  "noNoteProvided": "Keine Notiz vorhanden.",
+  "noCompletionsYet": "Noch keine Abschlüsse.",
+  "deleteCompletionTitle": "Abschluss löschen?",
+  "deleteCompletionMessage": "Sind Sie sicher, dass Sie diesen Abschluss löschen möchten?\n({completionTime} - {completionDate})\nDiese Aktion kann nicht rückgängig gemacht werden."
 }

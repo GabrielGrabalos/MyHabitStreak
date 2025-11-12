@@ -449,6 +449,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Go to \"All\"'**
   String get goToGroupAll;
+
+  /// Label for number of completions of a habit
+  ///
+  /// In en, this message translates to:
+  /// **'Completions:'**
+  String get completions;
+
+  /// Title for completion editing screen
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Completion'**
+  String get editCompletion;
+
+  /// Title for completion adding screen
+  ///
+  /// In en, this message translates to:
+  /// **'Add Completion'**
+  String get addCompletion;
+
+  /// Placeholder text for adding a note to a completion
+  ///
+  /// In en, this message translates to:
+  /// **'Add a note... (optional)'**
+  String get addANote;
+
+  /// Placeholder text when no note exists for a completion
+  ///
+  /// In en, this message translates to:
+  /// **'No note provided.'**
+  String get noNoteProvided;
+
+  /// Text to display when there are no completions for a habit
+  ///
+  /// In en, this message translates to:
+  /// **'No completions yet.'**
+  String get noCompletionsYet;
+
+  /// Title for completion deletion confirmation dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Completion?'**
+  String get deleteCompletionTitle;
+
+  /// Message in completion deletion confirmation dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this completion?\n({completionTime} - {completionDate})\nThis action cannot be undone.'**
+  String deleteCompletionMessage(Object completionDate, Object completionTime);
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -188,6 +188,32 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get goToGroupAll => 'Ir para \"Todos\"';
+
+  @override
+  String get completions => 'Conclusões:';
+
+  @override
+  String get editCompletion => 'Editar conclusão';
+
+  @override
+  String get addCompletion => 'Adicionar conclusão';
+
+  @override
+  String get addANote => 'Adicionar uma nota... (opcional)';
+
+  @override
+  String get noNoteProvided => 'Nenhuma nota fornecida.';
+
+  @override
+  String get noCompletionsYet => 'Ainda não há conclusões.';
+
+  @override
+  String get deleteCompletionTitle => 'Excluir conclusão?';
+
+  @override
+  String deleteCompletionMessage(Object completionDate, Object completionTime) {
+    return 'Tem certeza de que deseja excluir esta conclusão?\n($completionTime - $completionDate)\nEsta ação não pode ser desfeita.';
+  }
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -374,4 +400,30 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get goToGroupAll => 'Ir para \"Todos\"';
+
+  @override
+  String get completions => 'Conclusões:';
+
+  @override
+  String get editCompletion => 'Editar conclusão';
+
+  @override
+  String get addCompletion => 'Adicionar conclusão';
+
+  @override
+  String get addANote => 'Adicionar uma nota... (opcional)';
+
+  @override
+  String get noNoteProvided => 'Nenhuma nota fornecida.';
+
+  @override
+  String get noCompletionsYet => 'Ainda não há conclusões.';
+
+  @override
+  String get deleteCompletionTitle => 'Excluir conclusão?';
+
+  @override
+  String deleteCompletionMessage(Object completionDate, Object completionTime) {
+    return 'Tem certeza de que deseja excluir esta conclusão?\n($completionTime - $completionDate)\nEsta ação não pode ser desfeita.';
+  }
 }

@@ -57,5 +57,13 @@
   "habitSelected": "已选",
   "habitsSelected": "已选",
   "nothingMuchHere": "这里没什么...",
-  "goToGroupAll": "转到\"全部\""
+  "goToGroupAll": "转到\"全部\"",
+  "completions": "完成次数:",
+  "editCompletion": "编辑完成项",
+  "addCompletion": "添加完成项",
+  "addANote": "添加备注...（可选）",
+  "noNoteProvided": "未提供备注。",
+  "noCompletionsYet": "尚无完成记录。",
+  "deleteCompletionTitle": "删除完成记录？",
+  "deleteCompletionMessage": "确定要删除此完成记录吗？\n({completionTime} - {completionDate})\n此操作无法撤销。"
 }

@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:my_habit_streak/l10n/app_localizations.dart';
 import 'package:my_habit_streak/widgets/add_completion_button.dart';
 import 'package:my_habit_streak/widgets/completion_list.dart';
 
-import '../l10n/app_localizations.dart';
 import '../models/habit.dart';
-import '../models/habit_completion.dart';
-import '../services/habit_storage_service.dart';
 import '../utils/colors.dart';
-import '../widgets/add_edit_completion_popup.dart';
-import '../widgets/button.dart';
-import '../widgets/dialog_popup.dart';
-import '../widgets/habit_completion_card.dart';
+import '../utils/utils.dart';
 
 class VisualizeSpecificHabitDay extends StatefulWidget {
   final Habit habit;
@@ -69,11 +64,24 @@ class _VisualizeSpecificHabitDayState extends State<VisualizeSpecificHabitDay> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 20),
                 Expanded(
                   child: SingleChildScrollView(
+                    controller: scrollController,
+                    padding: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).viewInsets.bottom + 16,
+                    ),
                     child: Column(
                       children: [
+                        const SizedBox(height: 20),
+                        Text(
+                          Utils.formatDate(widget.dateKey),
+                          style:
+                              Theme.of(context).textTheme.titleLarge!.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 24,
+                                  ),
+                        ),
+                        const SizedBox(height: 20),
                         SvgPicture.asset(
                           'assets/${widget.habit.theme.name}'
                           '${widget.habit.streakHistory[widget.dateKey] == null || widget.habit.streakHistory[widget.dateKey]!.isEmpty ? '_gray' : ''}.svg',
@@ -92,7 +100,7 @@ class _VisualizeSpecificHabitDayState extends State<VisualizeSpecificHabitDay> {
                             null) ...[
                           Center(
                             child: Text(
-                              "Completions: ${widget.habit.streakHistory[widget.dateKey]!.length}",
+                              "${AppLocalizations.of(context)!.completions} ${widget.habit.streakHistory[widget.dateKey] != null ? widget.habit.streakHistory[widget.dateKey]!.length : 0}",
                               style: Theme.of(context)
                                   .textTheme
                                   .titleLarge!

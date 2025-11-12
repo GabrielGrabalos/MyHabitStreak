@@ -51,15 +51,16 @@ class DialogPopup extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(
-                      title,
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 24,
-                            color: isWarning ? Colors.red : Colors.white,
-                          ),
-                      textAlign: TextAlign.center,
-                    ),
+                    if (title.isNotEmpty)
+                      Text(
+                        title,
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 24,
+                              color: isWarning ? Colors.red : Colors.white,
+                            ),
+                        textAlign: TextAlign.center,
+                      ),
                     if (child != null) ...[
                       const SizedBox(height: 20),
                       child!,

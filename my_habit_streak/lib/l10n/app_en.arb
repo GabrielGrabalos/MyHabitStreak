@@ -228,5 +228,37 @@
   "goToGroupAll": "Go to \"All\"",
     "@goToGroupAll": {
         "description": "Prompt shown when a habit group has no habits"
+    },
+  "completions": "Completions:",
+    "@completions": {
+        "description": "Label for number of completions of a habit"
+    },
+  "editCompletion": "Edit Completion",
+    "@editCompletion": {
+        "description": "Title for completion editing screen"
+    },
+  "addCompletion": "Add Completion",
+    "@addCompletion": {
+        "description": "Title for completion adding screen"
+    },
+  "addANote": "Add a note... (optional)",
+    "@addANote": {
+        "description": "Placeholder text for adding a note to a completion"
+    },
+  "noNoteProvided": "No note provided.",
+    "@noNoteProvided": {
+        "description": "Placeholder text when no note exists for a completion"
+    },
+  "noCompletionsYet": "No completions yet.",
+    "@noCompletionsYet": {
+        "description": "Text to display when there are no completions for a habit"
+    },
+  "deleteCompletionTitle": "Delete Completion?",
+    "@deleteCompletionTitle": {
+        "description": "Title for completion deletion confirmation dialog"
+    },
+  "deleteCompletionMessage":"Are you sure you want to delete this completion?\n({completionTime} - {completionDate})\nThis action cannot be undone.",
+    "@deleteCompletionMessage": {
+        "description": "Message in completion deletion confirmation dialog"
     }
 }

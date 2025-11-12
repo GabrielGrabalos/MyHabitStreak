@@ -3,6 +3,7 @@ import 'package:my_habit_streak/models/habit_completion.dart';
 import '../l10n/app_localizations.dart';
 import '../models/habit.dart';
 import '../services/habit_storage_service.dart';
+import '../utils/utils.dart';
 import '../widgets/add_edit_completion_popup.dart';
 import '../widgets/dialog_popup.dart';
 import '../widgets/habit_completion_card.dart';
@@ -29,7 +30,7 @@ class CompletionList extends StatelessWidget {
       return Padding(
         padding: const EdgeInsets.all(15.0),
         child: Text(
-          "No completions yet.",
+          AppLocalizations.of(context)!.noCompletionsYet,
           style: Theme.of(context).textTheme.bodyLarge,
           textAlign: TextAlign.center,
         ),
@@ -66,11 +67,13 @@ class CompletionList extends StatelessWidget {
                 context: context,
                 builder: (context) {
                   return DialogPopup(
-                    title:
-                        AppLocalizations.of(context)!.deleteConfirmationTitle,
+                    title: AppLocalizations.of(context)!.deleteCompletionTitle,
                     isWarning: true,
                     message:
-                        AppLocalizations.of(context)!.deleteConfirmationMessage,
+                        AppLocalizations.of(context)!.deleteCompletionMessage(
+                      Utils.formatTime(context, completion.date),
+                      Utils.formatDate("", dateTime: completion.date),
+                    ),
                   );
                 },
               );

@@ -188,4 +188,30 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get goToGroupAll => 'Go to \"All\"';
+
+  @override
+  String get completions => 'Completions:';
+
+  @override
+  String get editCompletion => 'Edit Completion';
+
+  @override
+  String get addCompletion => 'Add Completion';
+
+  @override
+  String get addANote => 'Add a note... (optional)';
+
+  @override
+  String get noNoteProvided => 'No note provided.';
+
+  @override
+  String get noCompletionsYet => 'No completions yet.';
+
+  @override
+  String get deleteCompletionTitle => 'Delete Completion?';
+
+  @override
+  String deleteCompletionMessage(Object completionDate, Object completionTime) {
+    return 'Are you sure you want to delete this completion?\n($completionTime - $completionDate)\nThis action cannot be undone.';
+  }
 }

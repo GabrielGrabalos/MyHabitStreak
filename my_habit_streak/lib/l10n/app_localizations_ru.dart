@@ -172,20 +172,46 @@ class AppLocalizationsRu extends AppLocalizations {
   String get selectHabits => 'Выбрать привычки:';
 
   @override
-  String get create => '作成';
+  String get create => 'Создать';
 
   @override
-  String get update => '更新';
+  String get update => 'Обновить';
 
   @override
-  String get habitSelected => '選択済み';
+  String get habitSelected => 'выбрано';
 
   @override
-  String get habitsSelected => '選択済み';
+  String get habitsSelected => 'выбраны';
 
   @override
   String get nothingMuchHere => 'Здесь ничего нет...';
 
   @override
   String get goToGroupAll => 'Перейти в \"Все\"';
+
+  @override
+  String get completions => 'Выполнения:';
+
+  @override
+  String get editCompletion => 'Редактировать выполнение';
+
+  @override
+  String get addCompletion => 'Добавить выполнение';
+
+  @override
+  String get addANote => 'Добавить заметку... (необязательно)';
+
+  @override
+  String get noNoteProvided => 'Заметка не добавлена.';
+
+  @override
+  String get noCompletionsYet => 'Пока нет выполнений.';
+
+  @override
+  String get deleteCompletionTitle => 'Удалить выполнение?';
+
+  @override
+  String deleteCompletionMessage(Object completionDate, Object completionTime) {
+    return 'Вы уверены, что хотите удалить это выполнение?\n($completionTime - $completionDate)\nЭто действие нельзя отменить.';
+  }
 }

@@ -188,4 +188,30 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get goToGroupAll => '「すべて」に移動';
+
+  @override
+  String get completions => '達成回数:';
+
+  @override
+  String get editCompletion => '達成を編集';
+
+  @override
+  String get addCompletion => '達成を追加';
+
+  @override
+  String get addANote => 'メモを追加...（任意）';
+
+  @override
+  String get noNoteProvided => 'メモはありません。';
+
+  @override
+  String get noCompletionsYet => 'まだ達成はありません。';
+
+  @override
+  String get deleteCompletionTitle => '達成を削除しますか？';
+
+  @override
+  String deleteCompletionMessage(Object completionDate, Object completionTime) {
+    return 'この達成を削除してもよろしいですか？\n($completionTime - $completionDate)\nこの操作は取り消せません。';
+  }
 }

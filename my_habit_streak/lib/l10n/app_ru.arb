@@ -52,10 +52,18 @@
   "editHabitGroup": "Редактировать группу",
   "createHabitGroup": "Создать группу",
   "selectHabits": "Выбрать привычки:",
-  "create": "作成",
-  "update": "更新",
-  "habitSelected": "選択済み",
-  "habitsSelected": "選択済み",
+  "create": "Создать",
+  "update": "Обновить",
+  "habitSelected": "выбрано",
+  "habitsSelected": "выбраны",
   "nothingMuchHere": "Здесь ничего нет...",
-  "goToGroupAll": "Перейти в \"Все\""
+  "goToGroupAll": "Перейти в \"Все\"",
+  "completions": "Выполнения:",
+  "editCompletion": "Редактировать выполнение",
+  "addCompletion": "Добавить выполнение",
+  "addANote": "Добавить заметку... (необязательно)",
+  "noNoteProvided": "Заметка не добавлена.",
+  "noCompletionsYet": "Пока нет выполнений.",
+  "deleteCompletionTitle": "Удалить выполнение?",
+  "deleteCompletionMessage": "Вы уверены, что хотите удалить это выполнение?\n({completionTime} - {completionDate})\nЭто действие нельзя отменить."
 }

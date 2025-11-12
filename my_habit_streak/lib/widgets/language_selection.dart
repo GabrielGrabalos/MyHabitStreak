@@ -48,7 +48,6 @@ class LanguageSelection extends StatelessWidget {
     // Look up localization for the target locale
     final localizations = lookupAppLocalizations(locale);
 
-    // Return the language name if available, otherwise fallback
-    return localizations?.language ?? locale.languageCode.toUpperCase();
+    return localizations.language;
   }
 }

@@ -188,4 +188,30 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get goToGroupAll => 'Zu \"Alle\" gehen';
+
+  @override
+  String get completions => 'Abschlüsse:';
+
+  @override
+  String get editCompletion => 'Abschluss bearbeiten';
+
+  @override
+  String get addCompletion => 'Abschluss hinzufügen';
+
+  @override
+  String get addANote => 'Eine Notiz hinzufügen... (optional)';
+
+  @override
+  String get noNoteProvided => 'Keine Notiz vorhanden.';
+
+  @override
+  String get noCompletionsYet => 'Noch keine Abschlüsse.';
+
+  @override
+  String get deleteCompletionTitle => 'Abschluss löschen?';
+
+  @override
+  String deleteCompletionMessage(Object completionDate, Object completionTime) {
+    return 'Sind Sie sicher, dass Sie diesen Abschluss löschen möchten?\n($completionTime - $completionDate)\nDiese Aktion kann nicht rückgängig gemacht werden.';
+  }
 }

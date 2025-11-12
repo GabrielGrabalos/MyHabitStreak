@@ -57,5 +57,13 @@
   "habitSelected": "sélectionné",
   "habitsSelected": "sélectionnés",
   "nothingMuchHere": "Pas grand-chose ici...",
-  "goToGroupAll": "Aller à \"Tous\""
+  "goToGroupAll": "Aller à \"Tous\"",
+  "completions": "Réalisations:",
+  "editCompletion": "Modifier la réalisation",
+  "addCompletion": "Ajouter une réalisation",
+  "addANote": "Ajouter une note... (optionnel)",
+  "noNoteProvided": "Aucune note fournie.",
+  "noCompletionsYet": "Aucune réalisation pour le moment.",
+  "deleteCompletionTitle": "Supprimer la réalisation ?",
+  "deleteCompletionMessage": "Êtes-vous sûr de vouloir supprimer cette réalisation ?\n({completionTime} - {completionDate})\nCette action est irréversible."
 }

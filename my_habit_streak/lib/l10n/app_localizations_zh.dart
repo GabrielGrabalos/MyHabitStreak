@@ -188,4 +188,30 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get goToGroupAll => '转到\"全部\"';
+
+  @override
+  String get completions => '完成次数:';
+
+  @override
+  String get editCompletion => '编辑完成项';
+
+  @override
+  String get addCompletion => '添加完成项';
+
+  @override
+  String get addANote => '添加备注...（可选）';
+
+  @override
+  String get noNoteProvided => '未提供备注。';
+
+  @override
+  String get noCompletionsYet => '尚无完成记录。';
+
+  @override
+  String get deleteCompletionTitle => '删除完成记录？';
+
+  @override
+  String deleteCompletionMessage(Object completionDate, Object completionTime) {
+    return '确定要删除此完成记录吗？\n($completionTime - $completionDate)\n此操作无法撤销。';
+  }
 }

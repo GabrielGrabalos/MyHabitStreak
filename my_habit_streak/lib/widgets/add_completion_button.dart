@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../l10n/app_localizations.dart';
 import '../models/habit.dart';
 import '../models/habit_completion.dart';
 import '../services/habit_storage_service.dart';
@@ -23,7 +24,7 @@ class AddCompletionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Button(
       color: habit.color,
-      label: "Add completion",
+      label: AppLocalizations.of(context)!.addCompletion,
       onPressed: () async {
         noteController.clear();
         final confirmChange = await showDialog<bool>(

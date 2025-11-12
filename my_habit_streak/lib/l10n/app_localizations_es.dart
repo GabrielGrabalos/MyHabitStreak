@@ -188,4 +188,30 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get goToGroupAll => 'Ir a \"Todos\"';
+
+  @override
+  String get completions => 'Finalizaciones:';
+
+  @override
+  String get editCompletion => 'Editar finalización';
+
+  @override
+  String get addCompletion => 'Agregar finalización';
+
+  @override
+  String get addANote => 'Agrega una nota... (opcional)';
+
+  @override
+  String get noNoteProvided => 'No se proporcionó nota.';
+
+  @override
+  String get noCompletionsYet => 'Aún no hay completaciones.';
+
+  @override
+  String get deleteCompletionTitle => '¿Eliminar finalización?';
+
+  @override
+  String deleteCompletionMessage(Object completionDate, Object completionTime) {
+    return '¿Está seguro de que desea eliminar esta finalización?\n($completionTime - $completionDate)\nEsta acción no se puede deshacer.';
+  }
 }

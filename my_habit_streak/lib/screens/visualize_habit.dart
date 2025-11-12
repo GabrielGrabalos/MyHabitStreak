@@ -177,7 +177,7 @@ class _VisualizeHabitState extends State<VisualizeHabit> {
                   const SizedBox(height: 30),
                   Center(
                     child: Text(
-                      "Completions: ${_currentHabit.completions.length}",
+                      "${AppLocalizations.of(context)!.completions} ${_currentHabit.completions.length}",
                       style: Theme.of(context).textTheme.titleLarge!.copyWith(
                             fontWeight: FontWeight.bold,
                             fontSize: 24,
