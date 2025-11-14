@@ -5,18 +5,16 @@ import 'package:intl/intl.dart';
 
 class Utils {
   static String formatTime(BuildContext context, DateTime time) {
-    // Ensure the DateTime is in the device local timezone
-    final localTime = time.toLocal();
+    if (shouldUseAMPM()) {
+      final hour = time.hour % 12 == 0 ? 12 : time.hour % 12;
+      final ampm = time.hour >= 12 ? 'pm' : 'am';
+      final minute = time.minute.toString().padLeft(2, '0');
+      return '$hour:$minute$ampm';
+    }
 
-    // Get locale and 24h preference from the device
-    final locale = Localizations.localeOf(context).toString();
-    final use24Hour = MediaQuery.of(context).alwaysUse24HourFormat;
-
-    // Use intl for reliable locale-aware formatting.
-    // DateFormat.Hm -> 24-hour like "18:30"
-    // DateFormat.jm -> 12-hour like "6:30 PM"
-    final formatter = use24Hour ? DateFormat.Hm(locale) : DateFormat.jm(locale);
-    return formatter.format(localTime);
+    final hour = time.hour.toString().padLeft(2, '0');
+    final minute = time.minute.toString().padLeft(2, '0');
+    return '$hour:$minute';
   }
 
   static // Ugly, but works for now:
@@ -55,5 +53,16 @@ class Utils {
     }
 
     return DateFormat(pattern).format(date);
+  }
+
+  static bool shouldUseAMPM() {
+    // Simple check based on the current locale
+    final locale = Platform.localeName;
+    final region = locale.split('_').length > 1 ? locale.split('_')[1] : 'US';
+
+    // Regions that typically use AM/PM
+    const ampmRegions = {'US', 'PH', 'CA', 'AU', 'NZ'};
+
+    return ampmRegions.contains(region.toUpperCase());
   }
 }

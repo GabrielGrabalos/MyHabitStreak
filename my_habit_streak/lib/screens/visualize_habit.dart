@@ -8,6 +8,7 @@ import 'package:my_habit_streak/widgets/completion_list.dart';
 import 'package:my_habit_streak/widgets/header.dart';
 import 'package:my_habit_streak/widgets/streak_calendar.dart';
 import 'package:my_habit_streak/widgets/streak_week.dart';
+import 'package:my_habit_streak/widgets/time_selector.dart';
 import '../l10n/app_localizations.dart';
 
 import '../models/habit.dart';
@@ -31,6 +32,7 @@ class _VisualizeHabitState extends State<VisualizeHabit> {
   // within this widget or from a navigated screen.
   late Habit _currentHabit; // Use a private variable for the mutable state
   late TextEditingController _noteController;
+  late TimeSelectorController _timeSelectorController;
 
   @override
   void initState() {
@@ -38,6 +40,11 @@ class _VisualizeHabitState extends State<VisualizeHabit> {
     // Initialize the current habit from the passed argument
     _currentHabit = widget.habit; // Use the habit passed to this widget
     _noteController = TextEditingController();
+    _timeSelectorController = TimeSelectorController(
+      hour: 0,
+      minute: 0,
+      color: _currentHabit.color,
+    );
   }
 
   @override
@@ -151,6 +158,7 @@ class _VisualizeHabitState extends State<VisualizeHabit> {
                     child: AddCompletionButton(
                       habit: _currentHabit,
                       noteController: _noteController,
+                      timeSelectorController: _timeSelectorController,
                       onCompletionAdded: () => setState(() {}),
                     ),
                   ),
@@ -189,6 +197,7 @@ class _VisualizeHabitState extends State<VisualizeHabit> {
                     habit: _currentHabit,
                     completions: _currentHabit.completions,
                     noteController: _noteController,
+                    timeSelectorController: _timeSelectorController,
                     onCompletionsChanged: () => setState(() {}),
                   ),
                   const SizedBox(height: 20),

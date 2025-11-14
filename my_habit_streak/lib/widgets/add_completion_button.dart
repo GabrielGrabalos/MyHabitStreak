@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_habit_streak/widgets/time_selector.dart';
 import '../l10n/app_localizations.dart';
 import '../models/habit.dart';
 import '../models/habit_completion.dart';
@@ -9,6 +10,7 @@ import '../widgets/button.dart';
 class AddCompletionButton extends StatelessWidget {
   final Habit habit;
   final TextEditingController noteController;
+  final TimeSelectorController timeSelectorController;
   final VoidCallback onCompletionAdded;
   final String? dateKey;
 
@@ -16,6 +18,7 @@ class AddCompletionButton extends StatelessWidget {
     super.key,
     required this.habit,
     required this.noteController,
+    required this.timeSelectorController,
     required this.onCompletionAdded,
     this.dateKey,
   });
@@ -30,8 +33,10 @@ class AddCompletionButton extends StatelessWidget {
         final confirmChange = await showDialog<bool>(
           context: context,
           builder: (context) {
+            timeSelectorController.setTimeToNow();
             return AddEditCompletionPopup(
               noteController: noteController,
+              timeSelectorController: timeSelectorController,
               isEditMode: false,
               color: habit.color,
             );
@@ -41,7 +46,10 @@ class AddCompletionButton extends StatelessWidget {
         if (confirmChange != true) return;
 
         HabitCompletion newCompletion = HabitCompletion(
-          date: dateKey != null ? DateTime.parse(dateKey!) : DateTime.now(),
+          date: (dateKey != null ? DateTime.parse(dateKey!) : DateTime.now()).copyWith(
+            hour: timeSelectorController.time.hour,
+            minute: timeSelectorController.time.minute,
+          ),
           text: noteController.text.trim(),
         );
         habit.addCompletion(newCompletion, dateKey: dateKey ?? "");

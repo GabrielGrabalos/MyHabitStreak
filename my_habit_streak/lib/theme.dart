@@ -51,7 +51,7 @@ final textTheme = ThemeData(
     ),
     titleLarge: TextStyle(
       fontFamily: 'Nunito',
-      fontSize: 20,
+      fontSize: 24,
       color: Colors.white,
     ),
     titleMedium: TextStyle(

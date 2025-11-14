@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_habit_streak/models/habit_completion.dart';
+import 'package:my_habit_streak/widgets/time_selector.dart';
 import '../l10n/app_localizations.dart';
 import '../models/habit.dart';
 import '../services/habit_storage_service.dart';
@@ -12,6 +13,7 @@ class CompletionList extends StatelessWidget {
   final Habit habit;
   final List<HabitCompletion> completions;
   final TextEditingController noteController;
+  final TimeSelectorController timeSelectorController;
   final VoidCallback onCompletionsChanged;
   final String? dateKey;
 
@@ -20,6 +22,7 @@ class CompletionList extends StatelessWidget {
     required this.habit,
     required this.completions,
     required this.noteController,
+    required this.timeSelectorController,
     required this.onCompletionsChanged,
     this.dateKey,
   });
@@ -48,8 +51,10 @@ class CompletionList extends StatelessWidget {
               final confirmChange = await showDialog<bool>(
                 context: context,
                 builder: (context) {
+                  timeSelectorController.setTimeOfDay(completion.date);
                   return AddEditCompletionPopup(
                     noteController: noteController,
+                    timeSelectorController: timeSelectorController,
                     isEditMode: true,
                     color: habit.color,
                   );
@@ -57,8 +62,17 @@ class CompletionList extends StatelessWidget {
               );
 
               if (confirmChange != true) return;
+              print("\n\n\nEditing completion...\n\n\n");
 
               completion.text = noteController.text.trim();
+              completion.date = DateTime(
+                completion.date.year,
+                completion.date.month,
+                completion.date.day,
+                timeSelectorController.time.hour,
+                timeSelectorController.time.minute,
+              );
+              print("Hour: ${timeSelectorController.time.hour}");
               await HabitStorageService.saveOrUpdateHabit(habit.title, habit);
               onCompletionsChanged();
             },

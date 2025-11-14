@@ -6,7 +6,6 @@ class StreakCircle extends StatelessWidget {
   final double size;
   final Color color;
   final double opacity;
-  final Function(String dateKey) onClick;
   final String dateKey;
 
   const StreakCircle({
@@ -15,7 +14,6 @@ class StreakCircle extends StatelessWidget {
     this.size = 50,
     this.color = const Color(0xFF4CAF50),
     this.opacity = 1.0,
-    required this.onClick,
     required this.dateKey,
   });
 
@@ -29,15 +27,12 @@ class StreakCircle extends StatelessWidget {
         shape: BoxShape.circle,
         color: color.withValues(alpha: opacity),
       ),
-      child: GestureDetector(
-        onTap: () => onClick(dateKey),
-        child: FittedBox(
-          fit: BoxFit.scaleDown,
-          child: SvgPicture.asset(
-            'assets/$image.svg',
-            width: size * 0.5,
-            height: size * 0.5,
-          ),
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
+        child: SvgPicture.asset(
+          'assets/$image.svg',
+          width: size * 0.5,
+          height: size * 0.5,
         ),
       ),
     );

@@ -27,56 +27,62 @@ class StreakDay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        if (label.isNotEmpty) ...[
-          Text(
-            label,
-            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  fontSize: size * 0.4,
-                  fontWeight: FontWeight.bold,
-                  color: labelColor,
-                ),
-          ),
-          SizedBox(height: size * 0.1),
-        ],
-        Stack(
-          clipBehavior: Clip.none,
-          children: [
-            StreakCircle(
-              dateKey: dateKey,
-              onClick: onClick,
-              isDone: isDone,
-              size: size,
-              color: color,
-              opacity: !isOtherMonth ? color.a : color.a * 0.3,
+    return GestureDetector(
+      onTap: () {
+        if (day == 0) return;
+
+        onClick(dateKey);
+      },
+      child: Column(
+        children: [
+          if (label.isNotEmpty) ...[
+            Text(
+              label,
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    fontSize: size * 0.4,
+                    fontWeight: FontWeight.bold,
+                    color: labelColor,
+                  ),
             ),
-            if (day > 0)
-              Positioned(
-                bottom: -size * 0.1,
-                right: -size * 0.1,
-                child: Container(
-                  padding: EdgeInsets.all(size * 0.05),
-                  alignment: Alignment.center,
-                  width: size * 0.5,
-                  height: size * 0.5,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Text(
-                    '$day',
-                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                          fontSize: size * 0.3,
-                          fontWeight: FontWeight.bold,
-                          color: color,
-                        ),
+            SizedBox(height: size * 0.1),
+          ],
+          Stack(
+            clipBehavior: Clip.none,
+            children: [
+              StreakCircle(
+                dateKey: dateKey,
+                isDone: isDone,
+                size: size,
+                color: color,
+                opacity: !isOtherMonth ? color.a : color.a * 0.3,
+              ),
+              if (day > 0)
+                Positioned(
+                  bottom: -size * 0.1,
+                  right: -size * 0.1,
+                  child: Container(
+                    padding: EdgeInsets.all(size * 0.05),
+                    alignment: Alignment.center,
+                    width: size * 0.5,
+                    height: size * 0.5,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Text(
+                      '$day',
+                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                            fontSize: size * 0.3,
+                            fontWeight: FontWeight.bold,
+                            color: color,
+                          ),
+                    ),
                   ),
                 ),
-              ),
-          ],
-        ),
-      ],
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

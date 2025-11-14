@@ -7,6 +7,7 @@ import 'package:my_habit_streak/widgets/completion_list.dart';
 import '../models/habit.dart';
 import '../utils/colors.dart';
 import '../utils/utils.dart';
+import '../widgets/time_selector.dart';
 
 class VisualizeSpecificHabitDay extends StatefulWidget {
   final Habit habit;
@@ -25,6 +26,17 @@ class VisualizeSpecificHabitDay extends StatefulWidget {
 
 class _VisualizeSpecificHabitDayState extends State<VisualizeSpecificHabitDay> {
   final TextEditingController _noteController = TextEditingController();
+  late TimeSelectorController _timeSelectorController;
+
+  @override
+  void initState() {
+    super.initState();
+    _timeSelectorController = TimeSelectorController(
+      hour: 0,
+      minute: 0,
+      color: widget.habit.color,
+    );
+  }
 
   @override
   void dispose() {
@@ -93,6 +105,7 @@ class _VisualizeSpecificHabitDayState extends State<VisualizeSpecificHabitDay> {
                           habit: widget.habit,
                           dateKey: widget.dateKey,
                           noteController: _noteController,
+                          timeSelectorController: _timeSelectorController,
                           onCompletionAdded: () => setState(() {}),
                         ),
                         const SizedBox(height: 20),
@@ -117,6 +130,7 @@ class _VisualizeSpecificHabitDayState extends State<VisualizeSpecificHabitDay> {
                           completions:
                               widget.habit.streakHistory[widget.dateKey] ?? [],
                           noteController: _noteController,
+                          timeSelectorController: _timeSelectorController,
                           onCompletionsChanged: () => setState(() {}),
                         ),
                       ],

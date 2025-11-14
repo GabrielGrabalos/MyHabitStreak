@@ -40,7 +40,10 @@ class HabitCompletionCard extends StatelessWidget {
             context: context,
             builder: (context) {
               return DialogPopup(
-                title: Utils.formatTime(context, habitCompletion.date),
+                title: Utils.formatTime(
+                  context,
+                  habitCompletion.date,
+                ),
                 color: color,
                 child: Container(
                   width: double.infinity,
@@ -135,7 +138,10 @@ class HabitCompletionCard extends StatelessWidget {
           child: Row(
             children: [
               Text(
-                Utils.formatTime(context, habitCompletion.date),
+                Utils.formatTime(
+                  context,
+                  habitCompletion.date,
+                ),
                 style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                       fontWeight: FontWeight.w700,
                       fontSize: 22,
